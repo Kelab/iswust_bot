@@ -1,0 +1,5 @@
+nonebot
+ujson
+msgpack
+gino
+psycopg2
