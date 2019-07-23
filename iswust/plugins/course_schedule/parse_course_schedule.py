@@ -6,7 +6,8 @@ import math
 import time
 import requests
 from bs4 import BeautifulSoup
-from . import API
+from ...constants.urls import API
+from ...constants.semester_config import semester_name, start_day
 
 
 def get_week():
@@ -14,9 +15,8 @@ def get_week():
     :return: 返回当前周数
     """
     # 将格式字符串转换为时间戳
-    start_time = int(time.mktime(time.strptime("2019-02-25", "%Y-%m-%d")))
+    start_time = int(time.mktime(time.strptime(start_day, "%Y-%m-%d")))
     now_time = int(time.time())
-    # end_time = time.mktime(time.strptime("2019-02-25", "%Y-%m-%d"))
     used_time = (now_time - start_time) / (24 * 60 * 60 * 7)
     return math.ceil(used_time)
 
@@ -41,7 +41,6 @@ def get_api(sess: requests.sessions.Session):
     course_table.extend(exp_course_table)
 
     json = {"body": {"result": course_table, "week": get_week()}}
-    print(json)
     return json
 
 
@@ -139,7 +138,7 @@ def parse_course_table(html):
 def parse_exp_course_table(sess: requests.sessions.Session):
     courses = []
     post_data = {
-        'currYearterm': API.semester_name,
+        'currYearterm': semester_name,
         'currTeachCourseCode': '%',
         'page': 1
     }
