@@ -22,7 +22,7 @@ path_ = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                      os.path.pardir)
 sys.path.append(path_)
 # 这里的引入见： https://github.com/fantix/gino/issues/374
-from iswust.plugins.bind_jwc.models import db as bind_jwc_metadata
+from iswust.models import db as bind_jwc_metadata
 target_metadata = [bind_jwc_metadata]
 
 # other values from the config, defined by the needs of env.py,
