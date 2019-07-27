@@ -1,6 +1,5 @@
 import sys
 import iswust
-import views
 
 config = None
 
@@ -17,7 +16,12 @@ if config is None:
         exit(1)
 
 bot = iswust.init(config)
-app = views.init(bot, config)
+
+# 一定要在 bot 加载完后才能加载 views
+# 否则获取不到运行中的 bot 实例
+from views import api as api_blueprint
+app = bot.asgi
+app.register_blueprint(api_blueprint)
 
 if __name__ == '__main__':
-    bot.run()
+    bot.run(use_reloader=True)

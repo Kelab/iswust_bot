@@ -1,4 +1,6 @@
 class API():
+    login_url = 'http://iswust.utools.club/'
+
     studentInfo = 'http://my.swust.edu.cn/mht_shall/a/service/studentInfo'
     studentMark = 'http://my.swust.edu.cn/mht_shall/a/service/studentMark'
     jwc_course_table = "https://matrix.dean.swust.edu.cn/acadmicManager/index.cfm?event=studentPortal:courseTable"
