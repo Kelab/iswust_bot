@@ -1,5 +1,5 @@
 from nonebot import on_command, CommandSession
-from .tools import xor_encrypt, unu
+from iswust.constants.tools import xor_encrypt, unu
 from iswust.constants.urls import API
 __plugin_name__ = '绑定教务处'
 __plugin_usage__ = r"""对我发以下关键词开始绑定：

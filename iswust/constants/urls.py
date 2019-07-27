@@ -1,8 +1,8 @@
 class API():
-    login_url = 'http://iswust.utools.club/'
+    api_url = 'http://swust.utools.club/'
 
-    studentInfo = 'http://my.swust.edu.cn/mht_shall/a/service/studentInfo'
-    studentMark = 'http://my.swust.edu.cn/mht_shall/a/service/studentMark'
+    student_info = 'http://my.swust.edu.cn/mht_shall/a/service/studentInfo'
+    student_mark = 'http://my.swust.edu.cn/mht_shall/a/service/studentMark'
     jwc_course_table = "https://matrix.dean.swust.edu.cn/acadmicManager/index.cfm?event=studentPortal:courseTable"
     # 实验课的一些 信息 和 数据
     syk_base_url = "http://202.115.175.177"

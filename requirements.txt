@@ -5,5 +5,6 @@ gino
 psycopg2
 alembic
 requests
+beautifulsoup4
 lxml
 python-dotenv
