@@ -1,7 +1,9 @@
+import os
 import requests
+key_ = int(os.environ.get("KEY"))
 
 
-def xor_encrypt(num: str, key: int):
+def xor_encrypt(num: str, key: int = key_):
     try:
         num = int(num)
     except TypeError:
@@ -9,7 +11,7 @@ def xor_encrypt(num: str, key: int):
     return num ^ key
 
 
-def xor_decrypt(token: int, key: int):
+def xor_decrypt(token: int, key: int = key_):
     try:
         token = int(token)
     except TypeError:

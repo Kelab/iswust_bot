@@ -4,10 +4,6 @@ msgpack
 gino
 psycopg2
 alembic
-tensorflow==1.13.1
-beautifulsoup4
 requests
-pillow
-scikit-image
-scipy
 lxml
+python-dotenv

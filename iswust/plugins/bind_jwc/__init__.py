@@ -13,7 +13,7 @@ async def bind(session: CommandSession):
     sender = session.ctx.get('sender', {})
     sender_qq = sender.get('user_id')
     nickname = sender.get('nickname')
-    verify_code = xor_encrypt(sender_qq, 2017)
+    verify_code = xor_encrypt(sender_qq)
 
     # 检查用户名和密码的长度
     url_ = f'{API.login_url}?qq={sender_qq}&nickname={nickname}&verifycode={verify_code}'
