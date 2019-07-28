@@ -1,6 +1,7 @@
 import os
 import requests
 key_ = int(os.environ.get("KEY"))
+tcn_source = os.environ.get("T_CN_SOURCE")
 
 
 def xor_encrypt(num: str, key: int = key_):
@@ -19,13 +20,22 @@ def xor_decrypt(token: int, key: int = key_):
     return token ^ key
 
 
-def unu(url, action="shorturl", format_="simple", keyword=""):
-    unu_url = "https://u.nu/api.php"
-    data = {
-        "action": action,
-        "format": format_,
-        "url": url,
-        "keyword": keyword
-    }
-    r = requests.get(unu_url, params=data)
-    return r.text
+def tcn(url):
+    # 接口： https://open.weibo.com/wiki/2/short_url/shorten
+    # http://jump.sinaapp.com/api.php?url_long=
+    tcn_url = "http://api.t.sina.com.cn/short_url/shorten.json"
+    tcn_source = os.environ.get("T_CN_SOURCE")
+    tcn_source1 = os.environ.get("T_CN_SOURCE1")
+
+    for source in [tcn_source, tcn_source1]:
+        data = {
+            "source": source,
+            "url_long": url,
+        }
+        r = requests.get(tcn_url, params=data)
+        r = r.json()
+
+        if isinstance(r, list):
+            return r[0]['url_short']
+
+    return None

@@ -5,7 +5,7 @@ from iswust.constants.tools import xor_encrypt
 import requests
 __plugin_name__ = '取消绑定教务处'
 __plugin_usage__ = r"""取消绑定教务处
-使用方法：
+使用方法：向我发送以下指令。
     /unbind
     /取消绑定
     /取消绑定
@@ -17,7 +17,7 @@ async def unbind(session: CommandSession):
     sender = session.ctx.get('sender', {})
     sender_qq = sender.get('user_id')
     r = requests.get(API.api_url + 'api/v1/unbind',
-                     data={"verifycode": xor_encrypt(sender_qq)})
+                     params={"verifycode": xor_encrypt(sender_qq)})
     print(r)
     if r and r.status_code == 200 and r.json():
         session.finish('取消绑定成功')
