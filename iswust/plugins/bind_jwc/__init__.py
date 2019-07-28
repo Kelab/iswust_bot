@@ -17,5 +17,8 @@ async def bind(session: CommandSession):
 
     # 检查用户名和密码的长度
     url_ = f'{API.api_url}?qq={sender_qq}&nickname={nickname}&verifycode={verify_code}'
-    url_ = tcn(url_)
-    await session.send(f'请点击链接绑定：{url_}')
+    shorten_url_ = tcn(url_)
+    if shorten_url_:
+        await session.send(f'请点击链接绑定：{shorten_url_}')
+    else:
+        await session.send(f'请点击链接绑定：{url_}')

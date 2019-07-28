@@ -22,3 +22,10 @@ alembic revision --autogenerate -m "message"
 # 从版本 创建数据库表结构
 alembic upgrade head
 ```
+
+## 创建环境变量
+在项目根目录下创建 `.env` 文件，里面填相应的环境变量。
+```
+KEY=xxxx
+T_CN_SOURCE=xxxx
+```
