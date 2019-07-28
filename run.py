@@ -31,7 +31,7 @@ app = bot.asgi
 app.register_blueprint(api_blueprint)
 
 # 加载 logger
-from log import BOT_LOGGER, IS_LOGGER
+from log import BOT_LOGGER
 
 if __name__ == '__main__':
     BOT_LOGGER.info('Starting')

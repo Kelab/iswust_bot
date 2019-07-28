@@ -1,4 +1,4 @@
-from nonebot.log import logger as BOT_LOGGER
+from nonebot.log import logger
 import logging
 import sys
 
@@ -12,3 +12,4 @@ handler.setFormatter(formatter)
 # handler.setLevel(logging.DEBUG)
 
 IS_LOGGER.addHandler(handler)
+BOT_LOGGER = logger
