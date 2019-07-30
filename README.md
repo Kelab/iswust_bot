@@ -1,10 +1,11 @@
 # NoneBot 版教务处机器人
+接收用户指令后执行相应教务处查询动作。
 
+## 安装
 先安装
 ```shell
 pip install -r requirements.txt
 ```
-
 
 启动 `bot.py` 即可·
 
