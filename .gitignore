@@ -1,4 +1,4 @@
-config.py
+bot_config.py
 alembic.ini
 
 .vscode/

@@ -20,5 +20,5 @@ async def push():
     except CQHttpError:
         rcode_ = 500
         rmsg_ = "发送失败"
-
+    bot._server_app.config['JSONIFY_MIMETYPE'] = "text/html"
     return jsonify(code=rcode_, data=None, msg=rmsg_)

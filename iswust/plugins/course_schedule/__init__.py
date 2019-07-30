@@ -3,6 +3,9 @@ from nonebot import (CommandSession, IntentCommand, NLPSession, on_command,
 
 from log import IS_LOGGER
 from time_converter import TimeNormalizer  # 引入包
+from iswust.constants.tools import xor_encrypt
+from iswust.constants.config import api_url
+import requests
 
 tn = TimeNormalizer(isPreferFuture=False)
 
@@ -12,11 +15,15 @@ __plugin_usage__ = r"""输入 查询课表/课表"""
 
 @on_command('course_schedule', aliases=('查询课表', '课表'))
 async def grade(session: CommandSession):
-    # sender = session.ctx.get('sender', {})
-    # sender_qq = sender.get('user_id')
-    # user_query = await User.query.where(User.qq == sender_qq).gino.first()
+    sender = session.ctx.get('sender', {})
+    sender_qq = sender.get('user_id')
+    r = requests.get(api_url + 'api/v1/course/getCourse',
+                     params={"verifycode": xor_encrypt(sender_qq)})
+    if r and r.json():
+        print(r.json())
+        await session.finish(str(r.json()))
 
-    await session.send('待实现')
+    await session.finish('查询出错')
 
 
 @grade.args_parser

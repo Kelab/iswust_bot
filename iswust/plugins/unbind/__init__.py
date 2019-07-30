@@ -1,6 +1,6 @@
 from nonebot import on_command, CommandSession
-from iswust.constants.urls import API
 from iswust.constants.tools import xor_encrypt
+from iswust.constants.config import api_url
 
 import requests
 __plugin_name__ = '取消绑定教务处'
@@ -12,14 +12,12 @@ __plugin_usage__ = r"""取消绑定教务处
     """
 
 
-@on_command('unbind', aliases=('取消绑定', '取消绑定教务处'))
+@on_command('unbind', aliases=('解绑', '取消绑定', '取消绑定教务处'))
 async def unbind(session: CommandSession):
     sender = session.ctx.get('sender', {})
     sender_qq = sender.get('user_id')
-    r = requests.get(API.api_url + 'api/v1/unbind',
+    r = requests.get(api_url + 'api/v1/user/unbind',
                      params={"verifycode": xor_encrypt(sender_qq)})
-    print(r)
-    if r and r.status_code == 200 and r.json():
-        session.finish('取消绑定成功')
-    else:
-        session.finish('您未绑定教务处账号')
+    print(r.json())
+    if r and r.json():
+        session.finish(r.json()['msg'])
