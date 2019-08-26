@@ -11,13 +11,13 @@ if os.path.exists(dotenv_path):
 config = None
 
 try:
-    import config
+    import bot_config as config
 except ImportError:
     print('There is no config file!', file=sys.stderr)
 
 if config is None:
     try:
-        import config_base as config
+        import bot_config_base as config
     except ImportError:
         print('There is no configuration file!', file=sys.stderr)
         exit(1)

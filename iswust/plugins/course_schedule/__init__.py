@@ -3,7 +3,7 @@ from nonebot import (CommandSession, IntentCommand, NLPSession, on_command,
 
 from log import IS_LOGGER
 from time_converter import TimeNormalizer  # 引入包
-from iswust.constants.tools import xor_encrypt
+from iswust.utils.tools import xor_encrypt
 from iswust.constants.config import api_url
 import requests
 

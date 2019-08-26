@@ -1,5 +1,5 @@
 from nonebot import on_command, CommandSession
-from iswust.constants.tools import xor_encrypt, tcn
+from iswust.utils.tools import xor_encrypt, tcn
 from iswust.constants.config import login_url
 
 __plugin_name__ = '绑定教务处'
