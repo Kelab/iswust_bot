@@ -1,7 +1,7 @@
 import os
 import re
 import requests
-from typing import Optional
+from typing import Optional, List, Tuple
 
 from log import IS_LOGGER
 
@@ -55,3 +55,14 @@ def tcn(url: str) -> Optional[str]:
         return r[0]['url_short']
 
     return None
+
+
+def check_args(**kwargs) -> Tuple[bool, Optional[List[str]]]:
+    msg_list = []
+    for k, v in kwargs.items():
+        if v is None:
+            msg = f"Missing arg: {k}"
+            msg_list.append(msg)
+    if msg_list:
+        return False, msg_list
+    return True, None

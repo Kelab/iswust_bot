@@ -1,5 +1,5 @@
 from nonebot import on_command, CommandSession
-from iswust.utils.tools import xor_encrypt, tcn
+from utils.tools import xor_encrypt, tcn
 from iswust.constants.config import web_url
 from typing import Optional, Any
 
