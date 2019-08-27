@@ -1,15 +1,16 @@
-from . import api
-from nonebot import CQHttpError
 import nonebot as nb
-bot = nb.get_bot()
+from . import api
 from quart import request, jsonify
+from nonebot import CQHttpError
+from typing import Optional
+bot = nb.get_bot()
 
 
 @api.route('/push', methods=["GET"])
 async def push():
-    query = request.args
-    qq_ = query.get('qq')
-    msg_ = query.get('msg')
+    query: dict = request.args
+    qq_: Optional[str] = query.get('qq')
+    msg_: Optional[str] = query.get('msg')
     rcode_ = 403
     rmsg_ = ""
     try:
