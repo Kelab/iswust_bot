@@ -16,11 +16,8 @@ except ImportError:
     print('There is no config file!', file=sys.stderr)
 
 if config is None:
-    try:
-        import bot_config_base as config
-    except ImportError:
-        print('There is no configuration file!', file=sys.stderr)
-        exit(1)
+    print('There is no configuration file!', file=sys.stderr)
+    exit(1)
 
 bot = iswust.init(config)
 
@@ -31,8 +28,9 @@ app = bot.asgi
 app.register_blueprint(api_blueprint)
 
 # 加载 logger
-from log import BOT_LOGGER
+from log import BOT_LOGGER, IS_LOGGER
 
 if __name__ == '__main__':
     BOT_LOGGER.info('Starting')
+    IS_LOGGER.info('Starting')
     bot.run(use_reloader=True)
