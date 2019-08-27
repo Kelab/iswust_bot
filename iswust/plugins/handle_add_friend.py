@@ -1,10 +1,12 @@
+import os
 from nonebot import on_request, RequestSession
 
 
 # 好友请求处理器
 @on_request('friend')
 async def _(session: RequestSession):
-    if session.ctx['comment'] == '123123':
+    an_hao = os.environ.get("AN_HAO") or '请输入暗号'
+    if session.ctx['comment'] == an_hao:
         await session.approve()
         return
     await session.reject('暗号错误')
