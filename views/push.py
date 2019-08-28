@@ -27,6 +27,7 @@ async def push():
         else:
             IS_LOGGER.error('missing params: verifycode')
 
+        IS_LOGGER.info(f"qq: {qq_} msg: {msg_} decrypt_qq: {decrypt_qq}")
         if decrypt_qq == qq_:
             try:
                 if qq_ and msg_:

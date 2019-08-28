@@ -16,6 +16,7 @@ else:
     IS_LOGGER.error('ENCRYPT_KEY is not found!')
     raise ValueError("ENCRYPT_KEY is not found!")
 
+IS_LOGGER.info(f"encrypt_key is {encrypt_key}")
 tcn_source = os.environ.get("T_CN_SOURCE")
 
 
