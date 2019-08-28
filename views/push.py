@@ -27,19 +27,21 @@ async def push():
         else:
             IS_LOGGER.error('missing params: verifycode')
 
-        IS_LOGGER.info(f"qq: {qq_} msg: {msg_} decrypt_qq: {decrypt_qq}")
-        if decrypt_qq == qq_:
-            try:
-                if qq_ and msg_:
+        IS_LOGGER.info(
+            f"qq: {qq_} msg: {msg_} verifycode: {verifycode_} decrypt_qq: {decrypt_qq}"
+        )
+        if qq_ and msg_:
+            if decrypt_qq == int(qq_):
+                try:
                     await bot.send_private_msg(user_id=qq_, message=msg_)
                     rcode_ = 200
                     rmsg_ = "发送成功"
-            except CQHttpError:
-                rcode_ = 500
-                rmsg_ = "向用户发消息失败！"
-            bot._server_app.config['JSONIFY_MIMETYPE'] = "text/html"
-            return jsonify(code=rcode_, data=None, msg=rmsg_)
-        else:
-            rmsg_ = "参数有误"
+                except CQHttpError:
+                    rcode_ = 500
+                    rmsg_ = "向用户发消息失败！"
+                bot._server_app.config['JSONIFY_MIMETYPE'] = "text/html"
+                return jsonify(code=rcode_, data=None, msg=rmsg_)
+            else:
+                rmsg_ = "验证信息错误"
 
     return jsonify(code=rcode_, data=None, msg=rmsg_)
