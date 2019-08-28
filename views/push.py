@@ -1,4 +1,5 @@
 import nonebot as nb
+import json
 from . import api
 from quart import request, jsonify
 from nonebot import CQHttpError
@@ -8,13 +9,22 @@ from log import IS_LOGGER
 bot = nb.get_bot()
 
 
-@api.route('/push', methods=["GET"])
+@api.route('/push', methods=["GET", "POST"])
 async def push():
-    query: dict = request.args
-    qq_: Optional[str] = query.get('qq')
-    msg_: Optional[str] = query.get('msg')
-    verifycode_: Optional[str] = query.get('verifycode')
-    decrypt_qq: Optional[int] = None
+    if request.method == 'GET':
+        query: dict = request.args
+        qq_: Optional[str] = query.get('qq')
+        msg_: Optional[str] = query.get('msg')
+        verifycode_: Optional[str] = query.get('verifycode')
+        decrypt_qq: Optional[int] = None
+
+    else:
+        query: dict = json.loads(await request.get_data())
+
+        qq_: Optional[str] = query.get('qq')
+        msg_: Optional[str] = query.get('msg')
+        verifycode_: Optional[str] = query.get('verifycode')
+        decrypt_qq: Optional[int] = None
 
     result, msg = check_args(qq=qq_, msg=msg_, verifycode=verifycode_)
 
