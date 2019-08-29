@@ -5,6 +5,8 @@ from log import IS_LOGGER
 from time_converter import TimeNormalizer  # 引入包
 from utils.tools import xor_encrypt
 from iswust.constants.config import api_url
+from .parse_course_schedule import week_course
+from typing import List
 import requests
 
 tn = TimeNormalizer(isPreferFuture=False)
@@ -20,15 +22,16 @@ async def grade(session: CommandSession):
     r = requests.get(api_url + 'api/v1/course/getCourse',
                      params={"verifycode": xor_encrypt(sender_qq)})
     if r and r.json():
-        print(r.json())
-        await session.finish(str(r.json()))
+        IS_LOGGER.info('课表:', r.json())
+        if r['code'] == 200:
+            data = r['data']['body']
+            course_dict = week_course(data)
+            week_course_list: List[str] = course_dict['week_course_list']
+            for i in week_course_list:
+                await session.send(i)
+            await session.finish("今天的课程：\n" + course_dict['today'])
 
     await session.finish('查询出错')
-
-
-@grade.args_parser
-async def _(session: CommandSession):
-    pass
 
 
 # on_natural_language 装饰器将函数声明为一个自然语言处理器

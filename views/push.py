@@ -16,7 +16,6 @@ async def push():
         qq_: Optional[str] = query.get('qq')
         msg_: Optional[str] = query.get('msg')
         verifycode_: Optional[str] = query.get('verifycode')
-        decrypt_qq: Optional[int] = None
 
     else:
         query: dict = json.loads(await request.get_data())
@@ -24,7 +23,8 @@ async def push():
         qq_: Optional[str] = query.get('qq')
         msg_: Optional[str] = query.get('msg')
         verifycode_: Optional[str] = query.get('verifycode')
-        decrypt_qq: Optional[int] = None
+
+    decrypt_qq: Optional[int] = None
 
     result, msg = check_args(qq=qq_, msg=msg_, verifycode=verifycode_)
 
@@ -53,5 +53,5 @@ async def push():
                 return jsonify(code=rcode_, data=None, msg=rmsg_)
             else:
                 rmsg_ = "验证信息错误"
-
+    IS_LOGGER.info(f"rcode_: {rcode_} rmsg_: {rmsg_}")
     return jsonify(code=rcode_, data=None, msg=rmsg_)
