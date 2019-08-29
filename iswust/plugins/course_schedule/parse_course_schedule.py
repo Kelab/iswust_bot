@@ -1,4 +1,5 @@
-import time
+from datetime import datetime, timezone, timedelta
+from collections import defaultdict
 chinese_wday_dict = {
     "一": '1',
     "二": '2',
@@ -16,9 +17,8 @@ def week_course(course_table):
     result = body["result"]
     curr_week = body['week']
     # 课程字典 key: 星期几 value: 那一天的课
-    wday_course_dict = dict()
-    for i in range(1, 8):
-        wday_course_dict.setdefault(str(i), [])
+    wday_course_dict = defaultdict(list)
+
     for x in result:
         # 当周
         if curr_week >= int(x["qsz"]) and curr_week <= int(x["zzz"]):
@@ -40,7 +40,8 @@ def week_course(course_table):
     for wday, course_list in sorted_wday_course_dict:
         r_course_list.append(parse_course_by_wday(course_list, wday))
 
-    today = str(time.localtime(time.time()).tm_wday + 1)
+    tz = timezone(timedelta(hours=8))  # 东八区
+    today = str(datetime.now(tz).timetuple().tm_wday + 1)
     return {
         'week_course_list': r_course_list,
         'today': parse_course_by_wday(wday_course_dict[today], today)
