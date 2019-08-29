@@ -23,8 +23,9 @@ async def grade(session: CommandSession):
                      params={"verifycode": xor_encrypt(sender_qq)})
     if r and r.json():
         IS_LOGGER.info('课表:', r.json())
-        if r['code'] == 200:
-            data = r['data']['body']
+        resp = r.json()
+        if resp['code'] == 200:
+            data = resp['data']
             course_dict = week_course(data)
             week_course_list: List[str] = course_dict['week_course_list']
             for i in week_course_list:
