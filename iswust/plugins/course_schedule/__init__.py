@@ -5,7 +5,7 @@ from log import IS_LOGGER
 from time_converter import TimeNormalizer  # 引入包
 from utils.tools import xor_encrypt
 from iswust.constants.config import api_url
-from .parse_course_schedule import week_course, parse_date, get_week, parse_course_by_date
+from .parse_course_schedule import week_course, parse_date, get_week, parse_course_by_date, str_number_wday_dict
 from typing import List
 import requests
 
@@ -58,9 +58,9 @@ async def process_accu_date(session: NLPSession):
         date = parse_date(res.get(resp_type_))
         wday = str(date.timetuple().tm_wday + 1)
         week = get_week(date.timestamp())
-        await session.send("星期" + str(wday))
-        await session.send("第" + str(week) + '周')
-        IS_LOGGER.info(f"第{str(week)}周，星期{str(wday)}")
+        await session.send(f"第{week}周，星期{wday}")
+        IS_LOGGER.info(
+            f"第{str(week)}周，星期{str_number_wday_dict.get(wday,wday)}")
         args = {
             "wday": wday,
             "week": week,
