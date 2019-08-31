@@ -24,5 +24,6 @@ async def unbind(session: CommandSession):
             api_url + 'api/v1/user/unbind',
             params={"verifycode": xor_encrypt(int(sender_qq))})
 
-        if r and r.json():
-            session.finish(r.json()['msg'])
+        if r:
+            resp = await r.json()
+            session.finish(resp['msg'])

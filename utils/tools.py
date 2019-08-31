@@ -52,7 +52,7 @@ async def tcn(url: str) -> Optional[str]:
         "url_long": url,
     }
     r: Response = await requests.get(tcn_url, params=data)
-    res = r.json()
+    res = await r.json()
 
     if isinstance(res, list):
         return res[0]['url_short']
