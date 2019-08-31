@@ -16,7 +16,7 @@ __plugin_usage__ = r"""输入 查询课表/课表"""
 
 
 @on_command('course_schedule', aliases=('查询课表', '课表'))
-async def grade(session: CommandSession):
+async def course_schedule(session: CommandSession):
     sender = session.ctx.get('sender', {})
     sender_qq = sender.get('user_id')
     r = requests.get(api_url + 'api/v1/course/getCourse',
@@ -65,4 +65,4 @@ async def process_accu_date(session: NLPSession):
             "wday": wday,
             "week": week,
         }
-        return IntentCommand(90.0, 'grade', args=args)
+        return IntentCommand(90.0, 'course_schedule', args=args)
