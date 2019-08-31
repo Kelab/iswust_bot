@@ -54,7 +54,7 @@ async def process_accu_date(session: NLPSession):
     IS_LOGGER.debug("时间意图分析结果:" + str(res))
     resp_type_: str = res.get('type')
     if resp_type_ != 'error':
-        await session.send(f'您所说的时间是：{res.get(resp_type_)}')
+        await session.send(f'您所说的时间是：{res.get(resp_type_)[:10]}')
         date = parse_date(res.get(resp_type_))
         wday = str(date.timetuple().tm_wday + 1)
         week = get_week(date.timestamp())

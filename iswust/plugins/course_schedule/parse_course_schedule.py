@@ -99,7 +99,8 @@ def get_week(target_time) -> int:
     """
     # 将格式字符串转换为时间戳
     start_time = int(time.mktime(INFO.semester_start_day))
-    used_weeks = (target_time - start_time) / (24 * 60 * 60 * 7)
+    # 加1，因为刚好七天的时候 used_weeks 的值会是 1.0, 会认为还是第一周
+    used_weeks = (target_time - start_time + 1) / (24 * 60 * 60 * 7)
     return math.ceil(used_weeks)
 
 
