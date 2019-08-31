@@ -22,7 +22,7 @@ async def grade(session: CommandSession):
     r = requests.get(api_url + 'api/v1/course/getCourse',
                      params={"verifycode": xor_encrypt(sender_qq)})
     if r and r.json():
-        IS_LOGGER.info('课表:', r.json())
+        IS_LOGGER.info('课表:' + str(r.json()))
         resp = r.json()
         if resp['code'] == 200:
             data = resp['data']
