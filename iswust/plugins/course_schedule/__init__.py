@@ -31,6 +31,8 @@ async def grade(session: CommandSession):
             for i in week_course_list:
                 await session.send(i)
             await session.finish("今天的课程：\n" + course_dict['today'])
+        elif resp['code'] == -1:
+            await session.finish("未绑定！")
 
     await session.finish('查询出错')
 
