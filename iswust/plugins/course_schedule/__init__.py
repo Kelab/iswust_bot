@@ -58,7 +58,7 @@ async def process_accu_date(session: NLPSession):
         date = parse_date(res.get(resp_type_))
         wday = str(date.timetuple().tm_wday + 1)
         week = get_week(date.timestamp())
-        await session.send(f"第{week}周，星期{wday}")
+        await session.send(f"第{week}周，星期{str_number_wday_dict.get(wday,wday)}")
         IS_LOGGER.info(
             f"第{str(week)}周，星期{str_number_wday_dict.get(wday,wday)}")
         args = {
