@@ -1,7 +1,9 @@
 import os
 import re
-import requests
 from typing import Optional, List, Tuple
+
+from utils.aio import requests
+from requests import Response
 
 from log import IS_LOGGER
 
@@ -36,7 +38,7 @@ def xor_decrypt(token: int, key: int = encrypt_key):
     return token ^ key
 
 
-def tcn(url: str) -> Optional[str]:
+async def tcn(url: str) -> Optional[str]:
     if not isUrl.match(url):
         IS_LOGGER.error('请输入正常的 url')
         return None
@@ -49,11 +51,11 @@ def tcn(url: str) -> Optional[str]:
         "source": tcn_source,
         "url_long": url,
     }
-    r = requests.get(tcn_url, params=data)
-    r = r.json()
+    r: Response = await requests.get(tcn_url, params=data)
+    res = r.json()
 
-    if isinstance(r, list):
-        return r[0]['url_short']
+    if isinstance(res, list):
+        return res[0]['url_short']
 
     return None
 

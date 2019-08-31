@@ -7,7 +7,8 @@ from utils.tools import xor_encrypt
 from iswust.constants.config import api_url
 from .parse_course_schedule import week_course, parse_date, get_week, parse_course_by_date, str_number_wday_dict
 from typing import List
-import requests
+from utils.aio import requests
+from requests import Response
 
 tn = TimeNormalizer(isPreferFuture=False)
 
@@ -19,8 +20,9 @@ __plugin_usage__ = r"""输入 查询课表/课表"""
 async def course_schedule(session: CommandSession):
     sender = session.ctx.get('sender', {})
     sender_qq = sender.get('user_id')
-    r = requests.get(api_url + 'api/v1/course/getCourse',
-                     params={"verifycode": xor_encrypt(sender_qq)})
+    r: Response = await requests.get(
+        api_url + 'api/v1/course/getCourse',
+        params={"verifycode": xor_encrypt(sender_qq)})
     if r and r.json():
         IS_LOGGER.info('课表:' + str(r.json()))
         resp = r.json()
