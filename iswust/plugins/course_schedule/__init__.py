@@ -52,8 +52,10 @@ async def course_schedule(session: CommandSession):
 @on_natural_language('课')
 async def process_accu_date(session: NLPSession):
     # 返回意图命令，前两个参数必填，分别表示置信度和意图命令名
-    res = tn.parse(target=session.ctx.get('raw_message'))
-    IS_LOGGER.debug("时间意图分析结果:" + str(res))
+    msg = session.ctx.get('raw_message')
+    res = tn.parse(target=msg)
+    IS_LOGGER.debug("响应课程时间意图分析:" + str(msg))
+    IS_LOGGER.debug("课程时间意图分析结果:" + str(res))
     resp_type_: str = res.get('type')
     if resp_type_ != 'error':
         await session.send(f'您所说的时间是：{res.get(resp_type_)[:10]}')
