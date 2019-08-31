@@ -1,11 +1,11 @@
-from nonebot import (CommandSession, NLPSession, on_command,
+from nonebot import (CommandSession, NLPSession, IntentCommand, on_command,
                      on_natural_language)
 
 from log import IS_LOGGER
 from time_converter import TimeNormalizer  # 引入包
 from utils.tools import xor_encrypt
 from iswust.constants.config import api_url
-from .parse_course_schedule import week_course
+from .parse_course_schedule import week_course, parse_date, get_week, parse_course_by_date
 from typing import List
 import requests
 
@@ -26,11 +26,18 @@ async def grade(session: CommandSession):
         resp = r.json()
         if resp['code'] == 200:
             data = resp['data']
-            course_dict = week_course(data)
-            week_course_list: List[str] = course_dict['week_course_list']
-            for i in week_course_list:
-                await session.send(i)
-            await session.finish("今天的课程：\n" + course_dict['today'])
+            if session.state.get('week') and session.state.get('wday'):
+                week = session.state.get('week')
+                wday = session.state.get('wday')
+                IS_LOGGER.info("检测到时间意图：" + str(session.state))
+                course = parse_course_by_date(data, week, wday)
+                await session.finish(course)
+            else:
+                course_dict = week_course(data)
+                week_course_list: List[str] = course_dict['week_course_list']
+                for i in week_course_list:
+                    await session.send(i)
+                await session.finish("今天的课程：\n" + course_dict['today'])
         elif resp['code'] == -1:
             await session.finish("未绑定！")
 
@@ -48,3 +55,14 @@ async def process_accu_date(session: NLPSession):
     resp_type_: str = res.get('type')
     if resp_type_ != 'error':
         await session.send(f'您所说的时间是：{res.get(resp_type_)}')
+        date = parse_date(res.get(resp_type_))
+        wday = str(date.timetuple().tm_wday + 1)
+        week = get_week(date.timestamp())
+        await session.send("星期" + str(wday))
+        await session.send("第" + str(week) + '周')
+        IS_LOGGER.info(f"第{str(week)}周，星期{str(wday)}")
+        args = {
+            "wday": wday,
+            "week": week,
+        }
+        return IntentCommand(90.0, 'grade', args=args)

@@ -1,5 +1,8 @@
-from datetime import datetime, timezone, timedelta
+import time
+import math
 from collections import defaultdict
+from datetime import datetime, timezone, timedelta
+from iswust.constants.config import INFO
 chinese_wday_dict = {
     "一": '1',
     "二": '2',
@@ -77,7 +80,7 @@ def tip(strs: str) -> str:
 
 def parse_course_by_wday(course_list, day: str):
     if len(course_list) == 0:
-        return f'星期{str_number_wday_dict.get(day, day)}没有课\n'
+        return f'星期{str_number_wday_dict.get(day, day)}没有课'
     msg = f'星期{str_number_wday_dict.get(day, day)}的课程如下:\n'
 
     course_list.sort(key=lambda e: e['class_time'][0])
@@ -88,3 +91,40 @@ def parse_course_by_wday(course_list, day: str):
                                             course["location"])
         msg = msg + t
     return msg.strip()
+
+
+def get_week(target_time) -> int:
+    """
+    :return: 返回当前周数
+    """
+    # 将格式字符串转换为时间戳
+    start_time = int(time.mktime(INFO.semester_start_day))
+    used_weeks = (target_time - start_time) / (24 * 60 * 60 * 7)
+    return math.ceil(used_weeks)
+
+
+def parse_date(date_string):
+    return datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
+
+
+def parse_course_by_date(course_table, curr_week: int, day: str):
+    body = course_table["body"]
+    result = body["result"]
+    # 课程字典 key: 星期几 value: 那一天的课
+    wday_course_dict = defaultdict(list)
+
+    for x in result:
+        # 当周
+        if curr_week >= int(x["qsz"]) and curr_week <= int(x["zzz"]):
+            for _time, _location in zip(x["class_time"], x["location"]):
+
+                _course = {
+                    "class_name": x["class_name"],
+                    "class_time": _time[2:],
+                    "location": _location,
+                    "teacher_name": x["teacher_name"],
+                }
+                # class_time [1@2-2, 3@3-2]
+                wday_course_dict[str(_time[0])].append(_course)
+
+    return parse_course_by_wday(wday_course_dict[day], day)
