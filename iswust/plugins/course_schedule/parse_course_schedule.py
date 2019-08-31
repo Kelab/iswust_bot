@@ -82,8 +82,9 @@ def parse_course_by_wday(course_list, day: str):
 
     course_list.sort(key=lambda e: e['class_time'][0])
     for course in course_list:
-        t = '{}--{}--{}({})\n'.format(tip(course["class_time"]),
-                                      course["location"], course["class_name"],
-                                      course["teacher_name"])
+        t = '-- {}\n   {}\n   {}({})\n'.format(tip(course["class_time"]),
+                                               course["location"],
+                                               course["class_name"],
+                                               course["teacher_name"])
         msg = msg + t
-    return msg
+    return msg.strip()
