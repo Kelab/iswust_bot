@@ -22,7 +22,7 @@ async def bind(session: CommandSession):
 
         # web 登录界面地址
         url_ = f'{web_url}?qq={sender_qq}&nickname={nickname}&verifycode={verify_code}'
-        shorten_url_ = tcn(url_)
+        shorten_url_ = await tcn(url_)
         if shorten_url_:
             await session.send(f'请点击链接绑定：{shorten_url_}')
         else:
