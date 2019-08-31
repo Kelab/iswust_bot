@@ -8,5 +8,5 @@ async def _(session: RequestSession):
     an_hao = os.environ.get("AN_HAO") or '请输入暗号'
     if session.ctx['comment'] == an_hao:
         await session.approve()
-        return
-    await session.reject('暗号错误')
+    else:
+        await session.reject()

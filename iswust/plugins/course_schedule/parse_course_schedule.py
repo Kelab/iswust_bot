@@ -15,6 +15,48 @@ chinese_wday_dict = {
 str_number_wday_dict = {v: k for k, v in chinese_wday_dict.items()}
 
 
+def get_week(target_time) -> int:
+    """
+    :return: 返回当前周数
+    """
+    # 将格式字符串转换为时间戳
+    start_time = int(time.mktime(INFO.semester_start_day))
+    # 加1，因为刚好七天的时候 used_weeks 的值会是 1.0, 会认为还是第一周
+    used_weeks = (target_time - start_time + 1) / (24 * 60 * 60 * 7)
+    return math.ceil(used_weeks)
+
+
+def parse_date(date_string):
+    return datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
+
+
+def tip(strs: str) -> str:
+    after = strs.split('-')
+    start = int(after[0])
+    last = int(after[1])
+    if start == 1 and last == 2:
+        return "上午第一讲"
+    if start == 2 and last == 2:
+        return "上午第二讲"
+    if start == 3 and last == 2:
+        return "下午第一讲"
+    if start == 4 and last == 2:
+        return "下午第二讲"
+    if start == 5 and last == 2:
+        return "晚上第一讲"
+    if start == 6 and last == 2:
+        return "晚上第二讲"
+
+    if start == 1 and last == 4:
+        return "上午一到二讲"
+    if start == 3 and last == 4:
+        return "下午一到二讲"
+    if start == 5 and last == 4:
+        return "晚上一到二讲"
+
+    return f'第{start}讲，持续{last}节'
+
+
 def week_course(course_table):
     body = course_table["body"]
     result = body["result"]
@@ -51,33 +93,6 @@ def week_course(course_table):
     }
 
 
-def tip(strs: str) -> str:
-    after = strs.split('-')
-    start = int(after[0])
-    last = int(after[1])
-    if start == 1 and last == 2:
-        return "上午第一讲"
-    if start == 2 and last == 2:
-        return "上午第二讲"
-    if start == 3 and last == 2:
-        return "下午第一讲"
-    if start == 4 and last == 2:
-        return "下午第二讲"
-    if start == 5 and last == 2:
-        return "晚上第一讲"
-    if start == 6 and last == 2:
-        return "晚上第二讲"
-
-    if start == 1 and last == 4:
-        return "上午一到二讲"
-    if start == 3 and last == 4:
-        return "下午一到二讲"
-    if start == 5 and last == 4:
-        return "晚上一到二讲"
-
-    return f'第{start}讲，持续{last}节'
-
-
 def parse_course_by_wday(course_list, day: str):
     if len(course_list) == 0:
         return f'星期{str_number_wday_dict.get(day, day)}没有课'
@@ -85,27 +100,12 @@ def parse_course_by_wday(course_list, day: str):
 
     course_list.sort(key=lambda e: e['class_time'][0])
     for course in course_list:
-        t = '{}\n-  {}({})\n-  {}\n'.format(tip(course["class_time"]),
-                                            course["class_name"],
-                                            course["teacher_name"],
-                                            course["location"])
+        t = '{}\n-  {}({})\n-  {}\n\n'.format(tip(course["class_time"]),
+                                              course["class_name"],
+                                              course["teacher_name"],
+                                              course["location"])
         msg = msg + t
     return msg.strip()
-
-
-def get_week(target_time) -> int:
-    """
-    :return: 返回当前周数
-    """
-    # 将格式字符串转换为时间戳
-    start_time = int(time.mktime(INFO.semester_start_day))
-    # 加1，因为刚好七天的时候 used_weeks 的值会是 1.0, 会认为还是第一周
-    used_weeks = (target_time - start_time + 1) / (24 * 60 * 60 * 7)
-    return math.ceil(used_weeks)
-
-
-def parse_date(date_string):
-    return datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
 
 
 def parse_course_by_date(course_table, curr_week: int, day: str):

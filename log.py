@@ -1,3 +1,4 @@
+# 全局 Log
 from nonebot.log import logger
 import logging
 import sys
