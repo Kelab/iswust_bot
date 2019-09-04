@@ -42,15 +42,19 @@ async def course_schedule(session: CommandSession):
                 IS_LOGGER.info("检测到时间意图：" + str(session.state))
                 course = parse_course_by_date(data, week, wday)
                 await session.finish(course)
+
             elif week:
                 IS_LOGGER.info("检测到时间意图：" + str(session.state))
                 course_dict: List[str] = week_course(data, int(week))
                 for i in course_dict:
                     await session.send(i)
+
             else:
                 course_dict: List[str] = week_course(data)
                 for i in course_dict:
                     await session.send(i)
+
+            await session.finish()
         elif resp['code'] == -1:
             await session.finish("未绑定！")
 
