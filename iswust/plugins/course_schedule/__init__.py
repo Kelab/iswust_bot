@@ -10,13 +10,16 @@ from typing import List
 from utils.aio import requests
 from requests import Response
 
-tn = TimeNormalizer(isPreferFuture=False)
-
 __plugin_name__ = '查询课表'
-__plugin_usage__ = r"""输入 查询课表/课表"""
+__plugin_usage__ = r"""输入 查询课表/课表
+或者加上时间限定：
+    - 今天课表
+    - 明天有什么课
+    - 九月十五号有什么课
+""".strip()
 
 
-@on_command('course_schedule', aliases=('查询课表', '课表'))
+@on_command('course_schedule', aliases=('查询课表', '课表', '课程表', '课程'))
 async def course_schedule(session: CommandSession):
     sender = session.ctx.get('sender', {})
     sender_qq = sender.get('user_id')
@@ -35,11 +38,9 @@ async def course_schedule(session: CommandSession):
                 course = parse_course_by_date(data, week, wday)
                 await session.finish(course)
             else:
-                course_dict = week_course(data)
-                week_course_list: List[str] = course_dict['week_course_list']
-                for i in week_course_list:
+                course_dict: List[str] = week_course(data)
+                for i in course_dict:
                     await session.send(i)
-                await session.finish("今天的课程：\n" + course_dict['today'])
         elif resp['code'] == -1:
             await session.finish("未绑定！")
 
@@ -53,6 +54,7 @@ async def course_schedule(session: CommandSession):
 async def process_accu_date(session: NLPSession):
     # 返回意图命令，前两个参数必填，分别表示置信度和意图命令名
     msg = session.ctx.get('raw_message')
+    tn = TimeNormalizer(isPreferFuture=False)
     res = tn.parse(target=msg)
     IS_LOGGER.debug("响应课程时间意图分析:" + str(msg))
     IS_LOGGER.debug("课程时间意图分析结果:" + str(res))

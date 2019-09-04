@@ -1,7 +1,7 @@
 import time
 import math
 from collections import defaultdict
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 from iswust.constants.config import INFO
 chinese_wday_dict = {
     "一": '1',
@@ -85,12 +85,7 @@ def week_course(course_table):
     for wday, course_list in sorted_wday_course_dict:
         r_course_list.append(parse_course_by_wday(course_list, wday))
 
-    tz = timezone(timedelta(hours=8))  # 东八区
-    today = str(datetime.now(tz).timetuple().tm_wday + 1)
-    return {
-        'week_course_list': r_course_list,
-        'today': parse_course_by_wday(wday_course_dict[today], today)
-    }
+    return r_course_list
 
 
 def parse_course_by_wday(course_list, day: str):
