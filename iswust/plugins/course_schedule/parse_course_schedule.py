@@ -1,5 +1,6 @@
 import time
 import math
+from typing import Optional
 from collections import defaultdict
 from datetime import datetime
 from iswust.constants.config import INFO
@@ -57,10 +58,10 @@ def tip(strs: str) -> str:
     return f'第{start}讲，持续{last}节'
 
 
-def week_course(course_table):
+def week_course(course_table, curr_week: Optional[int] = None):
     body = course_table["body"]
     result = body["result"]
-    curr_week = body['week']
+    curr_week = curr_week or body['week']
     # 课程字典 key: 星期几 value: 那一天的课
     wday_course_dict = defaultdict(list)
 

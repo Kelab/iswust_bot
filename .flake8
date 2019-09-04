@@ -12,3 +12,5 @@ per-file-ignores =
     bot_config_base.py: F401
     views/__init__.py: F401
     utils/aio/requests.py: F401
+exclude =
+    iswust\plugins\course_schedule\test.py
