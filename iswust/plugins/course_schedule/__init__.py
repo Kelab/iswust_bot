@@ -10,7 +10,7 @@ from time_converter import StringPreHandler, TimeNormalizer
 from iswust.constants.config import api_url
 from log import IS_LOGGER
 from utils.aio import requests
-from utils.tools import xor_encrypt
+from utils.tools import bot_hash
 
 from .parse_course_schedule import (get_week, parse_course_by_date, parse_date,
                                     str_number_wday_dict, week_course)
@@ -28,9 +28,11 @@ __plugin_usage__ = r"""输入 查询课表/课表
 async def course_schedule(session: CommandSession):
     sender = session.ctx.get('sender', {})
     sender_qq = sender.get('user_id')
-    r: Response = await requests.get(
-        api_url + 'api/v1/course/getCourse',
-        params={"verifycode": xor_encrypt(sender_qq)})
+    r: Response = await requests.get(api_url + 'api/v1/course/getCourse',
+                                     params={
+                                         "qq": sender_qq,
+                                         "token": bot_hash(sender_qq)
+                                     })
     if r:
         resp = await r.json()
         IS_LOGGER.info('课表:' + str(resp))
@@ -71,6 +73,7 @@ async def process_accu_date(session: NLPSession):
     res = TimeNormalizer(isPreferFuture=False).parse(target=msg)
     IS_LOGGER.debug("响应课程时间意图分析:" + str(msg))
     IS_LOGGER.debug("课程时间意图分析结果:" + str(res))
+    await session.send(res)
     resp_type_: str = res.get('type')
     if resp_type_ == "timestamp":
         date = parse_date(res.get(resp_type_))

@@ -1,5 +1,5 @@
 from nonebot import on_command, CommandSession
-from utils.tools import xor_encrypt, tcn
+from utils.tools import bot_hash, tcn
 from iswust.constants.config import web_url
 from typing import Optional, Any
 
@@ -18,10 +18,10 @@ async def bind(session: CommandSession):
     nickname: Optional[str] = sender.get('nickname')
 
     if sender_qq:
-        verify_code = xor_encrypt(int(sender_qq))
+        token = bot_hash(sender_qq)
 
         # web 登录界面地址
-        url_ = f'{web_url}?qq={sender_qq}&nickname={nickname}&verifycode={verify_code}'
+        url_ = f'{web_url}?qq={sender_qq}&nickname={nickname}&token={token}'
         shorten_url_ = await tcn(url_)
         if shorten_url_:
             await session.send(f'请点击链接绑定：{shorten_url_}')

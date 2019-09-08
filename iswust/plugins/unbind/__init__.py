@@ -1,5 +1,5 @@
 from nonebot import on_command, CommandSession
-from utils.tools import xor_encrypt
+from utils.tools import bot_hash
 from iswust.constants.config import api_url
 from typing import Optional, Any
 
@@ -20,9 +20,11 @@ async def unbind(session: CommandSession):
     sender: dict[str, Any] = session.ctx.get('sender', {})
     sender_qq: Optional[str] = sender.get('user_id')
     if sender_qq:
-        r: Response = await requests.get(
-            api_url + 'api/v1/user/unbind',
-            params={"verifycode": xor_encrypt(int(sender_qq))})
+        r: Response = await requests.get(api_url + 'api/v1/user/unbind',
+                                         params={
+                                             "qq": sender_qq,
+                                             "token": bot_hash(sender_qq)
+                                         })
 
         if r:
             resp = await r.json()

@@ -3,7 +3,7 @@ import json
 from . import api
 from quart import request, jsonify
 from nonebot import CQHttpError
-from utils.tools import xor_decrypt, check_args
+from utils.tools import bot_hash, check_args
 from typing import Optional
 from log import IS_LOGGER
 bot = nb.get_bot()
@@ -15,33 +15,27 @@ async def push():
         query: dict = request.args
         qq_: Optional[str] = query.get('qq')
         msg_: Optional[str] = query.get('msg')
-        verifycode_: Optional[str] = query.get('verifycode')
+        token_: Optional[str] = query.get('token')
 
     else:
         query: dict = json.loads(await request.get_data())
-
         qq_: Optional[str] = query.get('qq')
         msg_: Optional[str] = query.get('msg')
-        verifycode_: Optional[str] = query.get('verifycode')
+        token_: Optional[str] = query.get('token')
 
-    decrypt_qq: Optional[int] = None
-
-    result, msg = check_args(qq=qq_, msg=msg_, verifycode=verifycode_)
+    result, msg = check_args(qq=qq_, msg=msg_, token=token_)
 
     rcode_ = 403
     rmsg_ = msg
 
     if result:
-        if verifycode_:
-            decrypt_qq = xor_decrypt(int(verifycode_))
-        else:
-            IS_LOGGER.error('missing params: verifycode')
-
-        IS_LOGGER.info(
-            f"qq: {qq_} msg: {msg_} verifycode: {verifycode_} decrypt_qq: {decrypt_qq}"
-        )
         if qq_ and msg_:
-            if decrypt_qq == int(qq_):
+            encrypt_qq = bot_hash(qq_)
+
+            IS_LOGGER.info(
+                f"qq: {qq_} msg: {msg_} token: {token_} encrypt_qq: {encrypt_qq}"
+            )
+            if token_ == encrypt_qq:
                 try:
                     await bot.send_private_msg(user_id=qq_, message=msg_)
                     rcode_ = 200

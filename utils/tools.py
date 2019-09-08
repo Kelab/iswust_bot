@@ -1,5 +1,7 @@
 import os
 import re
+import hashlib
+
 from typing import Optional, List, Tuple
 
 from utils.aio import requests
@@ -22,20 +24,15 @@ IS_LOGGER.info(f"encrypt_key is {encrypt_key}")
 tcn_source = os.environ.get("T_CN_SOURCE")
 
 
-def xor_encrypt(num: int, key: int = encrypt_key):
-    try:
-        num = int(num)
-    except TypeError:
-        IS_LOGGER.error(f'num: {num}, encrypt_key: {key}')
-    return num ^ key
-
-
-def xor_decrypt(token: int, key: int = encrypt_key):
-    try:
-        token = int(token)
-    except TypeError:
-        IS_LOGGER.error(f'token: {token}, encrypt_key: {key}')
-    return token ^ key
+def bot_hash(message: str) -> str:
+    message = str(message)
+    key = os.environ.get("ENCRYPT_KEY") or 'qq_bot_is_so_niu_bi'
+    key = key.encode()
+    inner = hashlib.md5()
+    inner.update(message.encode())
+    outer = hashlib.md5()
+    outer.update(inner.hexdigest().encode() + key)
+    return outer.hexdigest()
 
 
 async def tcn(url: str) -> Optional[str]:
