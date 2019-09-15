@@ -1,5 +1,5 @@
+import arrow
 import regex as re
-
 from typing import List
 
 from nonebot import (CommandSession, IntentCommand, NLPSession, on_command,
@@ -70,7 +70,8 @@ async def course_schedule(session: CommandSession):
 async def process_accu_date(session: NLPSession):
     # 返回意图命令，前两个参数必填，分别表示置信度和意图命令名
     msg = session.ctx.get('raw_message')
-    res = TimeNormalizer(isPreferFuture=False).parse(target=msg)
+    res = TimeNormalizer(isPreferFuture=False).parse(target=msg,
+                                                     timeBase=arrow.now())
     IS_LOGGER.debug("响应课程时间意图分析:" + str(msg))
     IS_LOGGER.debug("课程时间意图分析结果:" + str(res))
     await session.send(res)
