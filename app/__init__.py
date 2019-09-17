@@ -1,6 +1,7 @@
 import sys
 
 from quart import Quart
+from nonebot import NoneBot
 
 from . import bot
 
@@ -10,7 +11,7 @@ def register_blueprint(app: Quart):
     app.register_blueprint(api_blueprint)
 
 
-def init() -> Quart:
+def init() -> NoneBot:
     try:
         import bot_config as config
     except ImportError:
@@ -20,4 +21,4 @@ def init() -> Quart:
     _bot = bot.init(config)
     app = _bot.asgi
     register_blueprint(app)
-    return app
+    return _bot
