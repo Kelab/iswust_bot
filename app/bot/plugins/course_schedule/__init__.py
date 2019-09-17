@@ -29,23 +29,6 @@ __plugin_usage__ = r"""输入 查询课表/课表
 """.strip()
 
 
-@on_command('uc', aliases=('更新课表'))
-async def uc(session: CommandSession):
-    sender = session.ctx.get('sender', {})
-    sender_qq = sender.get('user_id')
-    await session.send(f'正在更新课表...')
-    r: Response = await requests.get(api_url + 'api/v1/course/getCourse',
-                                     params={
-                                         "qq": sender_qq,
-                                         "token": bot_hash(sender_qq),
-                                         "update": '1'
-                                     })
-    if r:
-        await session.finish("更新成功！")
-        return
-    await session.finish('更新出错')
-
-
 @on_command('cs', aliases=('查询课表', '课表', '课程表', '课程'))
 async def course_schedule(session: CommandSession):
     sender = session.ctx.get('sender', {})
