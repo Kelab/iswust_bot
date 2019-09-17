@@ -93,7 +93,7 @@ async def process_accu_date(session: NLPSession):
             "wday": wday,
             "week": week,
         }
-        return IntentCommand(90.0, 'course_schedule', args=args)
+        return IntentCommand(90.0, 'cs', args=args)
     # 周数匹配
     text = StringPreHandler.numberTranslator(msg)
     week_re = re.search(r"第(\d+)周", text)
@@ -103,4 +103,5 @@ async def process_accu_date(session: NLPSession):
         args = {
             "week": week_re.group(1),
         }
-        return IntentCommand(90.0, 'course_schedule', args=args)
+        return IntentCommand(90.0, 'cs', args=args)
+    return IntentCommand(90.0, 'cs')
