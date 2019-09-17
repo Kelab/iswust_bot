@@ -64,7 +64,6 @@ async def course_schedule(session: CommandSession):
             await session.finish()
         elif resp['code'] == -1:
             await session.finish("未绑定！")
-
     await session.finish('查询出错')
 
 

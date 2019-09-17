@@ -15,10 +15,8 @@ __plugin_usage__ = r"""输入 更新课表或者uc
 async def _(session: CommandSession):
     _hitokoto = await hitokoto()
     if _hitokoto:
-        resp = f"{_hitokoto['from']}:\n{_hitokoto['hitokoto']}"
-        await session.finish(resp)
-        return
-
+        await session.send(f"送你一句话~")
+        await session.finish(_hitokoto['hitokoto'])
     await session.finish("那就祝你早安，午安，晚安吧")
 
 
@@ -31,8 +29,6 @@ async def _(session: NLPSession):
 async def hitokoto() -> Optional[dict]:
     # https://hitokoto.cn/api
     hitokoto_url = "https://international.v1.hitokoto.cn/"
-
     r: Response = await requests.get(hitokoto_url)
     res = await r.json()
-
     return res

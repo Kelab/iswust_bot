@@ -12,7 +12,6 @@ async def _(session: CommandSession):
         # 如果用户没有发送参数，则发送功能列表
         await session.send('我现在支持的功能有：\n' + '\n'.join(p.name for p in plugins))
         await session.finish('输入 "帮助+空格+功能名" 查看各功能帮助\n' + '如："帮助 绑定教务处"')
-        return
 
     found = False
 
@@ -20,8 +19,8 @@ async def _(session: CommandSession):
     for p in plugins:
         if p.name.lower() == arg:
             found = True
-            await session.send(p.usage)
+            await session.finish(p.usage)
             break
 
     if not found:
-        await session.send(f'暂时没有 {arg} 这个功能呢')
+        await session.finish(f'暂时没有 {arg} 这个功能呢')

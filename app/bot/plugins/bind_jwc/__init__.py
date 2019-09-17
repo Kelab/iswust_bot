@@ -30,5 +30,4 @@ async def bind(session: CommandSession):
         shorten_url_ = await dwz(url_)
         if shorten_url_:
             await session.finish(f'请点击链接绑定：{shorten_url_}')
-        else:
-            await session.finish(f'请点击链接绑定：{url_}')
+        await session.finish(f'请点击链接绑定：{url_}')
