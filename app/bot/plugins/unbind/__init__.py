@@ -9,9 +9,9 @@ from requests import Response
 __plugin_name__ = '取消绑定教务处'
 __plugin_usage__ = r"""取消绑定教务处
 使用方法：向我发送以下指令。
-    /unbind
-    /取消绑定
-    /取消绑定
+    unbind
+    取消绑定
+    解绑
     """
 
 

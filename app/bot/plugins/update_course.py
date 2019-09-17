@@ -22,6 +22,6 @@ async def uc(session: CommandSession):
                                          "update": '1'
                                      })
     if r:
-        await session.finish("更新成功！")
+        await session.finish(r.text)
         return
     await session.finish('更新出错')
