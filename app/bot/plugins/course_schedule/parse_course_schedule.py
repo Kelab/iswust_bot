@@ -3,7 +3,8 @@ import math
 from typing import Optional
 from collections import defaultdict
 from datetime import datetime
-from iswust.constants.config import INFO
+from app.bot.constants.config import INFO
+
 chinese_wday_dict = {
     "一": '1',
     "二": '2',

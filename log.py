@@ -1,5 +1,4 @@
 # 全局 Log
-from nonebot.log import logger
 import logging
 import sys
 
@@ -10,7 +9,5 @@ formatter = logging.Formatter(
     "[%(asctime)s %(name)s] %(levelname)s: [%(filename)s %(funcName)s] > %(message)s"
 )
 handler.setFormatter(formatter)
-# handler.setLevel(logging.DEBUG)
 
 IS_LOGGER.addHandler(handler)
-BOT_LOGGER = logger

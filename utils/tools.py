@@ -35,26 +35,20 @@ def bot_hash(message: str) -> str:
     return outer.hexdigest()
 
 
-async def tcn(url: str) -> Optional[str]:
+async def dwz(url: str) -> Optional[str]:
     if not isUrl.match(url):
         IS_LOGGER.error('请输入正常的 url')
         return None
 
-    # 接口： https://open.weibo.com/wiki/2/short_url/shorten
-    tcn_url = "http://api.t.sina.com.cn/short_url/shorten.json"
-    tcn_source = os.environ.get("T_CN_SOURCE")
+    dwz_url = "http://sa.sogou.com/gettiny?={}"
 
     data = {
-        "source": tcn_source,
-        "url_long": url,
+        "url": url,
     }
-    r: Response = await requests.get(tcn_url, params=data)
-    res = await r.json()
+    r: Response = await requests.get(dwz_url, params=data)
+    res = await r.text
 
-    if isinstance(res, list):
-        return res[0]['url_short']
-
-    return None
+    return res
 
 
 def check_args(**kwargs) -> Tuple[bool, Optional[List[str]]]:

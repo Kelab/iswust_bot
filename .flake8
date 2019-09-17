@@ -8,9 +8,9 @@ ignore =
     W503,W504,
     F403,
 per-file-ignores =
-    bot_config.py: F401
-    bot_config_base.py: F401
-    views/__init__.py: F401
+    config.py: F401
+    config_base.py: F401
+    app/api/__init__.py: F401
     utils/aio/requests.py: F401
 exclude =
-    iswust\plugins\course_schedule\test.py
+    app/bot/plugins/course_schedule/test.py

@@ -7,7 +7,7 @@ from nonebot import (CommandSession, IntentCommand, NLPSession, on_command,
 from requests import Response
 from time_converter import StringPreHandler, TimeNormalizer
 
-from iswust.constants.config import api_url
+from app.bot.constants.config import api_url
 from log import IS_LOGGER
 from utils.aio import requests
 from utils.tools import bot_hash
@@ -15,16 +15,38 @@ from utils.tools import bot_hash
 from .parse_course_schedule import (get_week, parse_course_by_date, parse_date,
                                     str_number_wday_dict, week_course)
 
-__plugin_name__ = '查询课表'
+__plugin_name__ = '查询/更新课表'
 __plugin_usage__ = r"""输入 查询课表/课表
 或者加上时间限定：
     - 今天课表
     - 明天有什么课
     - 九月十五号有什么课
+
+    - 更新课表
+
+查询课表短语：cs
+更新课表短语：uc
 """.strip()
 
 
-@on_command('course_schedule', aliases=('查询课表', '课表', '课程表', '课程'))
+@on_command('uc', aliases=('更新课表'))
+async def uc(session: CommandSession):
+    sender = session.ctx.get('sender', {})
+    sender_qq = sender.get('user_id')
+    await session.send(f'正在更新课表...')
+    r: Response = await requests.get(api_url + 'api/v1/course/getCourse',
+                                     params={
+                                         "qq": sender_qq,
+                                         "token": bot_hash(sender_qq),
+                                         "update": '1'
+                                     })
+    if r:
+        await session.finish("更新成功！")
+        return
+    await session.finish('更新出错')
+
+
+@on_command('cs', aliases=('查询课表', '课表', '课程表', '课程'))
 async def course_schedule(session: CommandSession):
     sender = session.ctx.get('sender', {})
     sender_qq = sender.get('user_id')
@@ -74,7 +96,6 @@ async def process_accu_date(session: NLPSession):
                                                      timeBase=arrow.now())
     IS_LOGGER.debug("响应课程时间意图分析:" + str(msg))
     IS_LOGGER.debug("课程时间意图分析结果:" + str(res))
-    await session.send(res)
     resp_type_: str = res.get('type')
     if resp_type_ == "timestamp":
         date = parse_date(res.get(resp_type_))

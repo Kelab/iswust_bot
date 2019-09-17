@@ -1,8 +1,8 @@
 from nonebot import on_command, CommandSession
-from utils.tools import bot_hash, tcn
-from iswust.constants.config import web_url
+from utils.tools import bot_hash, dwz
+from app.bot.constants.config import web_url
 from typing import Optional, Any
-
+from urllib.parse import urlencode
 __plugin_name__ = '绑定教务处'
 __plugin_usage__ = r"""对我发以下关键词开始绑定：
 绑定、绑定教务处、bind"""
@@ -19,11 +19,16 @@ async def bind(session: CommandSession):
 
     if sender_qq:
         token = bot_hash(sender_qq)
-
         # web 登录界面地址
-        url_ = f'{web_url}?qq={sender_qq}&nickname={nickname}&token={token}'
-        shorten_url_ = await tcn(url_)
+        query: str = urlencode({
+            'qq': sender_qq,
+            'nickname': nickname,
+            'token': token
+        })
+
+        url_ = f"{web_url}?{query}"
+        shorten_url_ = await dwz(url_)
         if shorten_url_:
-            await session.send(f'请点击链接绑定：{shorten_url_}')
+            await session.finish(f'请点击链接绑定：{shorten_url_}')
         else:
-            await session.send(f'请点击链接绑定：{url_}')
+            await session.finish(f'请点击链接绑定：{url_}')
