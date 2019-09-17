@@ -23,5 +23,5 @@ async def uc(session: CommandSession):
                                      })
     if r:
         r = await r.text
-        await session.finish(r.encode('utf-8').decode('unicode_escape'))
+        await session.finish(r.encode('utf-8').decode('utf-8'))
     await session.finish('更新出错')
