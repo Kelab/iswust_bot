@@ -12,7 +12,7 @@ def register_blueprint(app: Quart):
 
 def init() -> Quart:
     try:
-        import config
+        import bot_config as config
     except ImportError:
         print('There is no config file!', file=sys.stderr)
         exit(1)

@@ -1,8 +1,8 @@
-config.py
+bot_config.py
 alembic.ini
 
-test.py
-
+./test.py
+app/bot/plugins/course_schedule/test.py
 
 .vscode/
 .vscode/*
