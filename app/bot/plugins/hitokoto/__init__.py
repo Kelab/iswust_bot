@@ -6,8 +6,8 @@ from utils.aio import requests
 from requests import Response
 from nonebot import CommandSession, on_command
 
-__plugin_name__ = '更新课表'
-__plugin_usage__ = r"""输入 更新课表或者uc
+__plugin_name__ = '一言'
+__plugin_usage__ = r"""给你回复一句话
 """.strip()
 
 
@@ -16,7 +16,7 @@ async def _(session: CommandSession):
     _hitokoto = await hitokoto()
     if _hitokoto:
         await session.send(f"送你一句话~")
-        await session.finish(_hitokoto['hitokoto'])
+        await session.finish(_hitokoto['hitokoto'].strip())
     await session.finish("那就祝你早安，午安，晚安吧")
 
 
