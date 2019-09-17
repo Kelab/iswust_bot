@@ -23,5 +23,4 @@ def tcn(url: str) -> Optional[str]:
 
 def test_tcn1():
     shorten_url_ = tcn('https://www.baidu.com')
-    print(shorten_url_)
     assert shorten_url_ == 'https://url.cn/5NzSyLv'
