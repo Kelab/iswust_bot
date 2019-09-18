@@ -15,16 +15,15 @@ from utils.tools import bot_hash
 from .parse_course_schedule import (get_week, parse_course_by_date, parse_date,
                                     str_number_wday_dict, week_course)
 
-__plugin_name__ = '查询/更新课表'
-__plugin_usage__ = r"""输入 查询课表/课表
+__plugin_name__ = '查询课表'
+__plugin_usage__ = r"""输入 查询课课表
 或者加上时间限定：
     - 今天课表
     - 明天有什么课
     - 九月十五号有什么课
+查询课表短语：cs
 
     - 更新课表
-
-查询课表短语：cs
 更新课表短语：uc
 """.strip()
 

@@ -11,18 +11,6 @@ from log import IS_LOGGER
 
 isUrl = re.compile(r"^https?:\/\/")
 
-encrypt_key = ''
-
-_key: Optional[str] = os.environ.get("ENCRYPT_KEY")
-if isinstance(_key, str):
-    encrypt_key = int(_key)
-else:
-    IS_LOGGER.error('ENCRYPT_KEY is not found!')
-    raise ValueError("ENCRYPT_KEY is not found!")
-
-IS_LOGGER.info(f"encrypt_key is {encrypt_key}")
-tcn_source = os.environ.get("T_CN_SOURCE")
-
 
 def bot_hash(message: str) -> str:
     message = str(message)
@@ -38,7 +26,7 @@ def bot_hash(message: str) -> str:
 async def dwz(url: str) -> Optional[str]:
     if not isUrl.match(url):
         IS_LOGGER.error('请输入正常的 url')
-        return None
+        raise ValueError("请输入正常的 url")
 
     dwz_url = "http://sa.sogou.com/gettiny?={}"
 

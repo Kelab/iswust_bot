@@ -8,7 +8,7 @@ from requests import Response
 isUrl = re.compile(r"^https?:\/\/")
 
 
-def tcn(url: str) -> Optional[str]:
+def dwz(url: str) -> Optional[str]:
     if not isUrl.match(url):
         return None
     dwz_url = "http://sa.sogou.com/gettiny?={}"
@@ -21,6 +21,6 @@ def tcn(url: str) -> Optional[str]:
     return r.text
 
 
-def test_tcn1():
-    shorten_url_ = tcn('https://www.baidu.com')
+def test_dwz1():
+    shorten_url_ = dwz('https://www.baidu.com')
     assert shorten_url_ == 'https://url.cn/5NzSyLv'

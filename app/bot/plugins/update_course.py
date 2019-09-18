@@ -22,6 +22,9 @@ async def uc(session: CommandSession):
                                          "update": '1'
                                      })
     if r:
-        r = await r.text
-        await session.finish(r.encode('utf-8').decode('utf-8'))
+        r = await r.json()
+        if r['code'] == 200:
+            await session.finish(f"更新成功，请重新查询")
+        await session.finish(
+            f"更新出错，{r['msg'].encode('gb18030').decode(encoding='utf-8')}")
     await session.finish('更新出错')

@@ -13,6 +13,7 @@ __plugin_usage__ = r"""给你回复一句话
 
 @on_command('hitokoto', aliases=('一言'))
 async def _(session: CommandSession):
+    await session.send(f"我不知道该说些什么啦~")
     _hitokoto = await hitokoto()
     if _hitokoto:
         await session.send(f"送你一句话~")
@@ -22,8 +23,9 @@ async def _(session: CommandSession):
 
 @on_natural_language()
 async def _(session: NLPSession):
-    await session.send(f"我不知道该说些什么啦~")
-    return IntentCommand(90.0, 'hitokoto')
+    msg = session.ctx.get('raw_message')
+    if not ('课' in msg):
+        return IntentCommand(90.0, 'hitokoto')
 
 
 async def hitokoto() -> Optional[dict]:
