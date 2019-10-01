@@ -1,5 +1,3 @@
-from nonebot import (NLPSession, IntentCommand, on_natural_language)
-
 from typing import Optional
 
 from utils.aio import requests
