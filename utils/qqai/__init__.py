@@ -1,10 +1,11 @@
-import hashlib
 import base64
-from urllib import parse
-from utils.aio import requests
-
-import time
+import hashlib
 import json
+import time
+
+from urllib import parse
+
+from utils.aio import requests
 
 
 class QQAIClass:

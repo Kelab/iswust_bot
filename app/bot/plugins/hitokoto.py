@@ -21,13 +21,6 @@ async def _(session: CommandSession):
     await session.finish("那就祝你早安，午安，晚安吧")
 
 
-@on_natural_language()
-async def _(session: NLPSession):
-    msg = session.ctx.get('raw_message')
-    if not ('课' in msg):
-        return IntentCommand(90.0, 'hitokoto')
-
-
 async def hitokoto() -> Optional[dict]:
     # https://hitokoto.cn/api
     hitokoto_url = "https://international.v1.hitokoto.cn/"
