@@ -1,5 +1,6 @@
 import os
 import re
+import time
 import hashlib
 
 from typing import Optional, List, Tuple
@@ -50,5 +51,9 @@ def check_args(**kwargs) -> Tuple[bool, Optional[List[str]]]:
     return True, None
 
 
-async def post_msg(ctx):
+async def post_msg(ctx, msg: str):
+    ctx['time'] = int(time.time())
+    ctx['raw_message'] = msg
+    ctx['message'] = [{'type': 'text', 'data': {'text': msg}}],
+
     await requests.post('http://127.0.0.1:8080', ctx)

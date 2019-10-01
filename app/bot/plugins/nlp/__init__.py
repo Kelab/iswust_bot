@@ -20,14 +20,10 @@ async def _(context):
         if match:
             filename = match.group(1)
             text = await rec_silk(filename)
-            bot.send(context, text)
-            context['msg'] = text
-            context['raw_message'] = text
-            await post_msg(context)
+            await bot.send(context, text)
+            await post_msg(context, text)
             return
 
     if not ('课' in msg):
-        context['msg'] = 'hitokoto'
-        context['raw_message'] = 'hitokoto'
-        await post_msg(context)
+        await post_msg(context, 'hitokoto')
         return
