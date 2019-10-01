@@ -23,9 +23,11 @@ async def _(context):
             bot.send(context, text)
             context['msg'] = text
             context['raw_message'] = text
-            return post_msg(context)
+            await post_msg(context)
+            return
 
     if not ('课' in msg):
         context['msg'] = 'hitokoto'
         context['raw_message'] = 'hitokoto'
-        return post_msg(context)
+        await post_msg(context)
+        return
