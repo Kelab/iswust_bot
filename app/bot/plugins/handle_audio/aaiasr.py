@@ -4,7 +4,7 @@ from utils.qqai import AudioRecognitionEcho
 
 appid = os.environ.get("QQAI_APPID")
 appkey = os.environ.get("QQAI_APPKEY")
-if appid and appkey:
+if not appid or not appkey:
     print("未找到 appid appkey")
     exit(1)
 audio_rec = AudioRecognitionEcho(appid, appkey)
