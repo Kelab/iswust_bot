@@ -1,5 +1,5 @@
 import os
-import pathlib
+from pathlib import Path
 from utils.qqai import AudioRecognitionEcho
 
 appid = os.environ.get("QQAI_APPID")
@@ -7,13 +7,12 @@ appkey = os.environ.get("QQAI_APPKEY")
 if not appid or not appkey:
     print("未找到 appid appkey")
     exit(1)
+
 audio_rec = AudioRecognitionEcho(appid, appkey)
 
-SLIK = 4
-coolq_base_dir = pathlib.Path('/home/user/coolq/data/record')
 
-
-async def rec_silk(silk_fimename: str):
+async def rec_silk(silk_fimename: str,
+                   coolq_record_dir=Path('/home/artin/coolq/data/record')):
     """[语音识别]
     {
         "ret": 0,
@@ -27,8 +26,9 @@ async def rec_silk(silk_fimename: str):
     """
     if not silk_fimename.endswith('.silk'):
         return
+    SLIK = 4
+    path = coolq_record_dir / silk_fimename
 
-    path = coolq_base_dir / silk_fimename
     with path.open() as f:
         result: dict = await audio_rec.run(audio_format=SLIK, speech=f)
     print(result)

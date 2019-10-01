@@ -7,7 +7,7 @@ from .aaiasr import rec_silk
 record_re = re.compile(r'\[CQ:record,file=([A-Z0-9]{32}\.silk)\]')
 
 
-@on_natural_language()
+@on_natural_language('[CQ:record')
 async def _(session: NLPSession):
     msg: str = session.ctx.get('raw_message')
     if msg.startswith('[CQ:record,'):
