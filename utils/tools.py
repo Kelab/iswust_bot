@@ -48,3 +48,7 @@ def check_args(**kwargs) -> Tuple[bool, Optional[List[str]]]:
     if msg_list:
         return False, msg_list
     return True, None
+
+
+async def post_msg(ctx):
+    await requests.post('http://127.0.0.1:8080', ctx)
