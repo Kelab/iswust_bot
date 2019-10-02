@@ -1,18 +1,17 @@
 import regex as re
 
-from nonebot import IntentCommand, NLPSession, on_natural_language, get_bot
+from nonebot import IntentCommand, NLPSession, on_natural_language
+from nonebot import message_preprocessor
+from nonebot import NoneBot
 
 from utils.qqai.aaiasr import rec_silk
-from utils.tools import post_msg
-
-bot = get_bot()
 
 record_re = re.compile(r'\[CQ:record,file=([A-Z0-9]{32}\.silk)\]')
 
 
-@bot.on_message()
-async def _(context):
-    msg: str = context['raw_message']
+@message_preprocessor
+async def audio_preprocessor(bot: NoneBot, ctx: dict):
+    msg: str = ctx['raw_message']
 
     if msg.startswith('[CQ:record,'):
         # [CQ:record,file=8970935D1A480B008970935D1A480B00.silk]
@@ -20,10 +19,15 @@ async def _(context):
         if match:
             filename = match.group(1)
             text = await rec_silk(filename)
-            await bot.send(context, text)
-            await post_msg(context, text)
-            return
+            ctx['message'] = text
+            await bot.send(ctx, text)
+
+    ctx['preprocessed'] = True
+
+
+@on_natural_language()
+async def _(session: NLPSession):
+    msg: str = session.ctx['raw_message']
 
     if not ('课' in msg):
-        await post_msg(context, 'hitokoto')
-        return
+        return IntentCommand(90.0, 'hitokoto')
