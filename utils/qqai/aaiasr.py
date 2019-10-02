@@ -1,5 +1,4 @@
 import os
-import sys
 from pathlib import Path
 from utils.qqai import AudioRecognitionEcho
 
@@ -34,6 +33,6 @@ async def rec_silk(silk_fimename: str,
         result: dict = await audio_rec.run(audio_format=SLIK, speech=f)
     print(result)
     if int(result.get('ret')) == 0:
-        return result.get('data').get('text')
+        return True, result['data'].get('text')
     else:
-        return result.get('msg')
+        return False, result.get('msg')

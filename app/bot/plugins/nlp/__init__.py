@@ -2,7 +2,7 @@ import regex as re
 
 from nonebot import IntentCommand, NLPSession, on_natural_language
 from nonebot import message_preprocessor
-from nonebot import NoneBot
+from nonebot import NoneBot, Message
 
 from utils.qqai.aaiasr import rec_silk
 
@@ -16,12 +16,19 @@ async def audio_preprocessor(bot: NoneBot, ctx: dict):
     if msg.startswith('[CQ:record,'):
         # [CQ:record,file=8970935D1A480B008970935D1A480B00.silk]
         match = record_re.search(msg)
-        if match:
-            filename = match.group(1)
-            text = await rec_silk(filename)
-            ctx['message'] = text
-            await bot.send(ctx, text)
+        if not match:
+            return
 
+        filename = match.group(1)
+        result, text = await rec_silk(filename)
+        if result:
+            ctx['message'] = Message(text)
+            ctx['raw_message'] = text
+            await bot.send(ctx, f"语音识别结果：{text}")
+        else:
+            ctx['raw_message'] = ''
+            ctx['message'] = Message('')
+            await bot.send(ctx, f"语音识别失败，原因：{text}")
     ctx['preprocessed'] = True
 
 
