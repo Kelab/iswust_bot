@@ -1,4 +1,5 @@
 from nonebot import CommandSession, on_command
+from nonebot.command import call_command
 from requests import Response
 
 from app.bot.constants.config import api_url
@@ -21,9 +22,14 @@ async def uc(session: CommandSession):
                                          "update": '1'
                                      })
     if r:
-        r = await r.json()
-        if r['code'] == 200:
-            await session.finish(f"更新成功，请重新查询")
+        resp = await r.json()
+        if resp['code'] == 200:
+            await session.send(f"更新成功")
+
+            await call_command(session.bot,
+                               session.ctx,
+                               'cs',
+                               args={"course_schedule": resp})
         await session.finish(
-            f"更新出错，{r['msg'].encode('gb18030').decode(encoding='utf-8')}")
+            f"更新出错，{resp['msg'].encode('gb18030').decode(encoding='utf-8')}")
     await session.finish('更新出错')

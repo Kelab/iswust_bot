@@ -29,10 +29,6 @@ def get_week(target_time) -> int:
     return math.ceil(used_weeks)
 
 
-def parse_date(date_string):
-    return datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
-
-
 def tip(strs: str) -> str:
     after = strs.split('-')
     start = int(after[0])
@@ -92,6 +88,7 @@ def week_course(course_table, curr_week: Optional[int] = None):
 
 
 def parse_course_by_wday(course_list, day: str):
+    day = str(day)
     if len(course_list) == 0:
         return f'星期{str_number_wday_dict.get(day, day)}没有课'
     msg = f'星期{str_number_wday_dict.get(day, day)}的课程如下:\n'
