@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 sys.path.append(str(Path('.').resolve()))
-from utils.qqai.aaiasr import rec_silk
+from utils.qqai_async.aaiasr import rec_silk
 filename = "777D935D643B0300777D935D643B0300.silk"
 
 
