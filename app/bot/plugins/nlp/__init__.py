@@ -26,10 +26,10 @@ async def audio_preprocessor(bot: NoneBot, ctx: dict):
             ctx['raw_message'] = text
             await bot.send(ctx, f"语音识别结果：{text}")
         else:
+            ctx['message'] = Message([''])
             ctx['raw_message'] = ''
-            ctx['message'] = Message('')
             await bot.send(ctx, f"语音识别失败，原因：{text}")
-    ctx['preprocessed'] = True
+        ctx['preprocessed'] = True
 
 
 @on_natural_language()

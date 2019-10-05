@@ -1,6 +1,7 @@
 # 全局 Log
 import logging
 from logging import handlers
+from nonebot.log import logger
 import sys
 
 IS_LOGGER = logging.getLogger("iswust")
@@ -23,3 +24,10 @@ fh.setFormatter(formatter)
 
 IS_LOGGER.addHandler(handler)
 IS_LOGGER.addHandler(fh)
+
+fh1 = handlers.TimedRotatingFileHandler(filename="nonebot.log",
+                                        when='D',
+                                        backupCount=30,
+                                        encoding='utf-8')
+fh1.setFormatter(formatter)
+logger.addHandler(fh1)

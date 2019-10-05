@@ -12,8 +12,8 @@ from log import IS_LOGGER
 from utils.aio import requests
 from utils.tools import bot_hash
 
-from .parse_course_schedule import (get_week, parse_course_by_date, parse_date,
-                                    str_number_wday_dict, week_course)
+from .parse import (get_week, parse_course_by_date, parse_date,
+                    str_number_wday_dict, week_course)
 
 __plugin_name__ = '查询课表'
 __plugin_usage__ = r"""输入 查询课课表
@@ -45,18 +45,25 @@ async def course_schedule(session: CommandSession):
             data = resp['data']
             week = session.state.get('week')
             wday = session.state.get('wday')
-            if week and wday:
+            is_today = session.state.get('today')
+            if is_today:
+                IS_LOGGER.info("发送当天课表")
+                now = arrow.now('Asia/Shanghai')
+                week = get_week(now.timestamp)
+                wday = now.isoweekday()
+                course = parse_course_by_date(data, week, wday)
+                await session.finish(course)
+            elif week and wday:
                 IS_LOGGER.info("检测到时间意图：" + str(session.state))
                 course = parse_course_by_date(data, week, wday)
                 await session.finish(course)
-
             elif week:
                 IS_LOGGER.info("检测到时间意图：" + str(session.state))
                 course_dict: List[str] = week_course(data, int(week))
                 for i in course_dict:
                     await session.send(i)
-
             else:
+                # 所有课表
                 course_dict: List[str] = week_course(data)
                 for i in course_dict:
                     await session.send(i)

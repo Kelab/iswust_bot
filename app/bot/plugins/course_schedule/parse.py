@@ -19,6 +19,7 @@ str_number_wday_dict = {v: k for k, v in chinese_wday_dict.items()}
 
 def get_week(target_time) -> int:
     """
+    target_time: 时间戳
     :return: 返回当前周数
     """
     # 将格式字符串转换为时间戳
