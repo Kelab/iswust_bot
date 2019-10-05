@@ -17,8 +17,7 @@ __plugin_usage__ = r"""取消绑定教务处
 
 @on_command('unbind', aliases=('解绑', '取消绑定', '取消绑定教务处'))
 async def unbind(session: CommandSession):
-    sender: dict[str, Any] = session.ctx.get('sender', {})
-    sender_qq: Optional[str] = sender.get('user_id')
+    sender_qq: Optional[str] = session.ctx.get('user_id')
     if sender_qq:
         r: Response = await requests.get(api_url + 'api/v1/user/unbind',
                                          params={

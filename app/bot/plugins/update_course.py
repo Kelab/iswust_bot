@@ -12,8 +12,7 @@ __plugin_usage__ = r"""输入 更新课表或者uc
 
 @on_command('uc', aliases=('更新课表'))
 async def uc(session: CommandSession):
-    sender = session.ctx.get('sender', {})
-    sender_qq = sender.get('user_id')
+    sender_qq = session.ctx.get('user_id')
     await session.send(f'正在更新课表...')
     r: Response = await requests.get(api_url + 'api/v1/course/getCourse',
                                      params={

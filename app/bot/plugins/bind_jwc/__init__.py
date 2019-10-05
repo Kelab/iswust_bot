@@ -14,7 +14,6 @@ async def bind(session: CommandSession):
 
     sender: dict[str, Any] = session.ctx.get('sender', {})
     sender_qq: Optional[str] = sender.get('user_id')
-
     nickname: Optional[str] = sender.get('nickname')
 
     if sender_qq:

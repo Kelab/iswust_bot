@@ -32,8 +32,7 @@ tn = TimeNormalizer(isPreferFuture=False)
 
 @on_command('cs', aliases=('查询课表', '课表', '课程表', '课程'))
 async def course_schedule(session: CommandSession):
-    sender = session.ctx.get('sender', {})
-    sender_qq = sender.get('user_id')
+    sender_qq = session.ctx.get('user_id')
     r: Response = await requests.get(api_url + 'api/v1/course/getCourse',
                                      params={
                                          "qq": sender_qq,
@@ -41,7 +40,7 @@ async def course_schedule(session: CommandSession):
                                      })
     if r:
         resp = await r.json()
-        IS_LOGGER.debug(str(resp))
+        IS_LOGGER.debug("查询课表结果：" + str(resp))
         if resp['code'] == 200:
             data = resp['data']
             week = session.state.get('week')
