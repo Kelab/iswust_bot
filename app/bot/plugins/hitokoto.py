@@ -11,7 +11,6 @@ __plugin_usage__ = r"""给你回复一句话
 
 @on_command('hitokoto', aliases=('一言', ))
 async def _(session: CommandSession):
-    await session.send(f"我不知道该说些什么啦~")
     _hitokoto = await hitokoto()
     if _hitokoto:
         await session.send(f"送你一句话~")
