@@ -46,7 +46,7 @@ async def course_schedule(session: CommandSession):
         else:
             resp = {'code': 999}
 
-    IS_LOGGER.debug("查询课表结果：" + str(resp))
+    IS_LOGGER.debug(f"查询课表结果：{str(resp)}")
     if resp['code'] == 200:
         data = resp['data']
         week = session.state.get('week')
@@ -60,11 +60,11 @@ async def course_schedule(session: CommandSession):
             course = parse_course_by_date(data, week, wday)
             await session.finish(course)
         elif week and wday:
-            IS_LOGGER.info("检测到时间意图：" + str(session.state))
+            IS_LOGGER.info(f"检测到时间意图：{str(session.state)}")
             course = parse_course_by_date(data, week, wday)
             await session.finish(course)
         elif week:
-            IS_LOGGER.info("检测到时间意图：" + str(session.state))
+            IS_LOGGER.info(f"检测到时间意图：{str(session.state)}")
             course_dict: List[str] = week_course(data, int(week))
             for i in course_dict:
                 await session.send(i)
@@ -96,7 +96,7 @@ async def process_accu_date(session: NLPSession):
         return IntentCommand(90.0, 'cs', args=args)
 
     res = tn.parse(target=msg, timeBase=now)
-    IS_LOGGER.debug("课程时间意图分析结果:" + str(msg) + " -> " + str(res))
+    IS_LOGGER.debug(f"课程时间意图分析结果: {str(msg)} -> {str(res)}")
     resp_type_: str = res.get('type')
     if resp_type_ == "timestamp":
         date = arrow.get(res.get(resp_type_), 'YYYY-MM-DD HH:mm:ss')

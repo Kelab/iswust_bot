@@ -5,13 +5,13 @@ from requests import Response
 from app.bot.constants.config import api_url
 from utils.aio import requests
 from utils.tools import bot_hash
-
+from log import IS_LOGGER
 __plugin_name__ = '更新课表'
 __plugin_usage__ = r"""输入 更新课表或者uc
 """.strip()
 
 
-@on_command('uc', aliases=('更新课表'))
+@on_command('uc', aliases=('更新课表', ))
 async def uc(session: CommandSession):
     sender_qq = session.ctx.get('user_id')
     await session.send(f'正在更新课表...')
@@ -25,7 +25,7 @@ async def uc(session: CommandSession):
         resp = await r.json()
         if resp['code'] == 200:
             await session.send(f"更新成功")
-
+            IS_LOGGER.debug(f"更新课表结果：{str(resp)}")
             await call_command(session.bot,
                                session.ctx,
                                'cs',
