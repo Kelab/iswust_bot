@@ -14,7 +14,7 @@ bot = nb.get_bot()
 
 
 @api.route('/push/cs/today', methods=["GET", "POST"])
-async def push():
+async def push_cs_today():
     if request.method == 'GET':
         query: dict = request.args
     else:

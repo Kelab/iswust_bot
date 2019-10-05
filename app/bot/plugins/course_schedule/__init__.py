@@ -41,6 +41,7 @@ async def course_schedule(session: CommandSession):
                                      })
     if r:
         resp = await r.json()
+        IS_LOGGER.debug(str(resp))
         if resp['code'] == 200:
             data = resp['data']
             week = session.state.get('week')
