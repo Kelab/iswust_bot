@@ -1,7 +1,7 @@
 from . import api
 
 
-@api.route('/admin')
+@api.route("/admin")
 async def admin():
 
-    return 'This is the admin page.'
+    return "This is the admin page."

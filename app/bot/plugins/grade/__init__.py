@@ -6,9 +6,9 @@ from nonebot import on_command, CommandSession
 #     成绩"""
 
 
-@on_command('grade', aliases=('查询成绩', '成绩'))
+@on_command("grade", aliases=("查询成绩", "成绩"))
 async def grade(session: CommandSession):
-    await session.send('待实现')
+    await session.send("待实现")
 
 
 @grade.args_parser

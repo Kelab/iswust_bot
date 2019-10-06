@@ -10,7 +10,6 @@ def init(config_object: Any) -> nb.NoneBot:
     bot = nb.get_bot()
 
     nb.load_builtin_plugins()
-    nb.load_plugins(path.join(path.dirname(__file__), 'plugins'),
-                    'app.bot.plugins')
+    nb.load_plugins(path.join(path.dirname(__file__), "plugins"), "app.bot.plugins")
 
     return bot

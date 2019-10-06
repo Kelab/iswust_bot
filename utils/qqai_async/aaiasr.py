@@ -11,8 +11,9 @@ if not appid or not appkey:
 audio_rec = AudioRecognitionEcho(appid, appkey)
 
 
-async def rec_silk(silk_fimename: str,
-                   coolq_record_dir=Path('/home/artin/coolq/data/record')):
+async def rec_silk(
+    silk_fimename: str, coolq_record_dir=Path("/home/artin/coolq/data/record")
+):
     """[语音识别]
     {
         "ret": 0,
@@ -24,7 +25,7 @@ async def rec_silk(silk_fimename: str,
         }
     }
     """
-    if not silk_fimename.endswith('.silk'):
+    if not silk_fimename.endswith(".silk"):
         return
     SLIK = 4
     path: Path = coolq_record_dir / silk_fimename
@@ -32,7 +33,7 @@ async def rec_silk(silk_fimename: str,
     with path.open(mode="rb") as f:
         result: dict = await audio_rec.run(audio_format=SLIK, speech=f)
     print(result)
-    if int(result.get('ret')) == 0:
-        return True, result['data'].get('text')
+    if int(result.get("ret")) == 0:
+        return True, result["data"].get("text")
     else:
-        return False, result.get('msg')
+        return False, result.get("msg")

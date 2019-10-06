@@ -14,7 +14,7 @@ isUrl = re.compile(r"^https?:\/\/")
 
 def bot_hash(message: str) -> str:
     message = str(message)
-    key = os.environ.get("ENCRYPT_KEY") or 'qq_bot_is_so_niu_bi'
+    key = os.environ.get("ENCRYPT_KEY") or "qq_bot_is_so_niu_bi"
     key = key.encode()
     inner = hashlib.md5()
     inner.update(message.encode())
@@ -25,14 +25,12 @@ def bot_hash(message: str) -> str:
 
 async def dwz(url: str) -> Optional[str]:
     if not isUrl.match(url):
-        IS_LOGGER.error('请输入正常的 url')
+        IS_LOGGER.error("请输入正常的 url")
         raise ValueError("请输入正常的 url")
 
     dwz_url = "http://sa.sogou.com/gettiny?={}"
 
-    data = {
-        "url": url,
-    }
+    data = {"url": url}
     r: Response = await requests.get(dwz_url, params=data)
     res = await r.text
 

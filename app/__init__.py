@@ -8,6 +8,7 @@ from . import bot
 
 def register_blueprint(app: Quart):
     from .api import api as api_blueprint
+
     app.register_blueprint(api_blueprint)
 
 
@@ -15,7 +16,7 @@ def init() -> NoneBot:
     try:
         import bot_config as config
     except ImportError:
-        print('There is no config file!', file=sys.stderr)
+        print("There is no config file!", file=sys.stderr)
         exit(1)
 
     _bot = bot.init(config)
