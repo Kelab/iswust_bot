@@ -2,7 +2,6 @@ import time
 import math
 from typing import Optional
 from collections import defaultdict
-from datetime import datetime
 from app.bot.constants.config import INFO
 
 chinese_wday_dict = {

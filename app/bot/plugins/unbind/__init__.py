@@ -1,7 +1,7 @@
 from nonebot import on_command, CommandSession
 from utils.tools import bot_hash
 from app.bot.constants.config import api_url
-from typing import Optional, Any
+from typing import Optional
 
 from utils.aio import requests
 from requests import Response
