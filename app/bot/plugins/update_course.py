@@ -16,29 +16,28 @@ __plugin_usage__ = r"""输入 更新课表或者uc
 async def uc(session: CommandSession):
     sender_qq = session.ctx.get("user_id")
     await session.send(f"正在更新课表...")
-    try:
-        r: Response = await requests.get(
-            api_url + "api/v1/course/getCourse",
-            params={
-                "qq": sender_qq,
-                "token": bot_hash(sender_qq),
-                "update": "1"
-            },
-            timeout=10,
-        )
-        if r:
-            resp = await r.json()
-            if resp["code"] == 200:
-                IS_LOGGER.debug(f"更新课表结果：{str(resp)}")
-                await call_command(session.bot,
-                                   session.ctx,
-                                   "cs",
-                                   args={"course_schedule": resp})
-                await session.finish(f"更新成功")
-            await session.finish(
-                f"更新出错，{resp['msg'].encode('gb18030').decode(encoding='utf-8')}"
-            )
-    except Exception:
-        pass
+    r: Response = await requests.get(
+        api_url + "api/v1/course/getCourse",
+        params={
+            "qq": sender_qq,
+            "token": bot_hash(sender_qq),
+            "update": "1"
+        },
+        timeout=10,
+    )
+
+    if r:
+        resp = await r.json()
+        if resp["code"] == 200:
+            IS_LOGGER.debug(f"更新课表结果：{str(resp)}")
+            await call_command(session.bot,
+                               session.ctx,
+                               "cs",
+                               args={"course_schedule": resp})
+            await session.finish(f"更新成功")
+            return
+        await session.finish(
+            f"更新出错，{resp['msg'].encode('gb18030').decode(encoding='utf-8')}")
+        return
 
     await session.finish("更新出错")

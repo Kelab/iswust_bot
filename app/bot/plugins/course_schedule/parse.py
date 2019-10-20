@@ -13,7 +13,7 @@ chinese_wday_dict = {
     "六": "6",
     "日": "7",
 }
-str_number_wday_dict = {v: k for k, v in chinese_wday_dict.items()}
+str_int_wday_dict = {v: k for k, v in chinese_wday_dict.items()}
 
 
 def get_week(target_time) -> int:
@@ -56,9 +56,8 @@ def tip(strs: str) -> str:
 
 
 def week_course(course_table, curr_week: Optional[int] = None):
-    body = course_table["body"]
-    result = body["result"]
-    curr_week = curr_week or body["week"]
+    result = course_table["result"]
+    curr_week = curr_week or course_table["week"]
     # 课程字典 key: 星期几 value: 那一天的课
     wday_course_dict = defaultdict(list)
 
@@ -76,7 +75,8 @@ def week_course(course_table, curr_week: Optional[int] = None):
                 # class_time [1@2-2, 3@3-2]
                 wday_course_dict[str(_time[0])].append(_course)
 
-    sorted_wday_course_dict = sorted(wday_course_dict.items(), key=lambda e: int(e[0]))
+    sorted_wday_course_dict = sorted(wday_course_dict.items(),
+                                     key=lambda e: int(e[0]))
 
     r_course_list = []
     for wday, course_list in sorted_wday_course_dict:
@@ -88,8 +88,8 @@ def week_course(course_table, curr_week: Optional[int] = None):
 def parse_course_by_wday(course_list, day: str):
     day = str(day)
     if len(course_list) == 0:
-        return f"星期{str_number_wday_dict.get(day, day)}没有课"
-    msg = f"星期{str_number_wday_dict.get(day, day)}的课程如下:\n"
+        return f"星期{str_int_wday_dict.get(day, day)}没有课"
+    msg = f"星期{str_int_wday_dict.get(day, day)}的课程如下:\n"
 
     course_list.sort(key=lambda e: e["class_time"][0])
     for course in course_list:
@@ -104,8 +104,7 @@ def parse_course_by_wday(course_list, day: str):
 
 
 def parse_course_by_date(course_table, curr_week: int, day: str):
-    body = course_table["body"]
-    result = body["result"]
+    result = course_table["result"]
     # 课程字典 key: 星期几 value: 那一天的课
     wday_course_dict = defaultdict(list)
 
