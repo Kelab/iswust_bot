@@ -67,11 +67,11 @@ async def course_schedule(session: CommandSession):
             week = get_week(now.timestamp)
             wday = str(now.isoweekday())
             course = parse_course_by_date(body, week, wday)
-            await session.finish(course)
+            await session.send(course)
         elif week and wday:
             IS_LOGGER.info(f"检测到时间意图：{str(session.state)}")
             course = parse_course_by_date(body, week, wday)
-            await session.finish(course)
+            await session.send(course)
         elif week:
             IS_LOGGER.info(f"检测到时间意图：{str(session.state)}")
             course_dict: List[str] = week_course(body, int(week))
