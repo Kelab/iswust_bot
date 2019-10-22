@@ -85,10 +85,14 @@ async def course_schedule(session: CommandSession):
 
         if body['errMsg']:
             await session.finish(f"错误信息：{body['errMsg']}")
+
+        if body['updateTime']:
+            await session.finish(f"课表抓取时间：{body['updateTime']}")
         return
 
     elif resp["code"] == -1:
         await session.finish("未绑定！")
+        return
     await session.finish("查询出错")
 
 
