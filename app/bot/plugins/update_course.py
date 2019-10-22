@@ -7,7 +7,7 @@ from utils.aio import requests
 from utils.tools import bot_hash
 from log import IS_LOGGER
 
-__plugin_name__ = "更新课表"
+__plugin_name__ = "更新课表(简写uc)"
 __plugin_usage__ = r"""输入 更新课表或者uc
 """.strip()
 

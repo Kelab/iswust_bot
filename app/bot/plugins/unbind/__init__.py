@@ -6,7 +6,7 @@ from typing import Optional
 from utils.aio import requests
 from requests import Response
 
-__plugin_name__ = "取消绑定教务处"
+__plugin_name__ = "取消绑定教务处(简写unbind)"
 __plugin_usage__ = r"""取消绑定教务处
 使用方法：向我发送以下指令。
     unbind
@@ -21,7 +21,10 @@ async def unbind(session: CommandSession):
     if sender_qq:
         r: Response = await requests.get(
             api_url + "api/v1/user/unbind",
-            params={"qq": sender_qq, "token": bot_hash(sender_qq)},
+            params={
+                "qq": sender_qq,
+                "token": bot_hash(sender_qq)
+            },
         )
 
         if r:

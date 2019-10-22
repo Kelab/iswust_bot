@@ -4,7 +4,7 @@ from app.bot.constants.config import web_url
 from typing import Optional, Any
 from urllib.parse import urlencode
 
-__plugin_name__ = "绑定教务处"
+__plugin_name__ = "绑定教务处(缩写bind)"
 __plugin_usage__ = r"""对我发以下关键词开始绑定：
 绑定、绑定教务处、bind"""
 
@@ -20,7 +20,11 @@ async def bind(session: CommandSession):
     if sender_qq:
         token = bot_hash(sender_qq)
         # web 登录界面地址
-        query: str = urlencode({"qq": sender_qq, "nickname": nickname, "token": token})
+        query: str = urlencode({
+            "qq": sender_qq,
+            "nickname": nickname,
+            "token": token
+        })
 
         url_ = f"{web_url}?{query}"
         shorten_url_ = await dwz(url_)

@@ -19,7 +19,7 @@ from utils.tools import bot_hash
 
 from .parse import get_week, parse_course_by_date, str_int_wday_dict, week_course
 
-__plugin_name__ = "查询课表"
+__plugin_name__ = "查询课表(缩写cs)"
 __plugin_usage__ = r"""输入 查询课课表
 或者加上时间限定：
     - 今天课表
