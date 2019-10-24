@@ -1,8 +1,9 @@
-import time
 import math
-from typing import Optional
+import time
 from collections import defaultdict
-from app.bot.constants.config import INFO
+from typing import Optional
+
+from app.constants.config import INFO
 
 chinese_wday_dict = {
     "一": "1",

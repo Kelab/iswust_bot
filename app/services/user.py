@@ -1,5 +1,5 @@
 from . import BaseService
-from utils.aio.requests import AsyncResponse
+from app.aio.requests import AsyncResponse
 
 
 class UserService(BaseService):

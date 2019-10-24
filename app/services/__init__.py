@@ -1,8 +1,7 @@
-from utils.aio import requests
-from utils.aio.requests import AsyncResponse
-
-from utils.tools import bot_hash
-from app.bot.constants.config import api_url
+from app.constants.config import api_url
+from app.aio import requests
+from app.aio.requests import AsyncResponse
+from app.utils.tools import bot_hash
 
 
 class BaseService:

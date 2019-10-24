@@ -4,7 +4,7 @@ from nonebot import IntentCommand, NLPSession, on_natural_language
 from nonebot import message_preprocessor
 from nonebot import NoneBot, Message
 
-from utils.qqai_async.aaiasr import rec_silk
+from app.utils.qqai_async.aaiasr import rec_silk
 
 record_re = re.compile(r"\[CQ:record,file=([A-Z0-9]{32}\.silk)\]")
 

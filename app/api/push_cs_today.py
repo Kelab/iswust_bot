@@ -8,7 +8,7 @@ from nonebot.command import call_command
 
 from . import api
 from log import IS_LOGGER
-from utils.tools import bot_hash, check_args
+from app.utils.tools import bot_hash, check_args
 
 bot = nb.get_bot()
 
@@ -31,7 +31,8 @@ async def push_cs_today():
     if result:
         encrypt_qq = bot_hash(qq_)
 
-        IS_LOGGER.info(f"推送今日课表：qq: {qq_} token: {token_} encrypt_qq: {encrypt_qq}")
+        IS_LOGGER.info(
+            f"推送今日课表：qq: {qq_} token: {token_} encrypt_qq: {encrypt_qq}")
         if token_ == encrypt_qq:
             try:
                 ctx = {"user_id": qq_}

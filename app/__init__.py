@@ -1,9 +1,20 @@
 import sys
+from os import path
+from typing import Any
 
-from quart import Quart
+import nonebot as nb
 from nonebot import NoneBot
+from quart import Quart
 
-from . import bot
+
+def init_bot(config_object: Any) -> nb.NoneBot:
+    nb.init(config_object)
+    bot = nb.get_bot()
+
+    nb.load_builtin_plugins()
+    nb.load_plugins(path.join(path.dirname(__file__), "bot"), "app.bot")
+
+    return bot
 
 
 def register_blueprint(app: Quart):
@@ -19,7 +30,7 @@ def init() -> NoneBot:
         print("There is no config file!", file=sys.stderr)
         exit(1)
 
-    _bot = bot.init(config)
+    _bot = init_bot(config)
     app = _bot.asgi
     register_blueprint(app)
     return _bot

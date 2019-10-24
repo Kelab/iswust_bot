@@ -1,9 +1,10 @@
 from nonebot import CommandSession, on_command
-from services.course import CourseService
+from app.services.course import CourseService
 from log import IS_LOGGER
-# __plugin_name__ = "托管课表生成的日历(命令：托管日历)"
-# __plugin_usage__ = r"""输入 托管日历
-# """.strip()
+__plugin_name__ = "托管课表生成的日历(命令：托管日历)"
+__plugin_usage__ = r"""输入 托管日历
+然后我会给你一个日历的在线地址，日历每天更新
+""".strip()
 
 
 @on_command("deposit_ics", aliases=("托管日历", ))

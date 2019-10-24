@@ -4,8 +4,7 @@ import hashlib
 
 from typing import Optional, List, Tuple
 
-from utils.aio import requests
-from requests import Response
+from app.utils.aio import requests
 
 from log import IS_LOGGER
 
@@ -31,7 +30,7 @@ async def dwz(url: str) -> Optional[str]:
     dwz_url = "http://sa.sogou.com/gettiny?={}"
 
     data = {"url": url}
-    r: Response = await requests.get(dwz_url, params=data)
+    r: requests.AsyncResponse = await requests.get(dwz_url, params=data)
     res = await r.text
 
     return res

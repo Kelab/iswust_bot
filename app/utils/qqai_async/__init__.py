@@ -5,13 +5,14 @@ import time
 
 from urllib import parse
 
-from utils.aio import requests
+from app.utils.aio import requests
 
 
 class QQAIClass:
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
     mediaHeaders = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36"
+        "User-Agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36"
     }
 
     def __init__(self, app_id, app_key):
@@ -24,9 +25,8 @@ class QQAIClass:
         :param media_param 媒体URL或者媒体BufferedReader对象
         """
         if type(media_param) == str:
-            media_data = await requests.get(
-                media_param, headers=self.mediaHeaders
-            ).content
+            media_data = await requests.get(media_param,
+                                            headers=self.mediaHeaders).content
         elif hasattr(media_param, "read"):
             media_data = media_param.read()
         else:
@@ -40,7 +40,8 @@ class QQAIClass:
         """
         uri_str = ""
         for key in sorted(params.keys()):
-            uri_str += "{}={}&".format(key, parse.quote_plus(str(params[key]), safe=""))
+            uri_str += "{}={}&".format(
+                key, parse.quote_plus(str(params[key]), safe=""))
         sign_str = uri_str + "app_key=" + self.app_key
 
         hash_str = hashlib.md5(sign_str.encode("utf-8"))
@@ -50,8 +51,9 @@ class QQAIClass:
         if api is None:
             api = self.api
         return await requests.post(
-            api, data=parse.urlencode(params).encode("utf-8"), headers=self.headers
-        )
+            api,
+            data=parse.urlencode(params).encode("utf-8"),
+            headers=self.headers)
 
 
 class AudioRecognitionEcho(QQAIClass):

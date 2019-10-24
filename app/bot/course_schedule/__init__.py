@@ -6,9 +6,9 @@ from nonebot import (CommandSession, IntentCommand, NLPSession, on_command,
                      on_natural_language)
 from time_converter import StringPreHandler, TimeNormalizer
 
+from app.services.course import CourseService
+from app.aio.requests import AsyncResponse
 from log import IS_LOGGER
-from services.course import CourseService
-from utils.aio.requests import AsyncResponse
 
 from .parse import (get_week, parse_course_by_date, str_int_wday_dict,
                     week_course)

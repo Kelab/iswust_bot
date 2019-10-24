@@ -1,7 +1,10 @@
-from nonebot import on_command, CommandSession
 from typing import Optional
-from services.user import UserService
-from utils.aio.requests import AsyncResponse
+
+from nonebot import CommandSession, on_command
+
+from app.services.user import UserService
+from app.aio.requests import AsyncResponse
+
 __plugin_name__ = "取消绑定教务处(命令：unbind)"
 __plugin_usage__ = r"""取消绑定教务处
 使用方法：向我发送以下指令。

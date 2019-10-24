@@ -1,15 +1,16 @@
 from typing import Optional
 
-from utils.aio import requests
-from requests import Response
 from nonebot import CommandSession, on_command
+from requests import Response
+
+from app.utils.aio import requests
 
 __plugin_name__ = "一言"
 __plugin_usage__ = r"""给你回复一句话
 """.strip()
 
 
-@on_command("hitokoto", aliases=("一言",))
+@on_command("hitokoto", aliases=("一言", ))
 async def _(session: CommandSession):
     _hitokoto = await hitokoto()
     if _hitokoto:

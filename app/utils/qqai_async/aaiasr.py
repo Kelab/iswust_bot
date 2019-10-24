@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from utils.qqai_async import AudioRecognitionEcho
+from app.utils.qqai_async import AudioRecognitionEcho
 
 appid = os.environ.get("QQAI_APPID")
 appkey = os.environ.get("QQAI_APPKEY")

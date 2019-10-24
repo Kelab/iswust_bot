@@ -1,9 +1,8 @@
 from nonebot import CommandSession, on_command
 from nonebot.command import call_command
 
-from app.bot.constants.config import api_url
-from utils.aio.requests import AsyncResponse
-from services.course import CourseService
+from app.aio.requests import AsyncResponse
+from app.services.course import CourseService
 from log import IS_LOGGER
 
 __plugin_name__ = "更新课表(命令：uc)"
