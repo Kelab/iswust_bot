@@ -1,23 +1,17 @@
-import arrow
-import regex as re
 from typing import List
 
-from nonebot import (
-    CommandSession,
-    IntentCommand,
-    NLPSession,
-    on_command,
-    on_natural_language,
-)
-from requests import Response
+import arrow
+import regex as re
+from nonebot import (CommandSession, IntentCommand, NLPSession, on_command,
+                     on_natural_language)
 from time_converter import StringPreHandler, TimeNormalizer
 
-from app.bot.constants.config import api_url
 from log import IS_LOGGER
-from utils.aio import requests
-from utils.tools import bot_hash
+from services.course import CourseService
+from utils.aio.requests import AsyncResponse
 
-from .parse import get_week, parse_course_by_date, str_int_wday_dict, week_course
+from .parse import (get_week, parse_course_by_date, str_int_wday_dict,
+                    week_course)
 
 __plugin_name__ = "查询课表(命令：cs)"
 __plugin_usage__ = r"""输入 查询课课表
@@ -42,13 +36,7 @@ async def course_schedule(session: CommandSession):
     if session.state.get("course_schedule"):
         resp = session.state.get("course_schedule")
     else:
-        r: Response = await requests.get(
-            api_url + "api/v1/course/getCourse",
-            params={
-                "qq": sender_qq,
-                "token": bot_hash(sender_qq)
-            },
-        )
+        r: AsyncResponse = await CourseService.get_course(sender_qq)
         if r:
             resp = await r.json()
         else:
@@ -117,7 +105,7 @@ async def process_accu_date(session: NLPSession):
         wday = str(date.isoweekday())
         week = get_week(date.timestamp)
         await session.send(
-            f"{res.get(tn_type)[:10]}，第{week}周，星期{str_int_wday_dict.get(wday,wday)}"
+            f"{res.get(tn_type)[:10]}，第{week}周，星期{str_int_wday_dict.get(wday, wday)}"
         )
         IS_LOGGER.info(f"第{str(week)}周，星期{str_int_wday_dict.get(wday,wday)}")
         args = {"wday": wday, "week": week}

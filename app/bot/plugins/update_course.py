@@ -1,10 +1,9 @@
 from nonebot import CommandSession, on_command
 from nonebot.command import call_command
-from requests import Response
 
 from app.bot.constants.config import api_url
-from utils.aio import requests
-from utils.tools import bot_hash
+from utils.aio.requests import AsyncResponse
+from services.course import CourseService
 from log import IS_LOGGER
 
 __plugin_name__ = "更新课表(命令：uc)"
@@ -16,13 +15,9 @@ __plugin_usage__ = r"""输入 更新课表或者uc
 async def uc(session: CommandSession):
     sender_qq = session.ctx.get("user_id")
     await session.send(f"正在更新课表...")
-    r: Response = await requests.get(
-        api_url + "api/v1/course/getCourse",
-        params={
-            "qq": sender_qq,
-            "token": bot_hash(sender_qq),
-            "update": "1"
-        },
+    r: AsyncResponse = await CourseService.get_course(
+        sender_qq,
+        params={"update": "1"},
         timeout=10,
     )
 
