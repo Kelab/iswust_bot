@@ -4,7 +4,7 @@ from app.bot.constants.config import web_url
 from typing import Optional, Any
 from urllib.parse import urlencode
 
-__plugin_name__ = "绑定教务处(缩写bind)"
+__plugin_name__ = "绑定教务处(命令：bind)"
 __plugin_usage__ = r"""对我发以下关键词开始绑定：
 绑定、绑定教务处、bind"""
 
