@@ -3,7 +3,7 @@ from typing import Optional
 from nonebot import CommandSession, on_command
 from requests import Response
 
-from app.utils.aio import requests
+from app.aio import requests
 
 __plugin_name__ = "一言"
 __plugin_usage__ = r"""给你回复一句话

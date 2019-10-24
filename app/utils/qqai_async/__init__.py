@@ -5,7 +5,7 @@ import time
 
 from urllib import parse
 
-from app.utils.aio import requests
+from app.aio import requests
 
 
 class QQAIClass:

@@ -4,7 +4,7 @@ import hashlib
 
 from typing import Optional, List, Tuple
 
-from app.utils.aio import requests
+from app.aio import requests
 
 from log import IS_LOGGER
 
