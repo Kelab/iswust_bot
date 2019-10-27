@@ -1,39 +1,30 @@
-import os
-from pathlib import Path
-from app.utils.qqai_async import AudioRecognitionEcho
+import json
+import time
 
-appid = os.environ.get("QQAI_APPID")
-appkey = os.environ.get("QQAI_APPKEY")
-if not appid or not appkey:
-    print("未找到 appid appkey")
-    exit(1)
-
-audio_rec = AudioRecognitionEcho(appid, appkey)
+from . import QQAIClass
 
 
-async def rec_silk(
-    silk_fimename: str, coolq_record_dir=Path("/home/artin/coolq/data/record")
-):
-    """[语音识别]
-    {
-        "ret": 0,
-        "msg": "ok",
-        "data": {
-            "format": 2,
-            "rate": 16000,
-            "text": "今天天气怎么样"
+class AudioRecognitionEcho(QQAIClass):
+    """语音识别-echo版"""
+
+    api = "https://api.ai.qq.com/fcgi-bin/aai/aai_asr"
+
+    async def make_params(self, audio_format: int, speech, rate=None):
+        """获取调用接口的参数"""
+        params = {
+            "app_id": self.app_id,
+            "time_stamp": int(time.time()),
+            "nonce_str": int(time.time()),
+            "format": audio_format,
+            "speech": await self.get_base64(speech),
+            "rate": rate or 16000,
         }
-    }
-    """
-    if not silk_fimename.endswith(".silk"):
-        return
-    SLIK = 4
-    path: Path = coolq_record_dir / silk_fimename
 
-    with path.open(mode="rb") as f:
-        result: dict = await audio_rec.run(audio_format=SLIK, speech=f)
-    print(result)
-    if int(result.get("ret")) == 0:
-        return True, result["data"].get("text")
-    else:
-        return False, result.get("msg")
+        params["sign"] = self.get_sign(params)
+        return params
+
+    async def run(self, audio_format, speech, rate=None):
+        params = await self.make_params(audio_format, speech, rate)
+        response = await self.call_api(params)
+        result = json.loads(await response.text)
+        return result

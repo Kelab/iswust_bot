@@ -22,7 +22,7 @@ class BaseService:
             "qq": qq,
             "token": bot_hash(qq),
         })
-        r: AsyncResponse = await requests.get(cls.url + method,
+        r: AsyncResponse = await requests.get(cls.url() + method,
                                               params=params,
                                               **kwargs)
         return r
