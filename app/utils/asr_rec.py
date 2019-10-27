@@ -5,15 +5,19 @@ from .qqai_async.aaiasr import AudioRecognitionEcho
 
 appid = os.environ.get("QQAI_APPID")
 appkey = os.environ.get("QQAI_APPKEY")
+coolq_dir = os.environ.get("COOLQ_DIR")
 if not appid or not appkey:
-    print("未找到 QQAI appid appkey")
+    print("未设置 QQAI_APPID 和 QQAI_APPKEY！")
+    exit(1)
+if not coolq_dir:
+    print("未设置 COOLQ_DIR！")
     exit(1)
 
 audio_rec = AudioRecognitionEcho(appid, appkey)
+record_dir = Path(coolq_dir) / Path("data/record")
 
 
-async def echo(silk_fimename: str,
-               coolq_record_dir=Path("~/coolq/data/record").expanduser()):
+async def echo(silk_fimename: str, coolq_record_dir=record_dir):
     """[echo 语音识别]
     {
         "ret": 0,

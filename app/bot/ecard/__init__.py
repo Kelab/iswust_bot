@@ -4,12 +4,12 @@ from nonebot import CommandSession, on_command
 
 @on_command("饭卡余额", aliases=("余额", "一卡通余额"))
 async def _(session: CommandSession):
-    session.finish("待实现")
+    session.finish("还不想实现")
 
 
 @on_command("饭卡消费", aliases=("消费", "消费记录"))
 async def _(session: CommandSession):
-    session.finish("待实现")
+    session.finish("还不想实现")
 
 
 @on_natural_language(["饭卡", "一卡通", "ecard"])

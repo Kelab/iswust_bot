@@ -14,6 +14,7 @@ async def audio_preprocessor(bot: NoneBot, ctx: dict):
     raw_message: str = ctx["raw_message"]
 
     if raw_message.startswith("[CQ:record,"):
+        await bot.send(ctx, f"正在识别语音：{raw_message}")
         # [CQ:record,file=8970935D1A480B008970935D1A480B00.silk]
         match = record_re.search(raw_message)
         if not match:

@@ -9,7 +9,8 @@ __plugin_usage__ = r"""输入 托管日历
 
 @on_command("deposit_ics", aliases=("托管日历", ))
 async def uc(session: CommandSession):
-    session.finish("待实现")
+    session.finish("还不想实现")
+
     sender_qq = session.ctx.get("user_id")
     IS_LOGGER.info(f"{sender_qq} 请求托管日历。")
     r = await CourseService.deposit_ics(sender_qq)
