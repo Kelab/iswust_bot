@@ -3,7 +3,7 @@ alembic.ini
 
 test.py
 app/bot/plugins/course_schedule/test.py
-
+logs
 .vscode/
 .vscode/*
 .vscode/**
