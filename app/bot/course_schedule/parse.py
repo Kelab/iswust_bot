@@ -4,6 +4,7 @@ from collections import defaultdict
 from typing import Optional
 
 from app.constants.config import INFO
+import arrow
 
 chinese_wday_dict = {
     "一": "1",
@@ -20,7 +21,7 @@ str_int_wday_dict = {v: k for k, v in chinese_wday_dict.items()}
 def get_week(target_time) -> int:
     """
     target_time: 时间戳
-    :return: 返回当前周数
+    :return: 返回当前时间戳的周数
     """
     # 将格式字符串转换为时间戳
     start_time = int(time.mktime(INFO.semester_start_day))
@@ -56,15 +57,17 @@ def tip(strs: str) -> str:
     return f"第{start}讲，持续{last}节"
 
 
-def week_course(course_table, curr_week: Optional[int] = None):
+def week_course(course_table, weekday: Optional[int] = None):
     result = course_table["result"]
-    curr_week = curr_week or course_table["week"]
+    now = arrow.now("Asia/Shanghai")
+
+    weekday = weekday or get_week(now.timestamp)
     # 课程字典 key: 星期几 value: 那一天的课
     wday_course_dict = defaultdict(list)
 
     for x in result:
         # 当周
-        if curr_week >= int(x["qsz"]) and curr_week <= int(x["zzz"]):
+        if weekday >= int(x["qsz"]) and weekday <= int(x["zzz"]):
             for _time, _location in zip(x["class_time"], x["location"]):
 
                 _course = {
@@ -104,14 +107,14 @@ def parse_course_by_wday(course_list, day: str):
     return msg.strip()
 
 
-def parse_course_by_date(course_table, curr_week: int, day: str):
+def parse_course_by_date(course_table, weekday: int, day: str):
     result = course_table["result"]
     # 课程字典 key: 星期几 value: 那一天的课
     wday_course_dict = defaultdict(list)
 
     for x in result:
         # 当周
-        if curr_week >= int(x["qsz"]) and curr_week <= int(x["zzz"]):
+        if weekday >= int(x["qsz"]) and weekday <= int(x["zzz"]):
             for _time, _location in zip(x["class_time"], x["location"]):
 
                 _course = {
