@@ -7,5 +7,5 @@ class UserService(BaseService):
 
     @classmethod
     async def unbind(cls, qq) -> AsyncResponse:
-        r: AsyncResponse = await cls.get("/unbind", qq)
+        r: AsyncResponse = await cls._get("/unbind", qq)
         return r

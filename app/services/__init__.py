@@ -13,15 +13,19 @@ class BaseService:
         return cls._base_url_prefix + cls._api_name
 
     @classmethod
-    async def _get(cls, method: str, qq: str, **kwargs) -> AsyncResponse:
+    async def _get(cls,
+                   method: str,
+                   qq: str,
+                   params: dict = {},
+                   **kwargs: dict) -> AsyncResponse:
         if not method.startswith('/'):
             raise SyntaxError("method 参数有误")
 
-        params: dict = kwargs.get("params", dict())
         params.update({
             "qq": qq,
             "token": bot_hash(qq),
         })
+
         r: AsyncResponse = await requests.get(cls.url() + method,
                                               params=params,
                                               **kwargs)
