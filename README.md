@@ -2,7 +2,7 @@
 接收用户指令后执行相应教务处查询动作。
 
 > nonebot 参考手册：  
-> https://none.rclab.tk/
+> https://nonebot.cqp.moe
 
 ## 安装
 先安装

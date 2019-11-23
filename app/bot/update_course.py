@@ -1,5 +1,6 @@
 from nonebot import CommandSession, on_command
 from nonebot.command import call_command
+from requests.exceptions import ReadTimeout
 
 from app.aio.requests import AsyncResponse
 from app.services.course import CourseService
@@ -14,11 +15,14 @@ __plugin_usage__ = r"""输入 更新课表或者uc
 async def uc(session: CommandSession):
     sender_qq = session.ctx.get("user_id")
     await session.send(f"正在更新课表...")
-    r: AsyncResponse = await CourseService.get_course(
-        sender_qq,
-        params={"update": "1"},
-        timeout=10,
-    )
+    try:
+        r: AsyncResponse = await CourseService.get_course(
+            sender_qq,
+            params={"update": "1"},
+            timeout=30,
+        )
+    except ReadTimeout:
+        await session.send(f"课表正在更新中，请稍候直接查询。")
 
     if r:
         resp = await r.json()
