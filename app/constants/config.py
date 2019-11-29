@@ -4,13 +4,14 @@ from typing import Optional
 
 api_url: Optional[str] = os.environ.get("API_URL")
 web_url: Optional[str] = os.environ.get("WEB_URL")
+api_version: str = "/api/v1"
 
 if not (api_url and web_url):
     print("API_URL and WEB_URL not fount in environ!")
     exit(0)
 
 if api_url:
-    api_url = api_url.rstrip('/')
+    api_url = api_url.rstrip('/') + api_version
 
 if web_url:
     web_url = web_url.rstrip('/')

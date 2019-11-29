@@ -3,11 +3,11 @@ from app.aio.requests import AsyncResponse
 
 
 class CourseService(BaseService):
-    _api_name = "/course"
+    api_name = "/course"
 
     @classmethod
     async def deposit_ics(cls, qq: str) -> AsyncResponse:
-        r: AsyncResponse = await cls._get("/depositIcs", qq)
+        r: AsyncResponse = await cls.get("/depositIcs", qq)
         return r
 
     @classmethod
@@ -20,5 +20,5 @@ class CourseService(BaseService):
         :return: 返回的 AsyncResponse 对象
         :rtype: AsyncResponse
         """
-        r: AsyncResponse = await cls._get("/getCourse", qq, params, **kwargs)
+        r: AsyncResponse = await cls.get("/getCourse", qq, params, **kwargs)
         return r

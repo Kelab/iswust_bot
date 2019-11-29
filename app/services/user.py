@@ -3,9 +3,9 @@ from app.aio.requests import AsyncResponse
 
 
 class UserService(BaseService):
-    _api_name = "/user"
+    api_name = "/user"
 
     @classmethod
     async def unbind(cls, qq) -> AsyncResponse:
-        r: AsyncResponse = await cls._get("/unbind", qq)
+        r: AsyncResponse = await cls.get("/unbind", qq)
         return r

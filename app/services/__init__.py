@@ -5,19 +5,17 @@ from app.utils.tools import bot_hash
 
 
 class BaseService:
-    _base_url_prefix = api_url + '/api/v1'
+    base_url = api_url
+    api_name = ''
 
     @classmethod
     def url(cls):
-        # /api/v1 + /user
-        return cls._base_url_prefix + cls._api_name
+        # http://xxxx/api/v1 + /user
+        return cls.base_url + cls.api_name
 
     @classmethod
-    async def _get(cls,
-                   method: str,
-                   qq: str,
-                   params: dict = {},
-                   **kwargs: dict) -> AsyncResponse:
+    async def get(cls, method: str, qq: str, params: dict = {},
+                  **kwargs: dict) -> AsyncResponse:
         if not method.startswith('/'):
             raise SyntaxError("method 参数有误")
 
