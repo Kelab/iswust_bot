@@ -21,7 +21,6 @@ pip install -r requirements.txt
 ```
 ENCRYPT_KEY=xxxx # 加密的key
 T_CN_SOURCE=xxxx # 请求新浪短网址的 key
-AN_HAO=xxxx # 处理加好友请求的验证消息
 API_URL=xxx # 后端 API 地址
 WEB_URL=xxx # WEB 页面地址
 QQAI_APPID=xxx # 语音识别调用时候会用到
