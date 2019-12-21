@@ -3,7 +3,6 @@
 from typing import Optional, Any
 
 import requests
-from requests import *
 
 from . import run_sync_func
 
