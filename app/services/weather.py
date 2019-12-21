@@ -8,8 +8,7 @@ class Weather:
                   **kwargs: dict) -> str:
 
         # url = f"http://wttr.in/{city_name}?format=j1&m"
-        url = f"http://wttr.in/{city_name}?format=%m%l:+%c%C+%F0%9F%8C%A1%EF%B8%8F%t+%F0%9F%92%A7%h"
-
+        url = f"http://wttr.in/{city_name}?format=%m+%l:+%c+%C+🌡️+%t+💧+%h+&m"
 
         headers = {
             "Accept-Language": "zh-CN",
@@ -23,6 +22,7 @@ class Weather:
         response = await r.text
         if not response:
             return "无法获取天气API，请稍后再试！"
+        print('response: ', response)
         return response
         # current_condition_list: Optional[List[dict]] = response['current_condition']
         # if not current_condition_list:
