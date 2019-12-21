@@ -1,5 +1,6 @@
 from app.aio import requests
 from app.aio.requests import AsyncResponse
+from log import IS_LOGGER
 from typing import Optional,List
 
 class Weather:
@@ -22,7 +23,8 @@ class Weather:
         response = await r.text
         if not response:
             return "无法获取天气API，请稍后再试！"
-        print('response: ', response)
+        response = response.strip()
+        IS_LOGGER.info(response)
         return response
         # current_condition_list: Optional[List[dict]] = response['current_condition']
         # if not current_condition_list:
