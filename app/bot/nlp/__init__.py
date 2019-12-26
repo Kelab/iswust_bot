@@ -33,10 +33,3 @@ async def audio_preprocessor(bot: NoneBot, ctx: dict):
         ctx["preprocessed"] = True
 
 
-@on_natural_language()
-async def _(session: NLPSession):
-    msg: str = session.ctx["raw_message"]
-
-    if not ("课" in msg):
-        await session.send(f"我不知道该说些什么啦~")
-        return IntentCommand(90.0, "hitokoto")

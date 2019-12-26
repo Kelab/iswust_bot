@@ -15,4 +15,5 @@ async def _(session: CommandSession):
     if not arg:
         arg = "绵阳"
     msg = await Weather.get(arg)
+    await session.send("详细信息可见：" + f"http://wttr.in/{arg}?&m")
     await session.finish(msg)
