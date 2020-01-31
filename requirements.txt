@@ -8,3 +8,4 @@ requests
 beautifulsoup4
 lxml
 python-dotenv
+git+git://github.com/BuddingLab/auth_swust.git
