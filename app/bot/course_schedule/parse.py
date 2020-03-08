@@ -79,8 +79,7 @@ def week_course(course_table, weekday: Optional[int] = None):
                 # class_time [1@2-2, 3@3-2]
                 wday_course_dict[str(_time[0])].append(_course)
 
-    sorted_wday_course_dict = sorted(wday_course_dict.items(),
-                                     key=lambda e: int(e[0]))
+    sorted_wday_course_dict = sorted(wday_course_dict.items(), key=lambda e: int(e[0]))
 
     r_course_list = []
     for wday, course_list in sorted_wday_course_dict:

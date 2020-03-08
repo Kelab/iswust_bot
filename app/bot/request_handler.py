@@ -9,6 +9,6 @@ async def _(session: RequestSession):
     await session.send("在输入框内输入 帮助 二字，点击发送按钮，然后按我的回复进行下一步的操作。")
 
 
-@on_request('group.invite')
+@on_request("group.invite")
 async def group(session: RequestSession):
     await session.approve()

@@ -1,5 +1,9 @@
 # NoneBot 版教务处机器人
 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+---
+
 接收用户指令后执行相应教务处查询动作。
 
 > nonebot 参考手册：  

@@ -22,11 +22,7 @@ async def bind(session: CommandSession):
     if sender_qq:
         token = bot_hash(sender_qq)
         # web 登录界面地址
-        query: str = urlencode({
-            "qq": sender_qq,
-            "nickname": nickname,
-            "token": token
-        })
+        query: str = urlencode({"qq": sender_qq, "nickname": nickname, "token": token})
 
         url_ = f"{web_url}?{query}"
         shorten_url_ = await dwz(url_)
