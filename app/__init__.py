@@ -6,6 +6,9 @@ import nonebot as nb
 from nonebot import NoneBot
 from quart import Quart
 
+from .libs.gino import init_db
+from .libs.cache import init_cache
+
 
 def init_bot(config_object: Any) -> nb.NoneBot:
     nb.init(config_object)
@@ -31,6 +34,8 @@ def init() -> NoneBot:
         exit(1)
 
     _bot = init_bot(config)
+    _bot.server_app.before_serving(init_db)
+    _bot.server_app.before_serving(init_cache)
     app = _bot.asgi
     register_blueprint(app)
     return _bot

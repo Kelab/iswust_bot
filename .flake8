@@ -11,4 +11,3 @@ per-file-ignores =
     bot_config.py: F401
     bot_config_base.py: F401
     app/api/__init__.py: F401
-    app/aio/requests.py: F401
