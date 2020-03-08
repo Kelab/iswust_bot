@@ -6,14 +6,13 @@ from typing import Optional
 from nonebot import CQHttpError
 
 from . import api
-from log import IS_LOGGER
+from loguru import logger
 from app.utils.tools import bot_hash, check_args
-
-bot = nb.get_bot()
 
 
 @api.route("/push", methods=["GET", "POST"])
 async def push():
+    bot = nb.get_bot()
     if request.method == "GET":
         query: dict = request.args
         qq_: Optional[str] = query.get("qq")
@@ -34,8 +33,7 @@ async def push():
     if result:
         encrypt_qq = bot_hash(qq_)
 
-        IS_LOGGER.info(
-            f"qq: {qq_} msg: {msg_} token: {token_} encrypt_qq: {encrypt_qq}")
+        logger.info(f"qq: {qq_} msg: {msg_} token: {token_} encrypt_qq: {encrypt_qq}")
         if token_ == encrypt_qq:
             try:
                 await bot.send_private_msg(user_id=qq_, message=msg_)
@@ -48,5 +46,5 @@ async def push():
             return jsonify(code=rcode_, msg=rmsg_)
         else:
             rmsg_ = "验证信息错误"
-    IS_LOGGER.info(f"rcode_: {rcode_} rmsg_: {rmsg_}")
+    logger.info(f"rcode_: {rcode_} rmsg_: {rmsg_}")
     return jsonify(code=rcode_, msg=rmsg_)

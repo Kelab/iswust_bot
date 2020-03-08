@@ -1,12 +1,10 @@
 from app.constants.config import api_url
-from app.aio import requests
-from app.aio.requests import AsyncResponse
 from app.utils.tools import bot_hash
 
 
 class BaseService:
     base_url = api_url
-    api_name = ''
+    api_name = ""
 
     @classmethod
     def url(cls):
@@ -14,17 +12,7 @@ class BaseService:
         return cls.base_url + cls.api_name
 
     @classmethod
-    async def get(cls, method: str, qq: str, params: dict = {},
-                  **kwargs: dict) -> AsyncResponse:
-        if not method.startswith('/'):
+    async def get(cls, method: str, qq: str, params: dict = {}, **kwargs: dict):
+        raise NotImplementedError()
+        if not method.startswith("/"):
             raise SyntaxError("method 参数有误")
-
-        params.update({
-            "qq": qq,
-            "token": bot_hash(qq),
-        })
-
-        r: AsyncResponse = await requests.get(cls.url() + method,
-                                              params=params,
-                                              **kwargs)
-        return r

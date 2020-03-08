@@ -1,20 +1,20 @@
 import json
-import nonebot as nb
-
-from quart import jsonify, request
 from typing import Optional
+
+import nonebot as nb
+from loguru import logger
 from nonebot import CQHttpError
 from nonebot.command import call_command
+from quart import jsonify, request
 
-from . import api
-from log import IS_LOGGER
 from app.utils.tools import bot_hash, check_args
 
-bot = nb.get_bot()
+from . import api
 
 
 @api.route("/push/cs/today", methods=["GET", "POST"])
 async def push_cs_today():
+    bot = nb.get_bot()
     if request.method == "GET":
         query: dict = request.args
     else:
@@ -31,8 +31,7 @@ async def push_cs_today():
     if result:
         encrypt_qq = bot_hash(qq_)
 
-        IS_LOGGER.info(
-            f"推送今日课表：qq: {qq_} token: {token_} encrypt_qq: {encrypt_qq}")
+        logger.info(f"推送今日课表：qq: {qq_} token: {token_} encrypt_qq: {encrypt_qq}")
         if token_ == encrypt_qq:
             try:
                 ctx = {"user_id": qq_}
@@ -46,5 +45,5 @@ async def push_cs_today():
             return jsonify(code=rcode_, msg=rmsg_)
         else:
             rmsg_ = "验证信息错误"
-    IS_LOGGER.info(f"rcode_: {rcode_} rmsg_: {rmsg_}")
+    logger.info(f"rcode_: {rcode_} rmsg_: {rmsg_}")
     return jsonify(code=rcode_, msg=rmsg_)
