@@ -11,10 +11,10 @@ if not (api_url and web_url):
     exit(0)
 
 if api_url:
-    api_url = api_url.rstrip('/') + api_version
+    api_url = api_url.rstrip("/") + api_version
 
 if web_url:
-    web_url = web_url.rstrip('/')
+    web_url = web_url.rstrip("/")
 
 
 class INFO:

@@ -4,17 +4,21 @@ import hashlib
 
 from typing import Optional, List, Tuple
 
-from app.aio import requests
+from app.exceptions import EnvironmentValueNotFound
 
-from log import IS_LOGGER
+import httpx
+from loguru import logger
+
 
 isUrl = re.compile(r"^https?:\/\/")
 
 
 def bot_hash(message: str) -> str:
     message = str(message)
-    key = os.environ.get("ENCRYPT_KEY") or "qq_bot_is_so_niu_bi"
-    key = key.encode()
+    try:
+        key = os.environ.get("ENCRYPT_KEY").encode()
+    except Exception:
+        raise EnvironmentValueNotFound("ENCRYPT_KEY")
     inner = hashlib.md5()
     inner.update(message.encode())
     outer = hashlib.md5()
@@ -24,14 +28,15 @@ def bot_hash(message: str) -> str:
 
 async def dwz(url: str) -> Optional[str]:
     if not isUrl.match(url):
-        IS_LOGGER.error("请输入正常的 url")
+        logger.error("请输入正常的 url")
         raise ValueError("请输入正常的 url")
 
     dwz_url = "http://sa.sogou.com/gettiny?={}"
 
     data = {"url": url}
-    r: requests.AsyncResponse = await requests.get(dwz_url, params=data)
-    res = await r.text
+    async with httpx.AsyncClient() as client:
+        r: httpx.Response = await client.get(dwz_url, params=data)
+        res = await r.text
 
     return res
 
