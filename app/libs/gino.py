@@ -23,7 +23,11 @@ async def init_db():
     logger.debug("Initializing database")
     bot = get_bot()
     if getattr(bot.config, "DATABASE_URL", None):
-        await db.set_bind(bot.config.DATABASE_URL)
-        logger.info("Database connected")
+        try:
+            await db.set_bind(bot.config.DATABASE_URL)
+            logger.info("Database connected")
+        except Exception:
+            logger.error("Database connection error!")
+            exit(1)
     else:
         logger.warning("DATABASE_URL is missing, database may not work")

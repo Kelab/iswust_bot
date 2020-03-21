@@ -1,4 +1,6 @@
 from . import BaseService
+from loguru import logger
+from app.models.course import Course
 
 
 class CourseService(BaseService):
@@ -15,8 +17,7 @@ class CourseService(BaseService):
 
         :param qq: 需要获取课表的 qq 号
         :type qq: str
-        :return: 返回的 AsyncResponse 对象
-        :rtype: AsyncResponse
         """
-        r = await cls.get("/getCourse", qq, params, **kwargs)
-        return r
+        logger.info(f"qq {qq} 正在请求课表!")
+        course = await Course.get_course_schedule(qq)
+        return True

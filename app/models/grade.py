@@ -1,7 +1,8 @@
-from . import db
+from app.libs.gino import db
+from .base import Base
 
 
-class Grade(db.Model):
+class Grade(Base, db.Model):
     __tablename__ = "grade"
 
     gid = db.Column(db.Integer, primary_key=True, autoincrement=True)
