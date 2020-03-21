@@ -15,14 +15,14 @@ async def uc(session: CommandSession):
     sender_qq = session.ctx.get("user_id")
     await session.send(f"正在更新课表...")
     try:
-        r: AsyncResponse = await CourseService.get_course(
+        r = await CourseService.get_course(
             sender_qq, params={"update": "1"}, timeout=30,
         )
-    except ReadTimeout:
+    except Exception:
         await session.send(f"课表正在更新中，请稍候直接查询。")
 
     if r:
-        resp = await r.json()
+        resp = r.json()
         if resp["code"] == 200:
             logger.debug(f"更新课表结果：{str(resp)}")
             await call_command(

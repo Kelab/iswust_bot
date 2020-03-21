@@ -42,7 +42,7 @@ async def course_schedule(session: CommandSession):
     else:
         r = await CourseService.get_course(sender_qq)
         if r:
-            resp = await r.json()
+            resp = r.json()
         else:
             await session.finish("查询出错")
             return

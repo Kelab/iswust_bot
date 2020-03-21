@@ -22,5 +22,5 @@ async def hitokoto() -> Optional[dict]:
     hitokoto_url = "https://international.v1.hitokoto.cn/"
     async with httpx.AsyncClient() as client:
         r: httpx.Response = await client.get(hitokoto_url)
-        res = await r.json()
+        res = r.json()
     return res

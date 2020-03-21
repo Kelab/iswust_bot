@@ -19,5 +19,5 @@ async def unbind(session: CommandSession):
     if sender_qq:
         r = await UserService.unbind(sender_qq)
         if r:
-            resp = await r.json()
+            resp = r.json()
             session.finish(resp["msg"])

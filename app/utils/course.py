@@ -24,8 +24,6 @@ async def getCourse_util(func):
         if bot_hash(qq) != token:
             abort(403)
 
-        logger.info(f"qq {qq} 正在请求课表!")
-
         u = User.query.filter_by(bind_qq=qq).first()
         if u is None:
             return falseRet(msg="no such user!")

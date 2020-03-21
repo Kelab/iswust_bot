@@ -16,7 +16,7 @@ async def uc(session: CommandSession):
     logger.info(f"{sender_qq} 请求托管日历。")
     r = await CourseService.deposit_ics(sender_qq)
     if r:
-        resp = await r.json()
+        resp = r.json()
         if resp["code"] == 200:
             await session.send(f"托管日历成功！")
             await session.send(f"日历地址我稍后会发送给你。")
