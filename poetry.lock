@@ -65,7 +65,7 @@ description = "A database migration tool for SQLAlchemy."
 name = "alembic"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-version = "1.4.1"
+version = "1.4.2"
 
 [package.dependencies]
 Mako = "*"
@@ -189,7 +189,7 @@ description = "模拟登录西南科技大学一站式网上服务大厅，带�
 name = "auth-swust"
 optional = false
 python-versions = "*"
-version = "1.3.2"
+version = "1.4.0"
 
 [package.dependencies]
 Pillow = "*"
@@ -304,8 +304,8 @@ category = "main"
 description = "Composable command line interface toolkit"
 name = "click"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-version = "7.0"
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+version = "7.1.1"
 
 [package.source]
 reference = "tsinghua"
@@ -417,7 +417,7 @@ description = "Chromium HSTS Preload list as a Python package and updated daily"
 name = "hstspreload"
 optional = false
 python-versions = ">=3.6"
-version = "2020.3.4"
+version = "2020.3.17"
 
 [package.source]
 reference = "tsinghua"
@@ -636,7 +636,7 @@ description = "An asynchronous QQ bot framework based on CoolQ."
 name = "nonebot"
 optional = false
 python-versions = ">=3.7"
-version = "1.4.2"
+version = "1.5.0"
 
 [package.dependencies]
 aiocache = ">=0.10,<1.0"
@@ -770,7 +770,7 @@ description = "pytest: simple powerful testing with Python"
 name = "pytest"
 optional = false
 python-versions = ">=3.5"
-version = "5.3.5"
+version = "5.4.1"
 
 [package.dependencies]
 atomicwrites = ">=1.0"
@@ -972,7 +972,7 @@ description = "Database Abstraction Library"
 name = "sqlalchemy"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-version = "1.3.13"
+version = "1.3.15"
 
 [package.extras]
 mssql = ["pyodbc"]
@@ -1118,7 +1118,7 @@ reference = "tsinghua"
 url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 
 [metadata]
-content-hash = "495e3bf447f0deca07d2662e4c00c32db7fa37eed00e5d5b84d6bc7278c2b7a6"
+content-hash = "029cb68135031572ce464457cbedceeb04bc3c925004ce13e3b9eb62a589466b"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -1138,7 +1138,7 @@ aiofiles = [
     {file = "aiofiles-0.4.0.tar.gz", hash = "sha256:021ea0ba314a86027c166ecc4b4c07f2d40fc0f4b3a950d1868a0f2571c2bbee"},
 ]
 alembic = [
-    {file = "alembic-1.4.1.tar.gz", hash = "sha256:791a5686953c4b366d3228c5377196db2f534475bb38d26f70eb69668efd9028"},
+    {file = "alembic-1.4.2.tar.gz", hash = "sha256:035ab00497217628bf5d0be82d664d8713ab13d37b630084da8e1f98facf4dbf"},
 ]
 appdirs = [
     {file = "appdirs-1.4.3-py2.py3-none-any.whl", hash = "sha256:d8b24664561d0d34ddfaec54636d502d7cea6e29c3eaf68f3df6180863e2166e"},
@@ -1184,8 +1184,8 @@ attrs = [
     {file = "attrs-19.3.0.tar.gz", hash = "sha256:f7b7ce16570fe9965acd6d30101a28f62fb4a7f9e926b3bbc9b61f8b04247e72"},
 ]
 auth-swust = [
-    {file = "auth_swust-1.3.2-py3-none-any.whl", hash = "sha256:e8ac96ec94e88c945914b9e5165a33a06d5467c68947bd21e596a64eae374e4b"},
-    {file = "auth_swust-1.3.2.tar.gz", hash = "sha256:8b32ea3ce9f6bdd7bd4d8ace7fefc560e91a060f4ff284d799106d048d208fc9"},
+    {file = "auth_swust-1.4.0-py3-none-any.whl", hash = "sha256:9867d128135153840d80f5939f2ffd79fa67ddc4c9fb50a9f46ab51df7fd3fc1"},
+    {file = "auth_swust-1.4.0.tar.gz", hash = "sha256:a9d9d1198195c3cb1b698044ef05e241001ed0abd01eec97e5948d4ec252453c"},
 ]
 beautifulsoup4 = [
     {file = "beautifulsoup4-4.8.2-py2-none-any.whl", hash = "sha256:e1505eeed31b0f4ce2dbb3bc8eb256c04cc2b3b72af7d551a4ab6efd5cbe5dae"},
@@ -1212,8 +1212,8 @@ chinesetimenlp = [
     {file = "ChineseTimeNLP-1.1.5.tar.gz", hash = "sha256:6a4431ac6c22a17e838e95e0062edc42e8ede9f244a38631324706f57b017f20"},
 ]
 click = [
-    {file = "Click-7.0-py2.py3-none-any.whl", hash = "sha256:2335065e6395b9e67ca716de5f7526736bfa6ceead690adf616d925bdc622b13"},
-    {file = "Click-7.0.tar.gz", hash = "sha256:5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7"},
+    {file = "click-7.1.1-py2.py3-none-any.whl", hash = "sha256:e345d143d80bf5ee7534056164e5e112ea5e22716bbb1ce727941f4c8b471b9a"},
+    {file = "click-7.1.1.tar.gz", hash = "sha256:8a18b4ea89d8820c5d0c7da8a64b2c324b4dabb695804dbfea19b9be9d88c0cc"},
 ]
 colorama = [
     {file = "colorama-0.4.3-py2.py3-none-any.whl", hash = "sha256:7d73d2a99753107a36ac6b455ee49046802e59d9d076ef8e47b61499fa29afff"},
@@ -1244,7 +1244,7 @@ hpack = [
     {file = "hpack-3.0.0.tar.gz", hash = "sha256:8eec9c1f4bfae3408a3f30500261f7e6a65912dc138526ea054f9ad98892e9d2"},
 ]
 hstspreload = [
-    {file = "hstspreload-2020.3.4.tar.gz", hash = "sha256:5f120aa14869019e547166d5d3efa7f40dc5569bf830b130e5ba8bdef5bc9d5a"},
+    {file = "hstspreload-2020.3.17.tar.gz", hash = "sha256:a67ac08615ec05ff0b8c25668072a9c311aa1317c16f4612ccb69611276c2371"},
 ]
 httpx = [
     {file = "httpx-0.11.1-py2.py3-none-any.whl", hash = "sha256:1d3893d3e4244c569764a6bae5c5a9fbbc4a6ec3825450b5696602af7a275576"},
@@ -1371,7 +1371,7 @@ msgpack = [
     {file = "msgpack-1.0.0.tar.gz", hash = "sha256:9534d5cc480d4aff720233411a1f765be90885750b07df772380b34c10ecb5c0"},
 ]
 nonebot = [
-    {file = "nonebot-1.4.2.tar.gz", hash = "sha256:f13c54e1e3fd86696881c3cc7cdf3fc609c1c7ee55fa885b8b2b71dc1b9428c1"},
+    {file = "nonebot-1.5.0.tar.gz", hash = "sha256:6cf47501f465727ecb262497ae432f7ac375415ed0dd6032eb5de0bcafdb3e6f"},
 ]
 packaging = [
     {file = "packaging-20.3-py2.py3-none-any.whl", hash = "sha256:82f77b9bee21c1bafbf35a84905d604d5d1223801d639cf3ed140bd651c08752"},
@@ -1430,8 +1430,8 @@ pyparsing = [
     {file = "pyparsing-2.4.6.tar.gz", hash = "sha256:4c830582a84fb022400b85429791bc551f1f4871c33f23e44f353119e92f969f"},
 ]
 pytest = [
-    {file = "pytest-5.3.5-py3-none-any.whl", hash = "sha256:ff615c761e25eb25df19edddc0b970302d2a9091fbce0e7213298d85fb61fef6"},
-    {file = "pytest-5.3.5.tar.gz", hash = "sha256:0d5fe9189a148acc3c3eb2ac8e1ac0742cb7618c084f3d228baaec0c254b318d"},
+    {file = "pytest-5.4.1-py3-none-any.whl", hash = "sha256:0e5b30f5cb04e887b91b1ee519fa3d89049595f428c1db76e73bd7f17b09b172"},
+    {file = "pytest-5.4.1.tar.gz", hash = "sha256:84dde37075b8805f3d1f392cc47e38a0e59518fb46a431cfdaf7cf1ce805f970"},
 ]
 python-dateutil = [
     {file = "python-dateutil-2.8.1.tar.gz", hash = "sha256:73ebfe9dbf22e832286dafa60473e4cd239f8592f699aa5adaf10050e6e1823c"},
@@ -1515,7 +1515,7 @@ soupsieve = [
     {file = "soupsieve-2.0.tar.gz", hash = "sha256:e914534802d7ffd233242b785229d5ba0766a7f487385e3f714446a07bf540ae"},
 ]
 sqlalchemy = [
-    {file = "SQLAlchemy-1.3.13.tar.gz", hash = "sha256:64a7b71846db6423807e96820993fa12a03b89127d278290ca25c0b11ed7b4fb"},
+    {file = "SQLAlchemy-1.3.15.tar.gz", hash = "sha256:c4cca4aed606297afbe90d4306b49ad3a4cd36feb3f87e4bfd655c57fd9ef445"},
 ]
 toml = [
     {file = "toml-0.10.0-py2.py3-none-any.whl", hash = "sha256:235682dd292d5899d361a811df37e04a8828a5b1da3115886b73cf81ebc9100e"},

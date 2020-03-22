@@ -15,7 +15,7 @@ __plugin_usage__ = r"""对我发以下关键词开始绑定：
 async def bind(session: CommandSession):
     await session.send(f"开始请求绑定~ 请等待")
 
-    sender: dict[str, Any] = session.ctx.get("sender", {})
+    sender: dict[str, Any] = session.event.get("sender", {})
     sender_qq: Optional[str] = sender.get("user_id")
     nickname: Optional[str] = sender.get("nickname")
 

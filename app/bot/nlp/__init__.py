@@ -1,10 +1,15 @@
+import aiocqhttp
 import regex as re
+from nonebot import (
+    get_bot,
+    message_preprocessor,
+    MessageSegment,
+    NoneBot,
+)
 
-from nonebot import IntentCommand, NLPSession, on_natural_language
-from nonebot import message_preprocessor
-from nonebot import NoneBot, MessageSegment
+from app.libs.qqai_async.aaiasr import echo
 
-from app.libs.qqai_async.asr_rec import echo
+_bot = get_bot()
 
 record_re = re.compile(r"^\[CQ:record,file=([A-Z0-9]{32}\.(silk|amr))\]$")
 
@@ -31,3 +36,8 @@ async def audio_preprocessor(bot: NoneBot, ctx: dict):
             ctx["raw_message"] = ""
             await bot.send(ctx, f"语音识别失败，原因：{rec_text}")
         ctx["preprocessed"] = True
+
+
+@_bot.on_message()
+async def _(event: aiocqhttp.Event):
+    print(event.raw_message)

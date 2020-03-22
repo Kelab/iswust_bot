@@ -12,7 +12,7 @@ __plugin_usage__ = r"""输入 托管日历
 async def uc(session: CommandSession):
     session.finish("还不想实现")
 
-    sender_qq = session.ctx.get("user_id")
+    sender_qq = session.event.get("user_id")
     logger.info(f"{sender_qq} 请求托管日历。")
     r = await CourseService.deposit_ics(sender_qq)
     if r:

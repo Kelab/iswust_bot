@@ -14,7 +14,7 @@ async def _(session: CommandSession):
 
 @on_natural_language(["饭卡", "一卡通", "ecard"])
 async def _(session: NLPSession):
-    msg: str = session.ctx["raw_message"]
+    msg: str = session.event["raw_message"]
 
     if "消费" in msg:
         return IntentCommand(90.0, "饭卡消费")

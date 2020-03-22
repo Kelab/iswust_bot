@@ -12,7 +12,7 @@ __plugin_usage__ = r"""输入 更新课表或者uc
 
 @on_command("uc", aliases=("更新课表",))
 async def uc(session: CommandSession):
-    sender_qq = session.ctx.get("user_id")
+    sender_qq = session.event.get("user_id")
     await session.send(f"正在更新课表...")
     try:
         r = await CourseService.get_course(
@@ -26,7 +26,7 @@ async def uc(session: CommandSession):
         if resp["code"] == 200:
             logger.debug(f"更新课表结果：{str(resp)}")
             await call_command(
-                session.bot, session.ctx, "cs", args={"course_schedule": resp}
+                session.bot, session.event, "cs", args={"course_schedule": resp}
             )
             await session.finish(f"更新成功")
             return

@@ -5,7 +5,7 @@ from nonebot import on_notice, NoticeSession
 
 @on_notice
 async def _(session: NoticeSession):
-    logger.info("有新的通知事件：%s", session.ctx)
+    logger.info("有新的通知事件：%s", session.event)
 
 
 @on_notice("group_increase")

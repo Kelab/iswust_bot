@@ -34,7 +34,7 @@ tn = TimeNormalizer()
 
 @on_command("cs", aliases=("查询课表", "课表", "课程表", "课程"))
 async def course_schedule(session: CommandSession):
-    sender_qq = session.ctx.get("user_id")
+    sender_qq = session.event.get("user_id")
 
     # 从更新课表中传过来的值
     if session.state.get("course_schedule"):
@@ -90,7 +90,7 @@ async def course_schedule(session: CommandSession):
 
 @on_natural_language("课")
 async def process_accu_date(session: NLPSession):
-    msg = session.ctx.get("raw_message")
+    msg = session.event.get("raw_message")
     now = arrow.now("Asia/Shanghai")
 
     week_re = re.search(r"下周", msg)

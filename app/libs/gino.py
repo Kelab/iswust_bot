@@ -27,7 +27,6 @@ async def init_db():
             await db.set_bind(bot.config.DATABASE_URL)
             logger.info("Database connected")
         except Exception:
-            logger.error("Database connection error!")
-            exit(1)
+            raise ConnectionError("Database connection error!")
     else:
         logger.warning("DATABASE_URL is missing, database may not work")
