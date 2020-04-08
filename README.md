@@ -17,15 +17,14 @@
 poetry install
 ```
 
-启动 `run.py` 即可·
+## 配置
 
-会加载代码根目录下的 `bot_config.py` 作为配置文件，你可以根据自己的需要配置。
-
-## 创建环境变量
+### 创建环境变量
 
 在项目根目录下创建 `.env` 文件，里面填相应的环境变量。
 
 ```py
+COOLQ_ACCOUNT=xxxxx # 要登陆的 QQ 号
 ENCRYPT_KEY=xxxx # 加密的key
 T_CN_SOURCE=xxxx # 请求新浪短网址的 key
 API_URL=xxx # 后端 API 地址
@@ -33,6 +32,37 @@ WEB_URL=xxx # WEB 页面地址
 QQAI_APPID=xxx # 语音识别调用时候会用到
 QQAI_APPKEY=xxx # 同上
 COOLQ_DIR=xxx # coolq 的目录
+```
+
+### 配置 bot_config.py
+
+复制一份 `bot_config_base.py` 为 `bot_config.py`。
+修改里面相应的信息即可。
+
+## 启动
+
+需要先配置。
+需要先配置。
+需要先配置。
+
+### 直接执行
+
+启动 `run.py` 即可，如：
+
+```sh
+python3 run.py
+# or
+poetry run python /qbot/run.py
+```
+
+会加载代码根目录下的 `bot_config.py` 作为配置文件，你可以根据自己的需要配置。
+
+### 使用 docker-compose 运行
+
+直接运行：
+
+```sh
+docker-compose up -d
 ```
 
 ## 语音识别
