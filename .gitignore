@@ -5,7 +5,9 @@ test.py
 app/bot/plugins/course_schedule/test.py
 logs
 .vscode
-coolq
+data
+
+database.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

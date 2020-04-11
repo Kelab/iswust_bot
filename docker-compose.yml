@@ -3,25 +3,61 @@ services:
   cqhttp:
     image: richardchien/cqhttp:latest
     volumes:
-      - "./coolq:/home/user/coolq" # 用于保存COOLQ文件的目录
+      - ./data/coolq:/home/user/coolq # 用于保存COOLQ文件的目录
+    ports:
+      - 9000:9000
     environment:
       - COOLQ_ACCOUNT=${COOLQ_ACCOUNT} # 指定要登陆的QQ号，用于自动登录
+      - VNC_PASSWD=${VNC_PASSWD} # 指定要登陆的QQ号，用于自动登录
       - FORCE_ENV=true
       - CQHTTP_USE_HTTP=false
       - CQHTTP_USE_WS=false
       - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_API_URL=ws://nonebot:8080/ws/api/
-      - CQHTTP_WS_REVERSE_EVENT_URL=ws://nonebot:8080/ws/event/
+      - CQHTTP_WS_REVERSE_API_URL=ws://nonebot:${PORT}/ws/api/
+      - CQHTTP_WS_REVERSE_EVENT_URL=ws://nonebot:${PORT}/ws/event/
     depends_on:
       - nonebot
 
   nonebot:
     build: .
+    restart: always
     expose:
-      - "8080"
+      - ${PORT}
     environment:
       - TZ=Asia/Shanghai
     volumes:
-      - "./coolq:/coolq"
-      - ".:/qbot"
+      - "./data/coolq:/coolq"
+      - .:/qbot
     command: poetry run python /qbot/run.py
+    depends_on:
+      - database
+
+  database:
+    image: postgres
+    restart: always
+    expose:
+      - 5432
+    environment:
+      - TZ=Asia/Shanghai
+    env_file:
+      - database.env
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+
+  admin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - 18080:80
+    environment:
+      - TZ=Asia/Shanghai
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+      - PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=True
+      - PGADMIN_CONFIG_LOGIN_BANNER="Authorised users only!"
+      - PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=10
+    depends_on:
+      - database
+
+volumes:
+  database-data:
