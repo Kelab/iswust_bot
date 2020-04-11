@@ -1,5 +1,6 @@
 version: "3"
 services:
+  restart: always
   cqhttp:
     image: richardchien/cqhttp:latest
     volumes:
@@ -20,33 +21,19 @@ services:
 
   nonebot:
     build: .
-    restart: always
     expose:
       - ${PORT}
     environment:
       - TZ=Asia/Shanghai
     volumes:
-      - "./data/coolq:/coolq"
+      - ./data/coolq:/coolq
       - .:/qbot
     command: poetry run python /qbot/run.py
     depends_on:
       - database
 
-  database:
-    image: postgres
-    restart: always
-    expose:
-      - 5432
-    environment:
-      - TZ=Asia/Shanghai
-    env_file:
-      - database.env
-    volumes:
-      - database-data:/var/lib/postgresql/data/
-
   admin:
     image: dpage/pgadmin4
-    restart: always
     ports:
       - 18080:80
     environment:
@@ -58,6 +45,17 @@ services:
       - PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=10
     depends_on:
       - database
+
+  database:
+    image: postgres
+    expose:
+      - 5432
+    environment:
+      - TZ=Asia/Shanghai
+    env_file:
+      - database.env
+    volumes:
+      - database-data:/var/lib/postgresql/data/
 
 volumes:
   database-data:
