@@ -35,7 +35,6 @@ async def bind():
         u = Login(username, password)
         is_log, log_resp = u.try_login()
         if is_log:
-
             logger.debug(log_resp.json())
             User.add(username, password, qq, pickle.dumps(u.get_cookies()))
             logger.info("qq{}绑定成功!".format(qq))

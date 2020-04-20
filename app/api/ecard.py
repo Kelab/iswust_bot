@@ -2,9 +2,9 @@ import pickle
 from auth_swust import request as requests, Login
 from quart import abort, request
 
-from app import db
+from app.libs.gino import db
 from loguru import logger
-from app.models import User
+from app.models.user import User
 from app.utils.common import trueRet, falseRet
 from app.utils.tools import bot_hash, check_args
 from app.utils.parse.constants import API

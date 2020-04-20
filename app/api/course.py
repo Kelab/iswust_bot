@@ -1,7 +1,8 @@
 import pickle
 from auth_swust import request
-from app import db
-from app.models import Course
+
+from app.libs.gino import db
+from app.models.course import Course
 from app.utils.common import trueRet
 from app.utils.course import getCourse_util
 from app.utils.parse.parse_course_table import get_course_api

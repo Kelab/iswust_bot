@@ -30,7 +30,7 @@ async def push():
     rcode_ = 403
     rmsg_ = msg
 
-    if result:
+    if result and qq_:
         encrypt_qq = bot_hash(qq_)
 
         logger.info(f"qq: {qq_} msg: {msg_} token: {token_} encrypt_qq: {encrypt_qq}")
