@@ -13,7 +13,7 @@ class User(Base, db.Model):
     cookies = db.Column(db.BLOB)
 
     @classmethod
-    def add(cls, student_card: str, password: str, bind_qq: str, cookies: str):
+    def add(cls, student_card: str, password: str, bind_qq: str, cookies: bytes):
         with db.auto_commit():
             db.session.add(
                 User(
