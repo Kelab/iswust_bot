@@ -24,41 +24,37 @@ poetry install
 在项目根目录下创建 `.env` 文件，里面填相应的环境变量。
 
 ```ini
-HOST=0.0.0.0 # 默认 0.0.0.0
-PORT=8080 # 默认 8080
-COOLQ_ACCOUNT=xxxxx # 要登陆的 QQ 号
+# nonebot 启动相关
+HOST=0.0.0.0
+PORT=8080
 ENCRYPT_KEY=xxxx # 加密的key
 T_CN_SOURCE=xxxx # 请求新浪短网址的 key
 API_URL=xxx # 后端 API 地址
 WEB_URL=xxx # WEB 页面地址
 QQAI_APPID=xxx # 语音识别调用时候会用到
 QQAI_APPKEY=xxx # 同上
-COOLQ_DIR=xxx # coolq 的目录
+SUPERUSERS=xxxx,xxxx # 管理员qq，逗号分隔
+QUART_APP=run:app
+QUART_DEBUG=True
+
+# cqhttp docker 启动相关
+COOLQ_ACCOUNT=xxxxx # 要登陆的 QQ 号
 VNC_PASSWD=xxx # vnc 密码
-```
+COOLQ_DIR=xxx # coolq 的目录
 
-创建 `database.env` 文件：
-
-```ini
+# 数据库相关信息
 POSTGRES_USER=user
 POSTGRES_PASSWORD=password
 POSTGRES_DB=qqrobot
 PGADMIN_DEFAULT_EMAIL=user@domain.com
-PGADMIN_DEFAULT_PASSWORD=SuperSecret
+PGADMIN_DEFAULT_PASSWORD=password
 ```
 
-### 配置 bot_config.py
+### 启动
 
-复制一份 `bot_config_base.py` 为 `bot_config.py`。
-修改里面相应的信息即可。
-
-## 启动
-
-需要先配置。
-需要先配置。
-需要先配置。
-
-### 使用 docker-compose 运行
+需要先配置 `.env`。  
+需要先配置 `.env`。  
+需要先配置 `.env`。  
 
 直接运行：
 

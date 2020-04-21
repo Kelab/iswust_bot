@@ -7,7 +7,3 @@ ignore =
     E704,
     W503,W504,
     F403,
-per-file-ignores =
-    bot_config.py: F401
-    bot_config_base.py: F401
-    app/api/__init__.py: F401

@@ -31,10 +31,6 @@ name = "tsinghua"
 url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 default = true
 
-[build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
-
 [tool.black]
 line-length = 88
 target-version = ['py38']
@@ -56,3 +52,6 @@ exclude = '''
   )/
 )
 '''
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

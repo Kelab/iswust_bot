@@ -1,4 +1,3 @@
-import sys
 from os import path
 from typing import Any
 
@@ -27,13 +26,9 @@ def register_blueprint(app: Quart):
 
 
 def init() -> NoneBot:
-    try:
-        import bot_config as config
-    except ImportError:
-        print("There is no config file!", file=sys.stderr)
-        exit(1)
+    from app.config import conf
 
-    _bot = init_bot(config)
+    _bot = init_bot(conf.to_config())
     _bot.server_app.before_serving(init_db)
     _bot.server_app.before_serving(init_cache)
     app = _bot.asgi
