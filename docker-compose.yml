@@ -31,7 +31,7 @@ services:
       - .:/qbot
     command: poetry run quart run --host ${HOST} --port ${PORT}
     depends_on:
-      - admin
+      - database
 
   admin:
     image: dpage/pgadmin4
@@ -41,6 +41,8 @@ services:
       - TZ=Asia/Shanghai
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - admin-data:/var/lib/pgadmin
     depends_on:
       - database
 
@@ -50,10 +52,12 @@ services:
       - 5432
     environment:
       - TZ=Asia/Shanghai
-    env_file:
-      - .env
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - database-data:/var/lib/postgresql/data/
 
 volumes:
-  database-data:
+  database-data: {}
+  admin-data: {}
