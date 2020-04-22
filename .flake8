@@ -7,3 +7,11 @@ ignore =
     E704,
     W503,W504,
     F403,
+exclude =
+    .git,
+    __pycache__,
+    data,
+    migrations,
+    dist
+per-file-ignores =
+    app/api/__init__.py: F401

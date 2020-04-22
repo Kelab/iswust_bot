@@ -56,6 +56,12 @@ PGADMIN_DEFAULT_PASSWORD=password
 需要先配置 `.env`。  
 需要先配置 `.env`。  
 
+配置数据库：
+
+```sh
+docker-compose run --rm nonebot /bin/bash -c "poetry run alembic upgrade head"
+```
+
 直接运行：
 
 ```sh
@@ -66,3 +72,17 @@ docker-compose up -d
 
 识别使用的是 <https://ai.qq.com> 的 API，你需要自己去申请一个密钥，填入 .env 即可。
 你需要先在环境变量中设置 `COOLQ_DIR`，这样机器人才能读取到语音文件。
+
+## 更新数据库
+
+```sh
+docker-compose run --rm nonebot /bin/bash -c "poetry run alembic revision --autogenerate -m 'message'"
+```
+
+### 其他相关
+
+fix `Target database is not up to date.`:
+
+```sh
+alembic stamp heads
+```

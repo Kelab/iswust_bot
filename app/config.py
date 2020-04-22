@@ -1,7 +1,10 @@
 from os import getenv as _
 from datetime import timedelta
+from dotenv import load_dotenv
 from nonebot import default_config
 from .utils.roconfig import Configuration
+
+load_dotenv()
 
 
 def get_database_url() -> str:

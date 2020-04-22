@@ -5,7 +5,7 @@ from .base import Base
 class User(Base, db.Model):
     __tablename__ = "user"
 
-    uid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     student_card = db.Column(db.String(32))
     password = db.Column(db.String(64))
     bind_qq = db.Column(db.String(16))
