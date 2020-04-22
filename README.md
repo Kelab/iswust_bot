@@ -59,13 +59,21 @@ PGADMIN_DEFAULT_PASSWORD=password
 配置数据库：
 
 ```sh
-docker-compose run --rm nonebot /bin/bash -c "poetry run alembic upgrade head"
+docker-compose run --rm nonebot alembic upgrade head
 ```
 
-直接运行：
+需要等执行完，第一次比较慢，因为需要 build 镜像，之后就快很多了。
+
+然后运行：
 
 ```sh
-docker-compose up -d
+docker-compose up -d --no-recreate
+```
+
+想更新的时候执行：
+
+```sh
+docker-compose pull
 ```
 
 ## 语音识别
@@ -75,14 +83,30 @@ docker-compose up -d
 
 ## 更新数据库
 
+如果 container 已经在运行中的话，可以使用 `exec`：
+
 ```sh
-docker-compose run --rm nonebot /bin/bash -c "poetry run alembic revision --autogenerate -m 'message'"
+docker-compose exec nonebot alembic revision --autogenerate -m 'message'
+```
+
+没运行的话可以执行：
+
+```sh
+docker-compose run --rm nonebot alembic revision --autogenerate -m 'message'
 ```
 
 ### 其他相关
 
 fix `Target database is not up to date.`:
 
+同上所述，container 运行中可以使用：
+
 ```sh
-docker-compose run --rm nonebot /bin/bash -c "poetry run alembic stamp heads"
+docker-compose exec nonebot alembic stamp heads
+```
+
+否则：
+
+```sh
+docker-compose run --rm nonebot alembic stamp heads
 ```

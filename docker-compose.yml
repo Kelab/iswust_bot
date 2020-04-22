@@ -1,7 +1,8 @@
-version: "3.7"
+version: "3.8"
 services:
   cqhttp:
     image: richardchien/cqhttp:latest
+    container_name: "iswust_cqhttp"
     volumes:
       - ${COOLQ_DIR}:/home/user/coolq # 用于保存COOLQ文件的目录
     ports:
@@ -20,6 +21,7 @@ services:
 
   nonebot:
     build: .
+    container_name: "iswust_nonebot"
     expose:
       - ${PORT}
     environment:
@@ -35,6 +37,7 @@ services:
 
   admin:
     image: dpage/pgadmin4
+    container_name: "iswust_pgadmin4"
     ports:
       - 18080:80
     environment:
@@ -49,8 +52,11 @@ services:
 
   database:
     image: postgres
+    container_name: "iswust_postgres"
     expose:
       - 5432
+    ports:
+      - 15432:5432
     environment:
       - TZ=Asia/Shanghai
       - POSTGRES_USER=${POSTGRES_USER}
