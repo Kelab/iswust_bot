@@ -84,5 +84,5 @@ docker-compose run --rm nonebot /bin/bash -c "poetry run alembic revision --auto
 fix `Target database is not up to date.`:
 
 ```sh
-alembic stamp heads
+docker-compose run --rm nonebot /bin/bash -c "poetry run alembic stamp heads"
 ```

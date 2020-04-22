@@ -31,7 +31,7 @@ services:
       - .:/qbot
     command: poetry run quart run --host ${HOST} --port ${PORT}
     depends_on:
-      - database
+      - admin
 
   admin:
     image: dpage/pgadmin4
@@ -41,6 +41,7 @@ services:
       - TZ=Asia/Shanghai
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+      - PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=25
     volumes:
       - admin-data:/var/lib/pgadmin
     depends_on:
