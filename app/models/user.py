@@ -13,21 +13,19 @@ class User(Base, db.Model):
     cookies = db.Column(db.LargeBinary)
 
     @classmethod
-    def add(cls, student_card: str, password: str, bind_qq: str, cookies: bytes):
-        with db.auto_commit():
-            db.session.add(
-                User(
-                    student_card=student_card,
-                    password=password,
-                    bind_qq=bind_qq,
-                    is_bind=1,
-                    cookies=cookies,
-                )
-            )
-        return True
+    async def add(cls, student_card: str, password: str, bind_qq: str, cookies: bytes):
+        user = User(
+            student_card=student_card,
+            password=password,
+            bind_qq=bind_qq,
+            is_bind=True,
+            cookies=cookies,
+        )
+        await user.create()
+        return user
 
     @classmethod
-    def remove(cls, bind_qq: str):
-        with db.auto_commit():
-            User.query.filter_by(bind_qq=bind_qq).update({"is_bind": 0})
+    async def remove(cls, bind_qq: str):
+        user = await User.query.where(User.bind_qq == bind_qq).gino.first()
+        await user.update(is_bind=False).apply()
         return True

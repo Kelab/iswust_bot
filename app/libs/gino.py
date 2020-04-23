@@ -9,14 +9,7 @@ import re
 
 
 class Gino(_Gino):
-    @contextmanager
-    def auto_commit(self):
-        try:
-            yield
-            self.session.commit()
-        except Exception as e:
-            self.session.rollback()
-            raise e
+    pass
 
 
 db = Gino()
@@ -43,9 +36,9 @@ def load_models():
         module_name = f"{module_prefix}.{m.group(1)}"
         try:
             import_module(module_name)
-            logger.info(f'Succeeded to import "{module_name}"')
+            logger.info(f'Load model: "{module_name}"')
         except Exception as e:
-            logger.error(f'Failed to import "{module_name}", error: {e}')
+            logger.error(f'Failed to Load "{module_name}", error: {e}')
             logger.exception(e)
 
 
