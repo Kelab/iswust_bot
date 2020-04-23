@@ -1,8 +1,6 @@
 from os import getenv as _
 from datetime import timedelta
 from dotenv import load_dotenv
-from nonebot import default_config
-from .utils.roconfig import Configuration
 
 load_dotenv()
 
@@ -17,7 +15,7 @@ def get_database_url() -> str:
 
 
 class MyConfig:
-    SUPERUSERS = _("SUPERUSERS", "").split(",")
+    SUPERUSERS = set(map(int, _("SUPERUSERS", "").split(",")))
     HOST = _("HOST") or "0.0.0.0"
     PORT = _("PORT") or "8080"
     NICKNAME = {"小科", "小助手", "助手"}
@@ -29,8 +27,3 @@ class MyConfig:
         "cache": "aiocache.SimpleMemoryCache",
         "serializer": {"class": "aiocache.serializers.PickleSerializer"},
     }
-
-
-conf = Configuration()
-conf.add_object(default_config)
-conf.add_object(MyConfig)

@@ -2,11 +2,13 @@ from os import path
 from typing import Any
 
 import nonebot as nb
-from nonebot import NoneBot
+from nonebot import NoneBot, default_config
 from quart import Quart
 
 from .libs.gino import init_db
 from .libs.cache import init_cache
+
+from .utils.roconfig import Configuration
 
 
 def init_bot(config_object: Any) -> nb.NoneBot:
@@ -19,6 +21,16 @@ def init_bot(config_object: Any) -> nb.NoneBot:
     return bot
 
 
+def load_config():
+    from .config import MyConfig
+
+    conf = Configuration()
+    conf.add_object(default_config)
+    conf.add_object(MyConfig)
+
+    return conf.to_config()
+
+
 def register_blueprint(app: Quart):
     from .api import api as api_blueprint
 
@@ -26,9 +38,8 @@ def register_blueprint(app: Quart):
 
 
 def init() -> NoneBot:
-    from app.config import conf
-
-    _bot = init_bot(conf.to_config())
+    config = load_config()
+    _bot = init_bot(config)
     _bot.server_app.before_serving(init_db)
     _bot.server_app.before_serving(init_cache)
     app = _bot.asgi

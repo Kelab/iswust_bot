@@ -28,14 +28,20 @@ poetry install
 HOST=0.0.0.0
 PORT=8080
 ENCRYPT_KEY=xxxx # 加密的key
-T_CN_SOURCE=xxxx # 请求新浪短网址的 key
-API_URL=xxx # 后端 API 地址
-WEB_URL=xxx # WEB 页面地址
-QQAI_APPID=xxx # 语音识别调用时候会用到
-QQAI_APPKEY=xxx # 同上
+
 SUPERUSERS=xxxx,xxxx # 管理员qq，逗号分隔
+
 QUART_APP=run:app
 QUART_DEBUG=True
+
+API_URL=xxx # 后端 API 地址
+WEB_URL=xxx # WEB 页面地址
+
+# 第三方服务相关
+QQAI_APPID=xxx # 语音识别调用时候会用到
+QQAI_APPKEY=xxx # 同上
+GLOT_IO_TOKEN=xxx
+T_CN_SOURCE=xxxx # 请求新浪短网址的 key
 
 # cqhttp docker 启动相关
 COOLQ_ACCOUNT=xxxxx # 要登陆的 QQ 号
@@ -96,6 +102,12 @@ docker-compose run --rm nonebot alembic revision --autogenerate -m 'message'
 ```
 
 ### 其他相关
+
+查看运行日志：
+
+```sh
+docker-compose logs -f --tail 10 nonebot
+```
 
 fix `Target database is not up to date.`:
 
