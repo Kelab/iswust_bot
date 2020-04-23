@@ -7,6 +7,8 @@ from quart import Quart
 
 from .libs.gino import init_db
 from .libs.cache import init_cache
+from .libs.scheduler import init_scheduler
+
 
 from .utils.roconfig import Configuration
 
@@ -42,6 +44,7 @@ def init() -> NoneBot:
     _bot = init_bot(config)
     _bot.server_app.before_serving(init_db)
     _bot.server_app.before_serving(init_cache)
+    _bot.server_app.before_serving(init_scheduler)
     app = _bot.asgi
     register_blueprint(app)
     return _bot

@@ -1,12 +1,20 @@
 import re
 from typing import Dict, Any, Union, List, Tuple
 
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import nonebot as nb
+from nonebot import scheduler
 from apscheduler.job import Job
 from apscheduler.jobstores.base import ConflictingIdError, JobLookupError
 from nonebot.command import call_command
 
 from . import aio
+
+scheduler: AsyncIOScheduler
+
+
+def init_scheduler():
+    pass
 
 
 def make_job_id(plugin_name: str, ctx_id: str, job_name: str = "") -> str:
@@ -82,7 +90,7 @@ async def add_scheduled_commands(
 
     try:
         return await aio.run_sync_func(
-            nb.scheduler.add_job,
+            scheduler.add_job,
             _scheduled_commands_callback,
             id=job_id,
             trigger=trigger,
@@ -114,12 +122,12 @@ async def _scheduled_commands_callback(
 
 async def get_job(job_id: str) -> Job:
     """Get a scheduler job by id."""
-    return await aio.run_sync_func(nb.scheduler.get_job, job_id)
+    return await aio.run_sync_func(scheduler.get_job, job_id)
 
 
 async def get_jobs(job_id_prefix: str) -> List[Job]:
     """Get all scheduler jobs with given id prefix."""
-    all_jobs = await aio.run_sync_func(nb.scheduler.get_jobs)
+    all_jobs = await aio.run_sync_func(scheduler.get_jobs)
     return list(
         filter(
             lambda j: j.id.rsplit("/", maxsplit=1)[0] == job_id_prefix.rstrip("/"),
@@ -131,7 +139,7 @@ async def get_jobs(job_id_prefix: str) -> List[Job]:
 async def remove_job(job_id: str) -> bool:
     """Remove a scheduler job by id."""
     try:
-        await aio.run_sync_func(nb.scheduler.remove_job, job_id)
+        await aio.run_sync_func(scheduler.remove_job, job_id)
         return True
     except JobLookupError:
         return False

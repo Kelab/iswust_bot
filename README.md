@@ -2,20 +2,14 @@
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
----
-
-接收用户指令后执行相应教务处查询动作。
-
 > nonebot 参考手册：  
 > <https://nonebot.cqp.moe>
 
-## 安装
+致谢：
 
-先安装
+- 奶茶机器人 <https://github.com/cczu-osa/aki>
 
-```shell
-poetry install
-```
+---
 
 ## 配置
 
@@ -80,6 +74,14 @@ docker-compose up -d --no-recreate
 
 ```sh
 docker-compose pull
+```
+
+## 开发
+
+如果想在本地开发还是需要安装开发环境的，用以 ide 的提示之类的。
+
+```sh
+poetry install
 ```
 
 ## 语音识别

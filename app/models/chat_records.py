@@ -1,7 +1,7 @@
 from app.libs.gino import db
 from .base import Base
 from sqlalchemy import Column
-from aiocqhttp import Event as CQEvent
+from aiocqhttp import Event
 from nonebot import context_id
 
 
@@ -14,7 +14,7 @@ class ChatRecords(Base, db.Model):
     msg = Column(db.String)
 
     @classmethod
-    async def add_msg(cls, event: CQEvent):
+    async def add_msg(cls, event: Event):
         await ChatRecords.create(
             self_id=event.self_id, ctx_id=context_id(event), msg=str(event.message)
         ),

@@ -45,7 +45,7 @@ audio_rec = AudioRecognitionEcho(appid, appkey)
 record_dir = Path(coolq_dir) / Path("data/record")
 
 
-async def echo(silk_fimename: str, coolq_record_dir=record_dir):
+async def echo(silk_fimename: str, coolq_record_dir=None):
     """[echo 语音识别]
     {
         "ret": 0,
@@ -58,7 +58,11 @@ async def echo(silk_fimename: str, coolq_record_dir=record_dir):
     }
     """
     if not silk_fimename.endswith(".silk"):
-        return
+        return False, "没有检测到语音文件"
+
+    if coolq_record_dir is None:
+        coolq_record_dir = record_dir
+
     SLIK = 4
     path: Path = coolq_record_dir / silk_fimename
 
