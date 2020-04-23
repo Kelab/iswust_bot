@@ -65,7 +65,7 @@ async def echo(silk_fimename: str, coolq_record_dir=record_dir):
     with path.open(mode="rb") as f:
         result: dict = await audio_rec.run(audio_format=SLIK, speech=f)
     print(result)
-    if int(result.get("ret")) == 0:
+    if int(result.get("ret", -1)) == 0:
         return True, result["data"].get("text")
     else:
         return False, result.get("msg")

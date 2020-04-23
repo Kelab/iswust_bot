@@ -1,5 +1,4 @@
 from app.constants.config import api_url
-from app.utils.tools import bot_hash
 
 
 class BaseService:

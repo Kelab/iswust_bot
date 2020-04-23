@@ -1,6 +1,5 @@
 from nonebot import CommandSession, on_command
 from nonebot.command import call_command
-import httpx
 from app.services.course import CourseService
 from loguru import logger
 

@@ -20,4 +20,4 @@ class CourseService(BaseService):
         """
         logger.info(f"qq {qq} 正在请求课表!")
         course = await Course.get_course_schedule(qq)
-        return True
+        return course
