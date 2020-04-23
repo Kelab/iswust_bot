@@ -36,9 +36,7 @@ async def dwz(url: str) -> Optional[str]:
     data = {"url": url}
     async with httpx.AsyncClient() as client:
         r: httpx.Response = await client.get(dwz_url, params=data)
-        res = await r.text
-
-    return res
+        return r.text
 
 
 def check_args(**kwargs) -> Tuple[bool, Optional[List[str]]]:
