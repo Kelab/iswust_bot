@@ -110,3 +110,9 @@ docker-compose exec nonebot alembic stamp heads
 ```sh
 docker-compose run --rm nonebot alembic stamp heads
 ```
+
+更新数据库：
+
+```sh
+docker-compose exec nonebot alembic upgrade head
+```

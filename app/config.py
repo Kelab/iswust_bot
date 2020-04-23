@@ -22,7 +22,7 @@ class MyConfig:
     PORT = _("PORT") or "8080"
     NICKNAME = {"小科", "小助手", "助手"}
     COMMAND_START = {"", "/", "\\"}
-    COMMAND_SEP = {"|"}
+    COMMAND_SEP = {"|", "."}
     DATABASE_URL = get_database_url()
     SESSION_RUN_TIMEOUT = timedelta(seconds=20)
     AIOCACHE_DEFAULT_CONFIG = {
