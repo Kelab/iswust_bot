@@ -14,6 +14,7 @@ scheduler: AsyncIOScheduler
 
 
 def init_scheduler():
+    # TODO 实现储存在 redis 中
     pass
 
 

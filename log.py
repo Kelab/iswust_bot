@@ -19,7 +19,8 @@ fh = handlers.TimedRotatingFileHandler(
 )
 fh.setFormatter(
     Formatter(
-        "[%(asctime)s %(name)s] %(levelname)s: [%(filename)s %(funcName)s] > %(message)s"
+        "[%(asctime)s %(name)s] %(levelname)s: [%(filename)s %(funcName)s] > %(message)s",
+        "%Y-%m-%d %H:%M:%S",
     )
 )
 nblogger.addHandler(fh)

@@ -6,15 +6,22 @@ from nonebot import context_id
 
 
 class ChatRecords(Base, db.Model):
+    """保存聊天记录 Model
+    """
+
     __tablename__ = "chat_records"
 
-    id = Column(db.Integer, primary_key=True, autoincrement=True)
+    id_ = Column("id", db.Integer, primary_key=True, autoincrement=True)
     self_id = Column(db.Integer)
     ctx_id = Column(db.String(64))
     msg = Column(db.String)
+    out = Column(db.Boolean, default=False)
 
     @classmethod
-    async def add_msg(cls, event: Event):
+    async def add_msg(cls, event: Event, out: bool = False):
         await ChatRecords.create(
-            self_id=event.self_id, ctx_id=context_id(event), msg=str(event.message)
+            self_id=event.self_id,
+            ctx_id=context_id(event),
+            msg=str(event.message),
+            out=out,
         ),

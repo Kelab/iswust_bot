@@ -1,24 +1,39 @@
-import pickle
-from typing import Optional
-
+from sqlalchemy import Column
 from app.libs.gino import db
 from .base import Base
 
 
 class Course(Base, db.Model):
+    """课程表 Model
+    """
+
     __tablename__ = "course"
 
-    id = db.Column(db.String(16), primary_key=True)
-    course_table = db.Column(db.LargeBinary)
-    name = db.Column(db.String(64))
-    teacher_name = db.Column(db.String(32))
-    location = db.Column(db.String(64))
-    class_time = db.Column(db.String(64))
-    start_week = db.Column(db.Integer)
-    end_week = db.Column(db.Integer)
+    id_ = Column("id", db.Integer, primary_key=True, autoincrement=True)
+    term = Column(db.String(32))  # 学期
+    course_name = Column(db.String(64))
+    course_idx = Column(db.String(16))  # 课程序号 001 002 那些
+    time4class = Column(db.String(64))  # 上课时间
+    teacher_name = Column(db.String(32))  # 上课教师
+    location = Column(db.String(64))
+    course_table = Column(db.LargeBinary)
+    start_week = Column(db.Integer)
+    end_week = Column(db.Integer)
 
-    @classmethod
-    async def get_course_schedule(cls, qq) -> Optional[dict]:
-        cour = Course.query.filter_by(qq=qq).first()
-        if cour is not None:
-            return pickle.loads(cour.course_table)
+
+class CourseStudent(Base, db.Model):
+    """学生选课表 Model
+    """
+
+    __tablename__ = "course_student"
+
+    student_id = Column(
+        db.String(32),
+        db.ForeignKey("student.student_id", onupdate="CASCADE", ondelete="SET NULL"),
+        primary_key=True,
+    )
+    course_id = Column(
+        db.Integer,
+        db.ForeignKey("course.id", onupdate="CASCADE", ondelete="SET NULL"),
+        primary_key=True,
+    )

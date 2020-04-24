@@ -4,9 +4,12 @@ from sqlalchemy import Column
 
 
 class SubContent(Base, db.Model):
+    """所有订阅内容 Model
+    """
+
     __tablename__ = "sub_content"
 
-    id = Column(db.Integer, primary_key=True, autoincrement=True)
+    id_ = Column("id", db.Integer, primary_key=True, autoincrement=True)
     intervel = Column(db.Integer)  # 更新速度，单位 s
     link = Column(db.LargeBinary)
     name = Column(db.String(64))
@@ -14,10 +17,12 @@ class SubContent(Base, db.Model):
     content = Column(db.LargeBinary)
 
 
-class UserSub(Base, db.Model):
-    __tablename__ = "user_sub"
+class SubUser(Base, db.Model):
+    """用户订阅 Model
+    """
 
-    user_id = Column(db.Integer)
-    sub_id = Column(db.Integer)
-    group_id = Column(db.Integer)
+    __tablename__ = "sub_user"
+
+    context_id = Column(db.Integer, primary_key=True)
+    sub_id = Column(db.Integer, primary_key=True)
     only_title = Column(db.Boolean, default=True)
