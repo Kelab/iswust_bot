@@ -25,25 +25,31 @@
 需要先配置 `.env`。  
 需要先配置 `.env`。  
 
-配置数据库：
+1. 首先 build 镜像：
 
-```sh
-docker-compose run --rm nonebot alembic upgrade head
-```
+    ```sh
+    docker-compose build
+    ```
 
-需要等执行完，第一次比较慢，因为需要 build 镜像，之后就快很多了。
+    需要等执行完，build 阶段需要使用 pip 安装各种包比较慢。
 
-然后运行：
+2. 创建\更新 数据库结构：
 
-```sh
-docker-compose up -d --no-recreate
-```
+    ```sh
+    docker-compose run --rm nonebot alembic upgrade head
+    ```
+
+3. 然后运行：
+
+    ```sh
+    docker-compose up -d --no-recreate
+    ```
 
 想更新的时候执行：
 
 ```sh
-docker-compose build
-docker-compose pull
+docker-compose pull # 拉取依赖的镜像
+docker-compose build # 重新打包
 ```
 
 ## 开发
@@ -59,29 +65,15 @@ poetry install
 识别使用的是 <https://ai.qq.com> 的 API，你需要自己去申请一个密钥，填入 .env 即可。
 你需要先在环境变量中设置 `COOLQ_DIR`，这样机器人才能读取到语音文件。
 
-## 更新数据库
+### 相关 docker 命令
 
-如果 container 已经在运行中的话，可以使用 `exec`：
-
-```sh
-docker-compose exec nonebot alembic revision --autogenerate -m 'message'
-```
-
-没运行的话可以执行：
-
-```sh
-docker-compose run --rm nonebot alembic revision --autogenerate -m 'message'
-```
-
-### 其他相关
-
-查看运行日志：
+#### 查看运行日志
 
 ```sh
 docker-compose logs -f --tail 10 nonebot
 ```
 
-fix `Target database is not up to date.`:
+#### 报错 `Target database is not up to date.`
 
 同上所述，container 运行中可以使用：
 
@@ -95,8 +87,36 @@ docker-compose exec nonebot alembic stamp heads
 docker-compose run --rm nonebot alembic stamp heads
 ```
 
-更新数据库：
+#### 执行数据库 migrate
+
+如果 container 已经在运行中的话，可以使用 `exec`：
+
+```sh
+docker-compose exec nonebot alembic revision --autogenerate -m 'message'
+```
+
+没运行的话可以执行：
+
+```sh
+docker-compose run --rm nonebot alembic revision --autogenerate -m 'message'
+```
+
+#### 升级到最新数据库
+
+如果 container 已经在运行中的话，可以使用 `exec`：
 
 ```sh
 docker-compose exec nonebot alembic upgrade head
+```
+
+否则：
+
+```sh
+docker-compose run --rm nonebot alembic upgrade head
+```
+
+#### 删除本地数据库
+
+```sh
+docker-compose down -v # 会清除所有 volume
 ```
