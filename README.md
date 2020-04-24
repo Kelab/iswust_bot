@@ -15,40 +15,9 @@
 
 ### 创建环境变量
 
-在项目根目录下创建 `.env` 文件，里面填相应的环境变量。
-
-```ini
-# nonebot 启动相关
-HOST=0.0.0.0
-PORT=8080
-ENCRYPT_KEY=xxxx # 加密的key
-
-SUPERUSERS=xxxx,xxxx # 管理员qq，逗号分隔
-
-QUART_APP=run:app
-QUART_DEBUG=True
-
-API_URL=xxx # 后端 API 地址
-WEB_URL=xxx # WEB 页面地址
-
-# 第三方服务相关
-QQAI_APPID=xxx # 语音识别调用时候会用到
-QQAI_APPKEY=xxx # 同上
-GLOT_IO_TOKEN=xxx
-T_CN_SOURCE=xxxx # 请求新浪短网址的 key
-
-# cqhttp docker 启动相关
-COOLQ_ACCOUNT=xxxxx # 要登陆的 QQ 号
-VNC_PASSWD=xxx # vnc 密码
-COOLQ_DIR=xxx # coolq 的目录
-
-# 数据库相关信息
-POSTGRES_USER=user
-POSTGRES_PASSWORD=password
-POSTGRES_DB=qqrobot
-PGADMIN_DEFAULT_EMAIL=user@domain.com
-PGADMIN_DEFAULT_PASSWORD=password
-```
+复制一份 `.env.example` 重命名为 `.env`，并修改里面的内容。  
+复制一份 `.env.example` 重命名为 `.env`，并修改里面的内容。  
+复制一份 `.env.example` 重命名为 `.env`，并修改里面的内容。  
 
 ### 启动
 
@@ -73,6 +42,7 @@ docker-compose up -d --no-recreate
 想更新的时候执行：
 
 ```sh
+docker-compose build
 docker-compose pull
 ```
 

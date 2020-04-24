@@ -1,4 +1,3 @@
-
 from app.libs.gino import db
 from .base import Base
 from sqlalchemy import Column

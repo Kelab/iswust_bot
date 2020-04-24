@@ -141,7 +141,12 @@ class Configuration:
         apply_key_value(self.__data, name, value)
 
     def add_object(self, obj):
-        self.__data.update(obj.__dict__)
+        config = {
+            k: v
+            for k, v in obj.__dict__.items()
+            if k.isupper() and not k.startswith("_")
+        }
+        self.__data.update(config)
 
     def add_map(self, value: Mapping[str, Any]):
         """

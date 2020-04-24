@@ -1,5 +1,3 @@
-from contextlib import contextmanager
-
 from gino import Gino as _Gino
 from loguru import logger
 from nonebot import get_bot

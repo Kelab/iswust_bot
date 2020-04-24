@@ -1,7 +1,5 @@
-import aiocqhttp
 import regex as re
 from nonebot import (
-    get_bot,
     message_preprocessor,
     MessageSegment,
     NoneBot,
@@ -9,13 +7,12 @@ from nonebot import (
 
 from app.libs.qqai_async.aaiasr import echo
 
-_bot = get_bot()
 
 record_re = re.compile(r"^\[CQ:record,file=([A-Z0-9]{32}\.(silk|amr))\]$")
 
 
 @message_preprocessor
-async def audio_preprocessor(bot: NoneBot, ctx: dict):
+async def audio_preprocessor(bot: NoneBot, ctx: dict, *args):
     raw_message: str = ctx["raw_message"]
 
     if raw_message.startswith("[CQ:record,"):

@@ -8,8 +8,7 @@ class CourseService(BaseService):
 
     @classmethod
     async def deposit_ics(cls, qq: str):
-        r = await cls.get("/depositIcs", qq)
-        return r
+        return await cls.get("/depositIcs", qq)
 
     @classmethod
     async def get_course(cls, qq: str, params: dict = {}, **kwargs):

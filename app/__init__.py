@@ -1,5 +1,6 @@
 from os import path
 from typing import Any
+from loguru import logger
 
 import nonebot as nb
 from nonebot import NoneBot, default_config
@@ -29,7 +30,7 @@ def load_config():
     conf = Configuration()
     conf.add_object(default_config)
     conf.add_object(MyConfig)
-
+    logger.info(conf.to_dict())
     return conf.to_config()
 
 

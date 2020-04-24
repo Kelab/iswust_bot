@@ -14,10 +14,16 @@ def get_database_url() -> str:
     return ""
 
 
+def get_super_users() -> set:
+    # TODO use database
+    return set(map(int, _("SUPERUSERS", "").split(",")))
+
+
 class MyConfig:
-    SUPERUSERS = set(map(int, _("SUPERUSERS", "").split(",")))
+    SUPERUSERS = get_super_users()
     HOST = _("HOST") or "0.0.0.0"
     PORT = _("PORT") or "8080"
+    DEBUG = _("DEBUG") or False
     NICKNAME = {"小科", "小助手", "助手"}
     COMMAND_START = {"", "/", "\\"}
     COMMAND_SEP = {"|", "."}
