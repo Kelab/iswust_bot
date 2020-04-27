@@ -3,4 +3,4 @@ class EnvironmentValueNotFound(Exception):
         self.value = value
 
     def __repr__(self):
-        return f"environment {self.value} is not found."
+        return f"environment variable \"{self.value}\" is not found."

@@ -1,24 +1,19 @@
-import os
-import re
 import hashlib
-
-from typing import Optional, List, Tuple
-
-from app.exceptions import EnvironmentValueNotFound
+import re
+from typing import List, Optional, Tuple
 
 import httpx
 from loguru import logger
 
+from .env import get_env_or_raise
 
 isUrl = re.compile(r"^https?:\/\/")
 
 
 def bot_hash(message: str) -> str:
     message = str(message)
-    try:
-        key = os.environ.get("ENCRYPT_KEY").encode()
-    except Exception:
-        raise EnvironmentValueNotFound("ENCRYPT_KEY")
+    key = get_env_or_raise("SECRET").encode(encoding="utf8")
+
     inner = hashlib.md5()
     inner.update(message.encode())
     outer = hashlib.md5()
