@@ -63,7 +63,6 @@ poetry install
 ## 语音识别
 
 识别使用的是 <https://ai.qq.com> 的 API，你需要自己去申请一个密钥，填入 .env 即可。
-你需要先在环境变量中设置 `COOLQ_DIR`，这样机器人才能读取到语音文件。
 
 ### 相关 docker 命令
 

@@ -2,6 +2,7 @@ import base64
 import hashlib
 import httpx
 
+from httpx import Response
 from urllib import parse
 
 
@@ -10,6 +11,7 @@ class QQAIClass:
     mediaHeaders = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36"
     }
+    api = ""
 
     def __init__(self, app_id, app_key):
         self.app_id = app_id
@@ -44,9 +46,10 @@ class QQAIClass:
         hash_str = hashlib.md5(sign_str.encode("utf-8"))
         return hash_str.hexdigest().upper()
 
-    async def call_api(self, params, api=None):
+    async def call_api(self, params, api=None) -> Response:
         if api is None:
             api = self.api
+
         async with httpx.AsyncClient() as client:
             return await client.post(
                 api, data=parse.urlencode(params).encode("utf-8"), headers=self.headers

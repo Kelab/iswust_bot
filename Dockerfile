@@ -1,3 +1,4 @@
+# syntax = docker/dockerfile:experimental
 FROM python:3.8.2-slim
 
 RUN sed -i 's|http://deb.debian.org|https://mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list
@@ -18,7 +19,7 @@ WORKDIR /qbot
 # requirements.txt output and running pip install with it.
 # Follow this issue: https://github.com/python-poetry/poetry/issues/338
 # Setting --without-hashes because of this issue: https://github.com/pypa/pip/issues/4995
-RUN poetry config virtualenvs.create false \
+RUN --mount=type=cache,mode=0777,target=/root/.cache/pip poetry config virtualenvs.create false \
   && poetry export --without-hashes -f requirements.txt \
   |  poetry run pip install -r /dev/stdin \
   && poetry debug

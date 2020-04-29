@@ -2,7 +2,9 @@ import json
 import time
 import os
 from pathlib import Path
+from loguru import logger
 from . import QQAIClass
+from nonebot import get_bot
 
 
 class AudioRecognitionEcho(QQAIClass):
@@ -27,22 +29,19 @@ class AudioRecognitionEcho(QQAIClass):
     async def run(self, audio_format, speech, rate=None):
         params = await self.make_params(audio_format, speech, rate)
         response = await self.call_api(params)
-        result = json.loads(await response.text)
+        result = json.loads(response.text)
         return result
 
 
 appid = os.environ.get("QQAI_APPID")
 appkey = os.environ.get("QQAI_APPKEY")
-coolq_dir = os.environ.get("COOLQ_DIR")
+
 if not appid or not appkey:
-    print("未设置 QQAI_APPID 和 QQAI_APPKEY！")
-    exit(1)
-if not coolq_dir:
-    print("未设置 COOLQ_DIR！")
-    exit(1)
+    logger.error("未设置 QQAI_APPID 和 QQAI_APPKEY！")
+
 
 audio_rec = AudioRecognitionEcho(appid, appkey)
-record_dir = Path(coolq_dir) / Path("data/record")
+record_dir = Path("/coolq") / Path("data/record")
 
 
 async def echo(silk_fimename: str, coolq_record_dir=None):
@@ -68,7 +67,7 @@ async def echo(silk_fimename: str, coolq_record_dir=None):
 
     with path.open(mode="rb") as f:
         result: dict = await audio_rec.run(audio_format=SLIK, speech=f)
-    print(result)
+    logger.info(result)
     if int(result.get("ret", -1)) == 0:
         return True, result["data"].get("text")
     else:
