@@ -19,7 +19,7 @@ async def exec_(session: CommandSession):
         exec(code, None, tmp_locals)
         await session.send(f"Locals：\n{pprint.pformat(tmp_locals, indent=2)}")
         if isinstance(tmp_locals.get("run"), Callable):
-            res = tmp_locals["run"](session.bot, session.ctx)
+            res = tmp_locals["run"](session.bot, session.event)
             if isinstance(res, Awaitable):
                 res = await res
             await session.send(f"执行成功\n" f"返回：\n{pprint.pformat(res, indent=2)}")

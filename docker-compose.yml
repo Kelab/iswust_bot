@@ -4,10 +4,11 @@ services:
     image: richardchien/cqhttp:latest
     container_name: "iswust_cqhttp"
     volumes:
-      - ${COOLQ_DIR}:/home/user/coolq # 用于保存COOLQ文件的目录
+      - ./data/coolq:/home/user/coolq # 用于保存COOLQ文件的目录
     ports:
       - 9000:9000
     environment:
+      - TZ=Asia/Shanghai
       - COOLQ_ACCOUNT=${COOLQ_ACCOUNT} # 指定要登陆的QQ号，用于自动登录
       - VNC_PASSWD=${VNC_PASSWD} # 指定要登陆的QQ号，用于自动登录
       - FORCE_ENV=true
@@ -29,11 +30,27 @@ services:
       - QUART_APP=${QUART_APP}
       - QUART_DEBUG=${QUART_DEBUG}
     volumes:
-      - ${COOLQ_DIR}:/coolq
       - .:/qbot
+      - ./data/coolq:/coolq
     command: poetry run quart run --host ${HOST} --port ${PORT}
     depends_on:
       - database
+      - redis
+
+  redis:
+    container_name: "iswust_redis"
+    image: "redis:alpine"
+    expose:
+      - 6379
+    ports:
+      - 16379:6379
+    volumes:
+      - redis_data:/data
+    entrypoint: redis-server --appendonly yes
+    environment:
+      - TZ=Asia/Shanghai
+    sysctls:
+      net.core.somaxconn: "888"
 
   admin:
     image: dpage/pgadmin4
@@ -66,3 +83,4 @@ services:
 volumes:
   database_data: {}
   admin_data: {}
+  redis_data: {}

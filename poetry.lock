@@ -636,7 +636,7 @@ description = "An asynchronous QQ bot framework based on CoolQ."
 name = "nonebot"
 optional = false
 python-versions = ">=3.7"
-version = "1.5.0"
+version = "1.6.0"
 
 [package.dependencies]
 aiocache = ">=0.10,<1.0"
@@ -895,6 +895,21 @@ url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 
 [[package]]
 category = "main"
+description = "Python client for Redis key-value store"
+name = "redis"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+version = "3.4.1"
+
+[package.extras]
+hiredis = ["hiredis (>=0.1.3)"]
+
+[package.source]
+reference = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+
+[[package]]
+category = "main"
 description = "Alternative regular expression module, to replace re."
 name = "regex"
 optional = false
@@ -1142,7 +1157,7 @@ reference = "tsinghua"
 url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 
 [metadata]
-content-hash = "4cda691b7d626404467616f1a2560a364dad624812e7b01c76a2c78937d4ca4e"
+content-hash = "2c783db3fe85f3a49e2c84c4c1cde6127253054fff097af7b8e492e5c5cfe101"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -1396,7 +1411,7 @@ msgpack = [
     {file = "msgpack-1.0.0.tar.gz", hash = "sha256:9534d5cc480d4aff720233411a1f765be90885750b07df772380b34c10ecb5c0"},
 ]
 nonebot = [
-    {file = "nonebot-1.5.0.tar.gz", hash = "sha256:6cf47501f465727ecb262497ae432f7ac375415ed0dd6032eb5de0bcafdb3e6f"},
+    {file = "nonebot-1.6.0.tar.gz", hash = "sha256:0453f3a002faf8fd145d3328f0b8a0229b6e6341dbf4dcd63c16dc16e3eb0b5b"},
 ]
 numpy = [
     {file = "numpy-1.18.3-cp35-cp35m-macosx_10_9_intel.whl", hash = "sha256:a6bc9432c2640b008d5f29bad737714eb3e14bb8854878eacf3d7955c4e91c36"},
@@ -1533,6 +1548,10 @@ pytz = [
 quart = [
     {file = "Quart-0.11.5-py3-none-any.whl", hash = "sha256:187427d1a2d7fed20dcb825dddbe20fd971efd7ec413639f95d2e28ff59a0cb1"},
     {file = "Quart-0.11.5.tar.gz", hash = "sha256:bd93650fa856dcfbc3890952ab3ca53f7755ab506d453a209db63713eceeceda"},
+]
+redis = [
+    {file = "redis-3.4.1-py2.py3-none-any.whl", hash = "sha256:b205cffd05ebfd0a468db74f0eedbff8df1a7bfc47521516ade4692991bb0833"},
+    {file = "redis-3.4.1.tar.gz", hash = "sha256:0dcfb335921b88a850d461dc255ff4708294943322bd55de6cfd68972490ca1f"},
 ]
 regex = [
     {file = "regex-2020.4.4-cp27-cp27m-win32.whl", hash = "sha256:90742c6ff121a9c5b261b9b215cb476eea97df98ea82037ec8ac95d1be7a034f"},

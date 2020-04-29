@@ -4,7 +4,7 @@ from typing import List
 
 from nonebot import CommandGroup, CommandSession, permission as perm
 from nonebot.argparse import ArgumentParser
-from nonebot.command import parse_command
+from nonebot.command import CommandManager
 from nonebot.helpers import context_id
 
 from app.libs import scheduler
@@ -45,7 +45,7 @@ async def sched_add(session: CommandSession):
         )
 
     for cmd_str in args.commands:
-        cmd, current_arg = parse_command(session.bot, cmd_str)
+        cmd, current_arg = CommandManager().parse_command(session.bot, cmd_str)
         if cmd:
             tmp_session = CommandSession(
                 session.bot, session.ctx, cmd, current_arg=current_arg

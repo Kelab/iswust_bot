@@ -2,31 +2,40 @@ import re
 from typing import Dict, Any, Union, List, Tuple
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.jobstores.redis import RedisJobStore
 import nonebot as nb
-from nonebot import scheduler
+from nonebot import scheduler as nbscheduler
+
+
 from apscheduler.job import Job
 from apscheduler.jobstores.base import ConflictingIdError, JobLookupError
 from nonebot.command import call_command
 
 from . import aio
 
-scheduler: AsyncIOScheduler
+scheduler = AsyncIOScheduler()
 
 
-def init_scheduler():
-    # TODO 实现储存在 redis 中
-    pass
+async def init_scheduler():
+    _bot = nb.get_bot()
+    jobstores = {"default": RedisJobStore(host="redis", port=6379, db=13)}  # 存储器
+    if nbscheduler and nbscheduler.running:
+        nbscheduler.shutdown(wait=False)
+
+    if scheduler and not scheduler.running:
+        scheduler.configure(_bot.config.APSCHEDULER_CONFIG, jobstores=jobstores)
+        scheduler.start()
 
 
-def make_job_id(plugin_name: str, ctx_id: str, job_name: str = "") -> str:
+def make_job_id(plugin_name: str, context_id: str, job_name: str = "") -> str:
     """
     Make a scheduler job id.
     :param plugin_name: the plugin that the user is calling
-    :param ctx_id: context id
+    :param context_id: context id
     :param job_name: name of the job, if not given, job id prefix is returned
     :return: job id, or job id prefix if job_name is not given
     """
-    job_id = f'/{plugin_name}/{ctx_id.strip("/")}/'
+    job_id = f'/{plugin_name}/{context_id.strip("/")}/'
     if job_name:
         if not re.fullmatch(r"[_a-zA-Z][_a-zA-Z0-9]*", job_name):
             raise ValueError(r'job name should match "[_a-zA-Z][_a-zA-Z0-9]*"')

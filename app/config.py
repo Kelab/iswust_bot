@@ -26,7 +26,7 @@ class MyConfig:
     COMMAND_START = {"", "/", "\\"}
     COMMAND_SEP = {"|", "."}
     DATABASE_URL = get_database_url()
-    SESSION_RUN_TIMEOUT = timedelta(seconds=20)
+    SESSION_RUN_TIMEOUT = timedelta(minutes=2)
     SECRET = get_env_or_raise("SECRET")
     AIOCACHE_DEFAULT_CONFIG = {
         "cache": "aiocache.SimpleMemoryCache",
