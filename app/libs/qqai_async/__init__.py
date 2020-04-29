@@ -28,7 +28,7 @@ class QQAIClass:
                     media_param, headers=self.mediaHeaders
                 ).content
         elif hasattr(media_param, "read"):
-            media_data = media_param.read()
+            media_data = await media_param.read()
         else:
             raise TypeError("media must be URL or BufferedReader")
 

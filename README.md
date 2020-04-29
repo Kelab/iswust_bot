@@ -119,3 +119,9 @@ docker-compose run --rm nonebot alembic upgrade head
 ```sh
 docker-compose down -v # 会清除所有 volume
 ```
+
+#### 重启 nonebot
+
+```sh
+docker-compose restart nonebot
+```

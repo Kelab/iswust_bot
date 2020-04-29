@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 from loguru import logger
 from . import QQAIClass
-from nonebot import get_bot
+import aiofiles
 
 
 class AudioRecognitionEcho(QQAIClass):
@@ -64,8 +64,7 @@ async def echo(silk_fimename: str, coolq_record_dir=None):
 
     SLIK = 4
     path: Path = coolq_record_dir / silk_fimename
-
-    with path.open(mode="rb") as f:
+    async with aiofiles.open(path, mode="rb") as f:
         result: dict = await audio_rec.run(audio_format=SLIK, speech=f)
     logger.info(result)
     if int(result.get("ret", -1)) == 0:
