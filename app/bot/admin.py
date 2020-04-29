@@ -1,13 +1,19 @@
 from typing import Callable, Awaitable
 from nonebot import CommandSession, get_bot, on_command
 import nonebot.permission as perm
+from nonebot.command import CommandManager
 from nonebot.message import unescape
 import pprint
 
 
 @on_command("get_config", permission=perm.SUPERUSER)
 async def get_config(session: CommandSession):
-    await session.send(f"执行中： {get_bot().config.__dict__}")
+    await session.send(f"{pprint.pformat(get_bot().config.__dict__, indent=2)}")
+
+
+@on_command("get_command", permission=perm.SUPERUSER)
+async def get_command(session: CommandSession):
+    await session.send(f"{pprint.pformat(CommandManager().commands, indent=2)}")
 
 
 @on_command("exec", permission=perm.SUPERUSER)

@@ -123,6 +123,8 @@ async def init_db():
     app = bot.asgi
     if getattr(bot.config, "DATABASE_URL", None):
         try:
+            db
+            load_models()
             await db.set_bind(
                 bot.config.DATABASE_URL,
                 echo=app.config.setdefault("DB_ECHO", False),

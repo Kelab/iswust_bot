@@ -7,7 +7,6 @@ from nonebot import CommandSession, CommandGroup
 from nonebot import permission as perm
 from nonebot.command import call_command
 from nonebot.command.argfilter import converters, extractors, validators, controllers
-from nonebot.helpers import context_id
 
 from app.libs import scheduler
 from app.libs.scheduler import ScheduledCommand
@@ -83,13 +82,13 @@ async def subscribe(session: CommandSession):
             ScheduledCommand("switch", switch_arg),
             job_id=scheduler.make_job_id(
                 PLUGIN_NAME,
-                context_id(session.ctx),
+                session.ctx,
                 (
                     random_string(1, string.ascii_lowercase)
                     + random_string(7, string.ascii_lowercase + string.digits)
                 ),
             ),
-            ctx=session.ctx,
+            event=session.event,
             trigger="cron",
             hour=hour,
             minute=minute,
@@ -162,9 +161,7 @@ async def unsubscribe(session: CommandSession):
 
 
 async def get_subscriptions(event) -> List[scheduler.Job]:
-    return await scheduler.get_jobs(
-        scheduler.make_job_id(PLUGIN_NAME, context_id(event))
-    )
+    return await scheduler.get_jobs(scheduler.make_job_id(PLUGIN_NAME, event))
 
 
 def format_subscription(index: int, job: scheduler.Job) -> str:

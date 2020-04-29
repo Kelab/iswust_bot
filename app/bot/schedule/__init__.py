@@ -5,9 +5,10 @@ from typing import List
 from nonebot import CommandGroup, CommandSession, permission as perm
 from nonebot.argparse import ArgumentParser
 from nonebot.command import CommandManager
-from nonebot.helpers import context_id
 
 from app.libs import scheduler
+from app.libs.scheduler import make_job_id, get_job, remove_job, get_jobs
+
 from . import usage
 
 PLUGIN_NAME = "schedule"
@@ -48,7 +49,7 @@ async def sched_add(session: CommandSession):
         cmd, current_arg = CommandManager().parse_command(session.bot, cmd_str)
         if cmd:
             tmp_session = CommandSession(
-                session.bot, session.ctx, cmd, current_arg=current_arg
+                session.bot, session.event, cmd, current_arg=current_arg
             )
             if await cmd.run(tmp_session, dry=True):
                 parsed_commands.append(
@@ -74,10 +75,8 @@ async def sched_add(session: CommandSession):
     try:
         job = await scheduler.add_scheduled_commands(
             parsed_commands,
-            job_id=scheduler.make_job_id(
-                PLUGIN_NAME, context_id(session.ctx), args.name
-            ),
-            ctx=session.ctx,
+            job_id=make_job_id(PLUGIN_NAME, session.event, args.name),
+            event=session.event,
             trigger="cron",
             **trigger_args,
             replace_existing=args.force,
@@ -96,9 +95,7 @@ async def sched_get(session: CommandSession):
     parser = ArgumentParser(session=session, usage=usage.GET)
     parser.add_argument("name")
     args = parser.parse_args(session.argv)
-    job = await scheduler.get_job(
-        scheduler.make_job_id(PLUGIN_NAME, context_id(session.ctx), args.name)
-    )
+    job = await get_job(make_job_id(PLUGIN_NAME, session.event, args.name))
     if not job:
         await session.send(f"没有找到计划任务 {args.name}，请检查你的输入是否正确")
         return
@@ -109,10 +106,8 @@ async def sched_get(session: CommandSession):
 
 @cg.command("list")
 async def sched_list(session: CommandSession):
-    job_id_prefix = scheduler.make_job_id(PLUGIN_NAME, context_id(session.ctx))
-    jobs = await scheduler.get_jobs(
-        scheduler.make_job_id(PLUGIN_NAME, context_id(session.ctx))
-    )
+    job_id_prefix = make_job_id(PLUGIN_NAME, session.event)
+    jobs = await get_jobs(make_job_id(PLUGIN_NAME, session.event))
     if not jobs:
         await session.send(f"你还没有添加过计划任务")
         return
@@ -128,9 +123,7 @@ async def sched_remove(session: CommandSession):
     parser = ArgumentParser(session=session, usage=usage.REMOVE)
     parser.add_argument("name")
     args = parser.parse_args(session.argv)
-    ok = await scheduler.remove_job(
-        scheduler.make_job_id(PLUGIN_NAME, context_id(session.ctx), args.name)
-    )
+    ok = await remove_job(make_job_id(PLUGIN_NAME, session.event, args.name))
     if ok:
         await session.send(f"成功删除计划任务 {args.name}")
     else:

@@ -11,7 +11,7 @@ from .libs.cache import init_cache
 from .libs.scheduler import init_scheduler
 
 
-from .utils.roconfig import Configuration
+from .libs.roconfig import Configuration
 
 
 def init_bot(config_object: Any) -> nb.NoneBot:
