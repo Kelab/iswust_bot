@@ -9,7 +9,7 @@ class Course(Base, db.Model):
 
     __tablename__ = "course"
 
-    id_ = Column("id", db.Integer, primary_key=True, autoincrement=True)
+    id_ = Column("id", db.Integer, db.Sequence("course_id_seq"), primary_key=True)
     term = Column(db.String(32))  # 学期
     course_name = Column(db.String(64))
     course_idx = Column(db.String(16))  # 课程序号 001 002 那些

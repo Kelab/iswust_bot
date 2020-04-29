@@ -1,8 +1,8 @@
 """refactor tables
 
-Revision ID: 084c3379fdbb
+Revision ID: e8bd674bf78b
 Revises: 
-Create Date: 2020-04-29 22:48:42.300689
+Create Date: 2020-04-30 00:37:56.059339
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '084c3379fdbb'
+revision = 'e8bd674bf78b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('chat_records',
     sa.Column('create_at', sa.DateTime(), nullable=True),
     sa.Column('update_at', sa.DateTime(), nullable=True),
-    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('self_id', sa.Integer(), nullable=True),
     sa.Column('ctx_id', sa.String(length=64), nullable=True),
     sa.Column('msg', sa.String(), nullable=True),
@@ -31,7 +31,7 @@ def upgrade():
     op.create_table('course',
     sa.Column('create_at', sa.DateTime(), nullable=True),
     sa.Column('update_at', sa.DateTime(), nullable=True),
-    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('term', sa.String(length=32), nullable=True),
     sa.Column('course_name', sa.String(length=64), nullable=True),
     sa.Column('course_idx', sa.String(length=16), nullable=True),
@@ -62,11 +62,10 @@ def upgrade():
     op.create_table('sub_content',
     sa.Column('create_at', sa.DateTime(), nullable=True),
     sa.Column('update_at', sa.DateTime(), nullable=True),
-    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('intervel', sa.Integer(), nullable=True),
     sa.Column('link', sa.String(length=128), nullable=True),
-    sa.Column('name', sa.String(length=64), nullable=True),
-    sa.Column('last_update', sa.String(length=32), nullable=True),
+    sa.Column('name', sa.String(length=128), nullable=True),
     sa.Column('content', sa.LargeBinary(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
@@ -114,7 +113,7 @@ def upgrade():
     op.create_table('sub_user',
     sa.Column('create_at', sa.DateTime(), nullable=True),
     sa.Column('update_at', sa.DateTime(), nullable=True),
-    sa.Column('context_id', sa.Integer(), nullable=False),
+    sa.Column('context_id', sa.String(length=64), nullable=False),
     sa.Column('sub_id', sa.Integer(), nullable=False),
     sa.Column('only_title', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['sub_id'], ['sub_content.id'], onupdate='CASCADE', ondelete='SET NULL'),
