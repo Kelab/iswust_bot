@@ -29,8 +29,8 @@ flake8 = "^3.7.9"
 black = "^19.10b0"
 
 [[tool.poetry.source]]
-name = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+name = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple/"
 default = true
 
 [tool.black]

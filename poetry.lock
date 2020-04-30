@@ -13,8 +13,8 @@ msgpack = ["msgpack (>=0.5.5)"]
 redis = ["aioredis (>=0.3.3)", "aioredis (>=1.0.0)"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -25,8 +25,8 @@ python-versions = ">=3.5"
 version = "0.2.2"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -44,8 +44,8 @@ httpx = ">=0.11,<1.0"
 all = ["ujson"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -56,8 +56,8 @@ python-versions = "*"
 version = "0.5.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -74,8 +74,8 @@ python-dateutil = "*"
 python-editor = ">=0.3"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "dev"
@@ -86,8 +86,8 @@ python-versions = "*"
 version = "1.4.3"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -117,8 +117,8 @@ twisted = ["twisted"]
 zookeeper = ["kazoo"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -132,8 +132,8 @@ version = "0.15.5"
 python-dateutil = "*"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -149,8 +149,8 @@ docs = ["Sphinx (>=1.7.3,<1.8.0)", "sphinxcontrib-asyncio (>=0.2.0,<0.3.0)", "sp
 test = ["pycodestyle (>=2.5.0,<2.6.0)", "flake8 (>=3.7.9,<3.8.0)", "uvloop (>=0.14.0,<0.15.0)"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -162,8 +162,8 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "1.4.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -180,8 +180,8 @@ docs = ["sphinx", "zope.interface"]
 tests = ["coverage", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "zope.interface"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -201,8 +201,8 @@ requests = "*"
 scikit-image = "*"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -220,8 +220,8 @@ html5lib = ["html5lib"]
 lxml = ["lxml"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "dev"
@@ -244,8 +244,8 @@ typed-ast = ">=1.4.0"
 d = ["aiohttp (>=3.3.2)", "aiohttp-cors"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -256,8 +256,8 @@ python-versions = "*"
 version = "1.4"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -268,8 +268,8 @@ python-versions = "*"
 version = "2020.4.5.1"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -280,8 +280,8 @@ python-versions = "*"
 version = "3.0.4"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -296,8 +296,8 @@ arrow = ">=0.15.2"
 regex = ">=2017"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -308,8 +308,8 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 version = "7.1.2"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -321,8 +321,8 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 version = "0.4.3"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "dev"
@@ -333,8 +333,8 @@ python-versions = ">=2.7"
 version = "0.3"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -350,8 +350,8 @@ python = ">=3.0"
 version = "*"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "dev"
@@ -368,8 +368,8 @@ pycodestyle = ">=2.5.0,<2.6.0"
 pyflakes = ">=2.1.0,<2.2.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -385,8 +385,8 @@ aiocontextvars = ">=0.2,<1.0"
 asyncpg = ">=0.18,<1.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -397,8 +397,8 @@ python-versions = "*"
 version = "0.9.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -413,8 +413,8 @@ hpack = ">=3.0,<4"
 hyperframe = ">=5.2.0,<6"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -425,8 +425,8 @@ python-versions = "*"
 version = "3.0.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -437,8 +437,8 @@ python-versions = ">=3.6"
 version = "2020.4.28"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -460,8 +460,8 @@ sniffio = ">=1.0.0,<2.0.0"
 urllib3 = ">=1.0.0,<2.0.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -486,8 +486,8 @@ trio = ["trio (>=0.11.0)"]
 uvloop = ["uvloop"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -498,8 +498,8 @@ python-versions = "*"
 version = "5.2.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -510,8 +510,8 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "2.9"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -522,8 +522,8 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "1.1.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -540,8 +540,8 @@ MarkupSafe = ">=0.23"
 i18n = ["Babel (>=0.8)"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -559,8 +559,8 @@ win32-setctime = ">=1.0.0"
 dev = ["codecov (>=2.0.15)", "colorama (>=0.3.4)", "flake8 (>=3.7.7)", "isort (>=4.3.20)", "tox (>=3.9.0)", "tox-travis (>=0.12)", "pytest (>=4.6.2)", "pytest-cov (>=2.7.1)", "Sphinx (>=2.2.1)", "sphinx-autobuild (>=0.7.1)", "sphinx-rtd-theme (>=0.4.3)", "black (>=19.3b0)"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -577,8 +577,8 @@ htmlsoup = ["beautifulsoup4"]
 source = ["Cython (>=0.29.7)"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -596,8 +596,8 @@ babel = ["babel"]
 lingua = ["lingua"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -608,8 +608,8 @@ python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
 version = "1.1.1"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "dev"
@@ -620,8 +620,8 @@ python-versions = "*"
 version = "0.6.1"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -632,8 +632,8 @@ python-versions = ">=3.5"
 version = "8.2.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -644,8 +644,8 @@ python-versions = "*"
 version = "1.0.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -663,8 +663,8 @@ aiocqhttp = ">=1.2,<1.3"
 scheduler = ["apscheduler"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -675,8 +675,8 @@ python-versions = ">=3.5"
 version = "1.18.3"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -691,8 +691,8 @@ pyparsing = ">=2.0.2"
 six = "*"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "dev"
@@ -703,8 +703,8 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 version = "0.8.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -715,8 +715,8 @@ python-versions = ">=3.5"
 version = "7.1.2"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -730,8 +730,8 @@ version = "0.13.1"
 dev = ["pre-commit", "tox"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -742,8 +742,8 @@ python-versions = "*"
 version = "1.3.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -754,8 +754,8 @@ python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
 version = "2.8.5"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -766,8 +766,8 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "1.8.1"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "dev"
@@ -778,8 +778,8 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "2.5.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "dev"
@@ -790,8 +790,8 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "2.1.1"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -802,8 +802,8 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 version = "2.4.7"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -828,8 +828,8 @@ checkqa-mypy = ["mypy (v0.761)"]
 testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "requests", "xmlschema"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -843,8 +843,8 @@ version = "2.8.1"
 six = ">=1.5"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -858,8 +858,8 @@ version = "0.12.0"
 cli = ["click (>=5.0)"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -870,8 +870,8 @@ python-versions = "*"
 version = "1.0.4"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -879,11 +879,11 @@ description = "World timezone definitions, modern and historical"
 name = "pytz"
 optional = false
 python-versions = "*"
-version = "2020.1"
+version = "2019.3"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -907,8 +907,8 @@ werkzeug = ">=1.0.0"
 dotenv = ["python-dotenv"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -922,8 +922,8 @@ version = "3.4.1"
 hiredis = ["hiredis (>=0.1.3)"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -934,8 +934,8 @@ python-versions = "*"
 version = "2020.4.4"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -956,8 +956,8 @@ security = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)"]
 socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7)", "win-inet-pton"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -971,8 +971,8 @@ version = "1.4.0"
 idna2008 = ["idna"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -983,8 +983,8 @@ python-versions = ">=3.6"
 version = "0.16.2"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -996,8 +996,8 @@ python-versions = "*"
 version = "1.0.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -1008,8 +1008,8 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 version = "1.14.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -1020,8 +1020,8 @@ python-versions = ">=3.5"
 version = "1.1.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -1032,8 +1032,8 @@ python-versions = ">=3.5"
 version = "2.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -1056,8 +1056,8 @@ postgresql_psycopg2cffi = ["psycopg2cffi"]
 pymysql = ["pymysql"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -1068,8 +1068,8 @@ python-versions = "*"
 version = "0.10.0"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "dev"
@@ -1080,8 +1080,8 @@ python-versions = "*"
 version = "1.4.1"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -1092,8 +1092,8 @@ python-versions = "*"
 version = "3.7.4.2"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -1107,8 +1107,8 @@ version = "2.0.0"
 pytz = "*"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -1124,8 +1124,8 @@ secure = ["certifi", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "pyOpenSSL (>=0
 socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7,<2.0)"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -1136,8 +1136,8 @@ python-versions = "*"
 version = "0.1.9"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -1152,8 +1152,8 @@ dev = ["pytest", "pytest-timeout", "coverage", "tox", "sphinx", "pallets-sphinx-
 watchdog = ["watchdog"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -1168,8 +1168,8 @@ version = "1.0.1"
 dev = ["pytest (>=4.6.2)", "black (>=19.3b0)"]
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
@@ -1183,11 +1183,11 @@ version = "0.15.0"
 h11 = ">=0.8.1"
 
 [package.source]
-reference = "tsinghua"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 
 [metadata]
-content-hash = "f3cfeb782f5d6aedcce3c08eb1a72a88e0a01283babe28c37d9f9fb1bb613368"
+content-hash = "d815f1f0c865088589a88d424ebaea17ec382bdf9581cf3ad7dc8018d1b2907f"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -1210,8 +1210,8 @@ alembic = [
     {file = "alembic-1.4.2.tar.gz", hash = "sha256:035ab00497217628bf5d0be82d664d8713ab13d37b630084da8e1f98facf4dbf"},
 ]
 appdirs = [
-    {file = "appdirs-1.4.3-py2.py3-none-any.whl", hash = "sha256:d8b24664561d0d34ddfaec54636d502d7cea6e29c3eaf68f3df6180863e2166e"},
-    {file = "appdirs-1.4.3.tar.gz", hash = "sha256:9e5896d1372858f8dd3344faf4e5014d21849c756c8d5701f78f8a103b372d92"},
+    {file = "appdirs-1.4.3-py2.py3-none-any.whl", hash = "md5:9ed4b51c9611775c3078b3831072e153"},
+    {file = "appdirs-1.4.3.tar.gz", hash = "md5:44c679904082a2133f5566c8a0d3ab42"},
 ]
 apscheduler = [
     {file = "APScheduler-3.6.3-py2.py3-none-any.whl", hash = "sha256:e8b1ecdb4c7cb2818913f766d5898183c7cb8936680710a4d3a966e02262e526"},
@@ -1266,15 +1266,15 @@ black = [
     {file = "black-19.10b0.tar.gz", hash = "sha256:c2edb73a08e9e0e6f65a0e6af18b059b8b1cdd5bef997d7a0b181df93dc81539"},
 ]
 blinker = [
-    {file = "blinker-1.4.tar.gz", hash = "sha256:471aee25f3992bd325afa3772f1063dbdbbca947a041b8b89466dc00d606f8b6"},
+    {file = "blinker-1.4.tar.gz", hash = "md5:8b3722381f83c2813c52de3016b68d33"},
 ]
 certifi = [
     {file = "certifi-2020.4.5.1-py2.py3-none-any.whl", hash = "sha256:1d987a998c75633c40847cc966fcf5904906c920a7f17ef374f5aa4282abd304"},
     {file = "certifi-2020.4.5.1.tar.gz", hash = "sha256:51fcb31174be6e6664c5f69e3e1691a2d72a1a12e90f872cbdb1567eb47b6519"},
 ]
 chardet = [
-    {file = "chardet-3.0.4-py2.py3-none-any.whl", hash = "sha256:fc323ffcaeaed0e0a02bf4d117757b98aed530d9ed4531e3e15460124c106691"},
-    {file = "chardet-3.0.4.tar.gz", hash = "sha256:84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae"},
+    {file = "chardet-3.0.4-py2.py3-none-any.whl", hash = "md5:0004b00caff7bb543a1d0d0bd0185a03"},
+    {file = "chardet-3.0.4.tar.gz", hash = "md5:7dd1ba7f9c77e32351b0a0cfacf4055c"},
 ]
 chinesetimenlp = [
     {file = "ChineseTimeNLP-1.1.5-py3-none-any.whl", hash = "sha256:453b6c9d283b6b1bc7a27e9ce7d993de3c251d71b3d04a65b0bfd4431fe67bd0"},
@@ -1417,8 +1417,8 @@ markupsafe = [
     {file = "MarkupSafe-1.1.1.tar.gz", hash = "sha256:29872e92839765e546828bb7754a68c418d927cd064fd4708fab9fe9c8bb116b"},
 ]
 mccabe = [
-    {file = "mccabe-0.6.1-py2.py3-none-any.whl", hash = "sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42"},
-    {file = "mccabe-0.6.1.tar.gz", hash = "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"},
+    {file = "mccabe-0.6.1-py2.py3-none-any.whl", hash = "md5:6afffd590703262843327af8c4051928"},
+    {file = "mccabe-0.6.1.tar.gz", hash = "md5:723df2f7b1737b8887475bac4c763e1e"},
 ]
 more-itertools = [
     {file = "more-itertools-8.2.0.tar.gz", hash = "sha256:b1ddb932186d8a6ac451e1d95844b382f55e12686d51ca0c68b6f61f2ab7a507"},
@@ -1576,8 +1576,8 @@ python-editor = [
     {file = "python_editor-1.0.4-py3-none-any.whl", hash = "sha256:1bf6e860a8ad52a14c3ee1252d5dc25b2030618ed80c022598f00176adc8367d"},
 ]
 pytz = [
-    {file = "pytz-2020.1-py2.py3-none-any.whl", hash = "sha256:a494d53b6d39c3c6e44c3bec237336e14305e4f29bbf800b599253057fbb79ed"},
-    {file = "pytz-2020.1.tar.gz", hash = "sha256:c35965d010ce31b23eeb663ed3cc8c906275d6be1a34393a1d73a41febf4a048"},
+    {file = "pytz-2019.3-py2.py3-none-any.whl", hash = "sha256:1c557d7d0e871de1f5ccd5833f60fb2550652da6be2693c1e02300743d21500d"},
+    {file = "pytz-2019.3.tar.gz", hash = "sha256:b02c06db6cf09c12dd25137e563b31700d3b80fcc4ad23abb7a315f2789819be"},
 ]
 quart = [
     {file = "Quart-0.11.5-py3-none-any.whl", hash = "sha256:187427d1a2d7fed20dcb825dddbe20fd971efd7ec413639f95d2e28ff59a0cb1"},
@@ -1636,7 +1636,7 @@ scikit-image = [
     {file = "scikit_image-0.16.2-cp38-cp38-win_amd64.whl", hash = "sha256:e18d73cc8893e2268b172c29f9aab530faf8cd3b7c11ae0bee3e763d719d35c5"},
 ]
 sgmllib3k = [
-    {file = "sgmllib3k-1.0.0.tar.gz", hash = "sha256:7868fb1c8bfa764c1ac563d3cf369c381d1325d36124933a726f29fcdaa812e9"},
+    {file = "sgmllib3k-1.0.0.tar.gz", hash = "md5:d70efde06e40797f37e867123aa080ec"},
 ]
 six = [
     {file = "six-1.14.0-py2.py3-none-any.whl", hash = "sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c"},
@@ -1651,6 +1651,24 @@ soupsieve = [
     {file = "soupsieve-2.0.tar.gz", hash = "sha256:e914534802d7ffd233242b785229d5ba0766a7f487385e3f714446a07bf540ae"},
 ]
 sqlalchemy = [
+    {file = "SQLAlchemy-1.3.16-cp27-cp27m-macosx_10_13_x86_64.whl", hash = "sha256:8d8c21e9d4efef01351bf28513648ceb988031be4159745a7ad1b3e28c8ff68a"},
+    {file = "SQLAlchemy-1.3.16-cp27-cp27m-win32.whl", hash = "sha256:083e383a1dca8384d0ea6378bd182d83c600ed4ff4ec8247d3b2442cf70db1ad"},
+    {file = "SQLAlchemy-1.3.16-cp27-cp27m-win_amd64.whl", hash = "sha256:128f6179325f7597a46403dde0bf148478f868df44841348dfc8d158e00db1f9"},
+    {file = "SQLAlchemy-1.3.16-cp36-cp36m-macosx_10_13_x86_64.whl", hash = "sha256:6056b671aeda3fc451382e52ab8a753c0d5f66ef2a5ccc8fa5ba7abd20988b4d"},
+    {file = "SQLAlchemy-1.3.16-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:7025c639ce7e170db845e94006cf5f404e243e6fc00d6c86fa19e8ad8d411880"},
+    {file = "SQLAlchemy-1.3.16-cp36-cp36m-manylinux2010_x86_64.whl", hash = "sha256:e18752cecaef61031252ca72031d4d6247b3212ebb84748fc5d1a0d2029c23ea"},
+    {file = "SQLAlchemy-1.3.16-cp36-cp36m-win32.whl", hash = "sha256:0a690a6486658d03cc6a73536d46e796b6570ac1f8a7ec133f9e28c448b69828"},
+    {file = "SQLAlchemy-1.3.16-cp36-cp36m-win_amd64.whl", hash = "sha256:d00b393f05dbd4ecd65c989b7f5a81110eae4baea7a6a4cdd94c20a908d1456e"},
+    {file = "SQLAlchemy-1.3.16-cp37-cp37m-macosx_10_13_x86_64.whl", hash = "sha256:114b6ace30001f056e944cebd46daef38fdb41ebb98f5e5940241a03ed6cad43"},
+    {file = "SQLAlchemy-1.3.16-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:13d48cd8b925b6893a4e59b2dfb3e59a5204fd8c98289aad353af78bd214db49"},
+    {file = "SQLAlchemy-1.3.16-cp37-cp37m-manylinux2010_x86_64.whl", hash = "sha256:211a1ce7e825f7142121144bac76f53ac28b12172716a710f4bf3eab477e730b"},
+    {file = "SQLAlchemy-1.3.16-cp37-cp37m-win32.whl", hash = "sha256:68d78cf4a9dfade2e6cf57c4be19f7b82ed66e67dacf93b32bb390c9bed12749"},
+    {file = "SQLAlchemy-1.3.16-cp37-cp37m-win_amd64.whl", hash = "sha256:2dc57ee80b76813759cccd1a7affedf9c4dbe5b065a91fb6092c9d8151d66078"},
+    {file = "SQLAlchemy-1.3.16-cp38-cp38-macosx_10_13_x86_64.whl", hash = "sha256:43078c7ec0457387c79b8d52fff90a7ad352ca4c7aa841c366238c3e2cf52fdf"},
+    {file = "SQLAlchemy-1.3.16-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:bbb545da054e6297242a1bb1ba88e7a8ffb679f518258d66798ec712b82e4e07"},
+    {file = "SQLAlchemy-1.3.16-cp38-cp38-manylinux2010_x86_64.whl", hash = "sha256:5b1bf3c2c2dca738235ce08079783ef04f1a7fc5b21cf24adaae77f2da4e73c3"},
+    {file = "SQLAlchemy-1.3.16-cp38-cp38-win32.whl", hash = "sha256:3e625e283eecc15aee5b1ef77203bfb542563fa4a9aa622c7643c7b55438ff49"},
+    {file = "SQLAlchemy-1.3.16-cp38-cp38-win_amd64.whl", hash = "sha256:7d98e0785c4cd7ae30b4a451416db71f5724a1839025544b4edbd92e00b91f0f"},
     {file = "SQLAlchemy-1.3.16.tar.gz", hash = "sha256:7224e126c00b8178dfd227bc337ba5e754b197a3867d33b9f30dc0208f773d70"},
 ]
 toml = [
