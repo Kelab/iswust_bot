@@ -1,4 +1,6 @@
-# NoneBot 版教务处机器人
+# iswust_nonebot
+
+整合了很多功能的教务机器人
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
@@ -64,7 +66,7 @@ poetry install
 
 识别使用的是 <https://ai.qq.com> 的 API，你需要自己去申请一个密钥，填入 .env 即可。
 
-### 相关 docker 命令
+### docker 相关命令
 
 #### 查看运行日志
 
@@ -72,52 +74,48 @@ poetry install
 docker-compose logs -f --tail 10 nonebot
 ```
 
-#### 报错 `Target database is not up to date.`
-
-同上所述，container 运行中可以使用：
-
-```sh
-docker-compose exec nonebot alembic stamp heads
-```
-
-否则：
-
-```sh
-docker-compose run --rm nonebot alembic stamp heads
-```
-
 #### 执行数据库 migrate
 
-如果 container 已经在运行中的话，可以使用 `exec`：
-
 ```sh
+# 如果 container 已经在运行中的话，可以使用 `exec`：
 docker-compose exec nonebot alembic revision --autogenerate -m 'message'
+# 没运行的话可以执行：
+docker-compose run --rm nonebot alembic revision --autogenerate -m 'message'
 ```
 
-没运行的话可以执行：
+#### 报错 `Target database is not up to date.`
 
 ```sh
-docker-compose run --rm nonebot alembic revision --autogenerate -m 'message'
+# 同上所述，container 运行中可以使用：
+docker-compose exec nonebot alembic stamp heads
+# 否则：
+docker-compose run --rm nonebot alembic stamp heads
 ```
 
 #### 升级到最新数据库
 
-如果 container 已经在运行中的话，可以使用 `exec`：
-
 ```sh
+# 如果 container 已经在运行中的话，可以使用 `exec`：
 docker-compose exec nonebot alembic upgrade head
-```
-
-否则：
-
-```sh
+# 否则：
 docker-compose run --rm nonebot alembic upgrade head
 ```
 
 #### 删除本地数据库
 
+先停止数据库，然后删除 `volume`：
+
 ```sh
-docker-compose down -v # 会清除所有 volume
+docker-compose rm -s -v database
+docker volume rm iswust_nonebot_database_data
+# 再启动
+docker-compose up -d database
+```
+
+或者直接删除所有东西，包括 `container`，`volume`：
+
+```sh
+docker-compose down -v --remove-orphans
 ```
 
 #### 重启 nonebot

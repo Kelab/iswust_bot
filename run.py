@@ -1,7 +1,4 @@
-from dotenv import load_dotenv
-
-load_dotenv()
-
+import app.utils.env  # noqa: F401
 import log  # noqa: F401
 import app
 

@@ -5,15 +5,14 @@ from typing import List, Optional, Tuple
 import httpx
 from loguru import logger
 
-from .env import get_env_or_raise
+from .env import env
 
 isUrl = re.compile(r"^https?:\/\/")
 
 
 def bot_hash(message: str) -> str:
     message = str(message)
-    key = get_env_or_raise("SECRET").encode(encoding="utf8")
-
+    key = env("SECRET").encode(encoding="utf8")
     inner = hashlib.md5()
     inner.update(message.encode())
     outer = hashlib.md5()

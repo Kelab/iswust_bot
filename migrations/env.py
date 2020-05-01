@@ -22,7 +22,7 @@ fileConfig(config.config_file_name)
 from app.config import get_database_url
 from app.libs.gino import db, load_models
 
-config.set_main_option("sqlalchemy.url", get_database_url())
+config.set_main_option("sqlalchemy.url", str(get_database_url()))
 
 load_models()
 target_metadata = db

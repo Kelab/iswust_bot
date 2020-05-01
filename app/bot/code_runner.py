@@ -1,8 +1,11 @@
-from os import getenv as ge
+
 from nonebot import on_command, CommandSession
 from nonebot.message import escape as message_escape
+from loguru import logger
 import httpx
 
+
+from app.utils.env import env
 
 __plugin_name__ = "运行代码"
 
@@ -38,9 +41,10 @@ SUPPORTED_LANGUAGES = {
 
 @on_command("code_runner", aliases=["run", "运行代码", "运行", "执行代码"], only_to_me=False)
 async def run(session: CommandSession):
-    api_token = ge("GLOT_IO_TOKEN")
+    api_token = env("GLOT_IO_TOKEN", None)
     if not api_token:
-        session.finish(f"未设置运行代码 token.")
+        logger.error("未设置 `GLOT_IO_TOKEN`")
+        session.finish(f"运行代码功能未启用")
     supported_languages = ", ".join(sorted(SUPPORTED_LANGUAGES))
     language = session.get(
         "language", prompt="你想运行的代码是什么语言？\n" f"目前支持 {supported_languages}"

@@ -1,4 +1,3 @@
-import os
 from loguru import logger
 import regex as re
 from nonebot import (
@@ -9,8 +8,7 @@ from nonebot import (
 from nonebot.helpers import send
 from aiocqhttp import Event
 
-from app.libs.qqai_async.aaiasr import echo
-
+from app.libs.qqai_async.aaiasr import echo, check_qqai_key
 
 record_re = re.compile(r"^\[CQ:record,file=([A-Z0-9]{32}\.silk)\]$")
 
@@ -20,11 +18,7 @@ async def audio_preprocessor(bot: NoneBot, event: Event, *args):
     raw_message: str = event["raw_message"]
     logger.info(event)
     if raw_message.startswith("[CQ:record,"):
-        appid = os.environ.get("QQAI_APPID")
-        appkey = os.environ.get("QQAI_APPKEY")
-
-        if not appid or not appkey:
-            logger.error("未设置 QQAI_APPID 和 QQAI_APPKEY！")
+        if not check_qqai_key():
             return
 
         logger.info(f"raw_message: {raw_message}")

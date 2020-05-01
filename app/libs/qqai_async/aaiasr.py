@@ -1,10 +1,12 @@
 import json
 import time
-import os
 from pathlib import Path
-from loguru import logger
-from . import QQAIClass
+
 import aiofiles
+from loguru import logger
+
+
+from . import QQAIClass, check_qqai_key
 
 
 class AudioRecognitionEcho(QQAIClass):
@@ -33,17 +35,6 @@ class AudioRecognitionEcho(QQAIClass):
         return result
 
 
-appid = os.environ.get("QQAI_APPID")
-appkey = os.environ.get("QQAI_APPKEY")
-
-if not appid or not appkey:
-    logger.error("未设置 QQAI_APPID 和 QQAI_APPKEY！")
-
-
-audio_rec = AudioRecognitionEcho(appid, appkey)
-record_dir = Path("/coolq") / Path("data/record")
-
-
 async def echo(silk_fimename: str, coolq_record_dir=None):
     """[echo 语音识别]
     {
@@ -56,11 +47,16 @@ async def echo(silk_fimename: str, coolq_record_dir=None):
         }
     }
     """
+    key = check_qqai_key()
+    if not key:
+        return False, "未设置 QQAI 相关密钥"
+
+    audio_rec = AudioRecognitionEcho(key["appid"], key["appkey"])
     if not silk_fimename.endswith(".silk"):
         return False, "没有检测到语音文件"
 
     if coolq_record_dir is None:
-        coolq_record_dir = record_dir
+        coolq_record_dir = Path("/coolq") / Path("data/record")
 
     SLIK = 4
     path: Path = coolq_record_dir / silk_fimename

@@ -1,9 +1,28 @@
 import base64
 import hashlib
+from typing import Optional
+from typing import TypedDict
 import httpx
 
 from httpx import Response
 from urllib import parse
+from app.utils.env import env
+from loguru import logger
+
+
+class QQAI_KEY(TypedDict):
+    appid: str
+    appkey: str
+
+
+def check_qqai_key() -> Optional[QQAI_KEY]:
+    appid = env("QQAI_APPID", None)
+    appkey = env("QQAI_APPKEY", None)
+    if not appid or not appkey:
+        logger.error("未设置 QQAI_APPID 和 QQAI_APPKEY！")
+        return None
+
+    return {"appid": appid, "appkey": appkey}
 
 
 class QQAIClass:
