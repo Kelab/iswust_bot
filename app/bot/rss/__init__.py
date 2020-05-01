@@ -1,7 +1,6 @@
+from loguru import logger
 from app.models.subcribe import SubUser
-from nonebot import on_command, CommandSession, CommandGroup
-from nonebot.message import escape as message_escape
-import httpx
+from nonebot import CommandSession, CommandGroup
 
 rss_cg = CommandGroup("rss", only_to_me=True)
 
@@ -9,10 +8,21 @@ rss_cg = CommandGroup("rss", only_to_me=True)
 @rss_cg.command("add", only_to_me=True)
 async def add(session: CommandSession):
     url = session.get("url", prompt="请输入你要订阅的地址：")
+
     await session.send(url)
-    title, items = await SubUser.add_sub(session.event, url)
-    await session.send(title)
-    await session.send(items)
+    try:
+        if await SubUser.get_sub(session.event, url):
+            await session.send("已订阅~")
+            return
+        title, items = await SubUser.add_sub(session.event, url)
+        if title:
+            await session.send(title)
+            await session.send(items)
+            await session.send("订阅成功~")
+            return
+    except Exception as e:
+        logger.exception(e)
+        await session.send("订阅失败，请稍后重试。")
 
 
 @add.args_parser

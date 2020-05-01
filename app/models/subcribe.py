@@ -1,11 +1,13 @@
-from app.utils.rss import get_rss_info
-from app.libs.gino import db
-from .base import Base
-from aiocqhttp import Event
-from nonebot import context_id
 import pickle
+
+from aiocqhttp import Event
 from loguru import logger
-from datetime import datetime
+from nonebot import context_id
+
+from app.libs.gino import db
+from app.utils.rss import get_rss_info
+
+from .base import Base
 
 
 class SubContent(Base, db.Model):
@@ -14,13 +16,18 @@ class SubContent(Base, db.Model):
 
     __tablename__ = "sub_content"
 
-    id_ = db.Column(
-        "id", db.Integer, db.Sequence("sub_content_id_seq"), primary_key=True
-    )
-    intervel = db.Column(db.Integer)  # 更新速度，单位 s
-    link = db.Column(db.String(128))
+    link = db.Column(db.String(128), primary_key=True)
     name = db.Column(db.String(128))
     content = db.Column(db.LargeBinary)
+
+    @classmethod
+    async def add_or_update(cls, link, name, content) -> "SubContent":
+        sub = await cls.get(link)
+        if sub:
+            await sub.update(link=link, name=name, content=content).apply()
+        else:
+            sub = await cls.create(link=link, name=name, content=content)
+        return sub
 
 
 class SubUser(Base, db.Model):
@@ -29,18 +36,16 @@ class SubUser(Base, db.Model):
 
     __tablename__ = "sub_user"
 
-    context_id = db.Column(db.String(64), primary_key=True)
-    sub_id = db.Column(
-        db.Integer,
-        db.ForeignKey("sub_content.id", onupdate="CASCADE", ondelete="SET NULL"),
+    ctx_id = db.Column(db.String(64), primary_key=True)
+    link = db.Column(
+        db.String(128),
+        db.ForeignKey("sub_content.link", onupdate="CASCADE", ondelete="SET NULL"),
         primary_key=True,
     )
     only_title = db.Column(db.Boolean, default=True)
 
-    @staticmethod
-    async def add_sub(
-        event: Event, url: str, only_title=False, intervel=3000,
-    ):
+    @classmethod
+    async def add_sub(cls, event: Event, url: str, only_title=False):
         # TODO: UTF8
         d = await get_rss_info(url)
         if not d:
@@ -49,12 +54,20 @@ class SubUser(Base, db.Model):
         title = info.get("title", "无标题")
         items = info.get("items", [])
         logger.info(info)
-        dumped_items = pickle.dumps(items)
-        sub = await SubContent.create(
-            intervel=intervel, link=url, name=title, content=dumped_items,
+        sub = await SubContent.add_or_update(
+            link=url, name=title, content=pickle.dumps(d),
         )
-
         await SubUser.create(
-            context_id=context_id(event), sub_id=sub.id_, only_title=only_title
+            ctx_id=context_id(event), link=sub.link, only_title=only_title
         )
         return title, items
+
+    @classmethod
+    async def get_sub(cls, event: Event, url: str):
+        ctx_id = context_id(event)
+        sub = (
+            await cls.query.where(cls.link == url)
+            .where(cls.ctx_id == ctx_id)
+            .gino.first()
+        )
+        return sub

@@ -1,8 +1,8 @@
-"""refactor tables
+"""init tables
 
-Revision ID: e8bd674bf78b
+Revision ID: eb9aed0bff34
 Revises: 
-Create Date: 2020-04-30 00:37:56.059339
+Create Date: 2020-05-02 00:44:29.189205
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e8bd674bf78b'
+revision = 'eb9aed0bff34'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -62,12 +62,10 @@ def upgrade():
     op.create_table('sub_content',
     sa.Column('create_at', sa.DateTime(), nullable=True),
     sa.Column('update_at', sa.DateTime(), nullable=True),
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('intervel', sa.Integer(), nullable=True),
-    sa.Column('link', sa.String(length=128), nullable=True),
+    sa.Column('link', sa.String(length=128), nullable=False),
     sa.Column('name', sa.String(length=128), nullable=True),
     sa.Column('content', sa.LargeBinary(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('link')
     )
     op.create_table('course_student',
     sa.Column('create_at', sa.DateTime(), nullable=True),
@@ -113,11 +111,11 @@ def upgrade():
     op.create_table('sub_user',
     sa.Column('create_at', sa.DateTime(), nullable=True),
     sa.Column('update_at', sa.DateTime(), nullable=True),
-    sa.Column('context_id', sa.String(length=64), nullable=False),
-    sa.Column('sub_id', sa.Integer(), nullable=False),
+    sa.Column('ctx_id', sa.String(length=64), nullable=False),
+    sa.Column('link', sa.String(length=128), nullable=False),
     sa.Column('only_title', sa.Boolean(), nullable=True),
-    sa.ForeignKeyConstraint(['sub_id'], ['sub_content.id'], onupdate='CASCADE', ondelete='SET NULL'),
-    sa.PrimaryKeyConstraint('context_id', 'sub_id')
+    sa.ForeignKeyConstraint(['link'], ['sub_content.link'], onupdate='CASCADE', ondelete='SET NULL'),
+    sa.PrimaryKeyConstraint('ctx_id', 'link')
     )
     op.create_table('user',
     sa.Column('create_at', sa.DateTime(), nullable=True),
