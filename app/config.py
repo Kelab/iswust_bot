@@ -5,11 +5,10 @@ from sqlalchemy.engine.url import URL
 
 def get_database_url() -> URL:
     return URL(
+        host="database",
         drivername="postgresql",
         username=env("POSTGRES_USER"),
         password=env("POSTGRES_PASSWORD"),
-        host=env("POSTGRES_HOST", None),
-        port=env("POSTGRES_PORT", None, subcast=int),
         database=env("POSTGRES_DATABASE", "qqrobot"),
     )
 
