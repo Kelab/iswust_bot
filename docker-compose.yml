@@ -52,19 +52,6 @@ services:
     sysctls:
       net.core.somaxconn: "888"
 
-  admin:
-    image: dpage/pgadmin4
-    container_name: "iswust_pgadmin4"
-    ports:
-      - 18080:80
-    environment:
-      - TZ=Asia/Shanghai
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
-      - PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=25
-    volumes:
-      - admin_data:/var/lib/pgadmin
-
   database:
     image: postgres
     container_name: "iswust_postgres"
@@ -82,5 +69,4 @@ services:
 
 volumes:
   database_data: {}
-  admin_data: {}
   redis_data: {}
