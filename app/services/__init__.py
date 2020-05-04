@@ -12,6 +12,5 @@ class BaseService:
 
     @classmethod
     async def get(cls, method: str, qq: str, params: dict = {}, **kwargs: dict):
-        raise NotImplementedError()
         if not method.startswith("/"):
             raise SyntaxError("method 参数有误")

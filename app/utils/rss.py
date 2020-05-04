@@ -1,10 +1,9 @@
 import httpx
-from httpx.config import Timeout
 import feedparser
 
 
 async def get_rss_info(url: str):
-    async with httpx.AsyncClient(timeout=Timeout(30)) as client:
+    async with httpx.AsyncClient(timeout=None) as client:
         response = await client.get(url)
         return feedparser.parse(response.text)
 
