@@ -12,20 +12,18 @@ from app.libs import scheduler
 from app.libs.scheduler import ScheduledCommand
 from app.utils.str_common import random_string
 
-__plugin_name__ = "订阅"
+__plugin_name__ = "推送"
 
-PLUGIN_NAME = "subscribe"
+PLUGIN_NAME = "push"
 
-cg = CommandGroup(
-    "subscribe", permission=perm.PRIVATE | perm.GROUP_ADMIN | perm.DISCUSS
-)
+cg = CommandGroup("push", permission=perm.PRIVATE | perm.GROUP_ADMIN | perm.DISCUSS)
 
 
-@cg.command("subscribe", aliases=["订阅", "添加订阅", "新增订阅", "新建订阅"], only_to_me=False)
-async def subscribe(session: CommandSession):
+@cg.command("push", aliases=["推送", "添加推送", "新增推送", "新建推送"], only_to_me=False)
+async def push(session: CommandSession):
     message = session.get(
         "message",
-        prompt="你想订阅什么内容呢？（可输入 `取消、不` 等取消）",
+        prompt="你想让我推送什么内容呢？语句命令都可，输入 `取消、不` 等来取消",
         arg_filters=[
             controllers.handle_cancellation(session),
             str.lstrip,
@@ -95,13 +93,13 @@ async def subscribe(session: CommandSession):
             replace_existing=False,
         )
         session.finish(
-            f"订阅成功啦，下次推送时间 " f'{job.next_run_time.strftime("%Y-%m-%d %H:%M")}'
+            f"添加推送成功啦，下次推送时间 " f'{job.next_run_time.strftime("%Y-%m-%d %H:%M")}'
         )
     except scheduler.JobIdConflictError:
-        session.finish("订阅失败，有可能只是运气不好哦，请稍后重试～")
+        session.finish("添加推送失败，有可能只是运气不好哦，请稍后重试～")
 
 
-@subscribe.args_parser
+@push.args_parser
 async def _(session: CommandSession):
     if session.is_first_run:
         if session.current_arg:
@@ -109,29 +107,29 @@ async def _(session: CommandSession):
         return
 
 
-@cg.command("show", aliases=["查看订阅", "我的订阅"], only_to_me=False)
+@cg.command("show", aliases=["查看推送", "我的推送", "推送列表"], only_to_me=False)
 async def _(session: CommandSession):
-    jobs = session.state.get("jobs") or await get_subscriptions(session.ctx)
+    jobs = session.state.get("jobs") or await get_push_jobs(session.event)
 
     if not jobs:
-        session.finish(f"你还没有订阅任何内容哦")
+        session.finish(f"你还没有添加任何推送哦")
 
     for i, job in enumerate(jobs):
         await session.send(format_subscription(i + 1, job))
         await asyncio.sleep(0.2)
-    session.finish(f"以上是所有的 {len(jobs)} 个订阅")
+    session.finish(f"以上是所有的 {len(jobs)} 个推送")
 
 
-@cg.command("unsubscribe", aliases=["取消订阅", "停止订阅", "关闭订阅", "删除订阅"], only_to_me=False)
-async def unsubscribe(session: CommandSession):
-    jobs = session.state.get("jobs") or await get_subscriptions(session.event)
+@cg.command("rm", aliases=["取消推送", "停止推送", "关闭推送", "删除推送"], only_to_me=False)
+async def rm(session: CommandSession):
+    jobs = session.state.get("jobs") or await get_push_jobs(session.event)
     index = session.state.get("index")
     if index is None:
         session.state["jobs"] = jobs
         await call_command(
             session.bot,
             session.ctx,
-            ("subscribe", "show"),
+            ("push", "show"),
             args={"jobs": jobs},
             disable_interaction=True,
         )
@@ -140,7 +138,7 @@ async def unsubscribe(session: CommandSession):
 
         index = session.get(
             "index",
-            prompt="你想取消哪一个订阅呢？（请发送序号）",
+            prompt="你想取消哪一个推送呢？（请发送序号）",
             arg_filters=[
                 extractors.extract_text,
                 controllers.handle_cancellation(session),
@@ -155,12 +153,12 @@ async def unsubscribe(session: CommandSession):
 
     job = jobs[index]
     if await scheduler.remove_job(job.id):
-        session.finish("取消订阅成功")
+        session.finish("取消推送成功")
     else:
         session.finish("出了点问题，请稍后再试吧")
 
 
-async def get_subscriptions(event) -> List[scheduler.Job]:
+async def get_push_jobs(event) -> List[scheduler.Job]:
     return await scheduler.get_jobs(scheduler.make_job_id(PLUGIN_NAME, event))
 
 
@@ -173,6 +171,6 @@ def format_subscription(index: int, job: scheduler.Job) -> str:
         f"序号：{index}\n"
         f"下次推送时间："
         f'{job.next_run_time.strftime("%Y-%m-%d %H:%M:%S")}\n'
-        f"订阅内容："
+        f"推送内容："
         f"{message}"
     )

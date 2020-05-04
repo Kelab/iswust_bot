@@ -1,6 +1,7 @@
 from loguru import logger
 from app.models.subcribe import SubUser
 from nonebot import CommandSession, CommandGroup
+from httpx import ConnectTimeout
 
 rss_cg = CommandGroup("rss", only_to_me=True)
 
@@ -9,17 +10,20 @@ rss_cg = CommandGroup("rss", only_to_me=True)
 async def add(session: CommandSession):
     url = session.get("url", prompt="请输入你要订阅的地址：")
 
-    await session.send(url)
+    await session.send(f"正在处理订阅链接：{url}")
     try:
-        if await SubUser.get_sub(session.event, url):
-            await session.send("已订阅~")
+        sub = await SubUser.get_sub(session.event, url)
+        if sub:
+            logger.info(dir(sub))
+            await session.send(f"{sub.sub_content.name} 已订阅~")
             return
-        title, items = await SubUser.add_sub(session.event, url)
+        title = await SubUser.add_sub(session.event, url)
         if title:
-            await session.send(title)
-            await session.send(items)
-            await session.send("订阅成功~")
+            await session.send(f"{title} 订阅成功~")
             return
+    except ConnectTimeout as e:
+        logger.exception(e)
+        await session.send("获取订阅源超时，请稍后重试。")
     except Exception as e:
         logger.exception(e)
         await session.send("订阅失败，请稍后重试。")
