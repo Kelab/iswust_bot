@@ -18,7 +18,8 @@ async def uc(session: CommandSession):
             sender_qq, params={"update": "1"}, timeout=30,
         )
     except Exception:
-        await session.send(f"课表正在更新中，请稍候直接查询。")
+        await session.send(f"课表正在更新中，请稍候查询。")
+        return
 
     if r:
         resp = r.json()

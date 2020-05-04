@@ -5,7 +5,7 @@ from loguru import logger
 import httpx
 
 
-from app.utils.env import env
+from app.env import env
 
 __plugin_name__ = "运行代码"
 

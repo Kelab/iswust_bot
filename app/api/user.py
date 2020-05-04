@@ -42,12 +42,11 @@ async def bind():
         else:
             logger.info("qq{}绑定失败!".format(qq))
             return falseRet("qq绑定失败!失败原因是{}".format(log_resp))
-
     return falseRet("该qq已经绑定了!")
 
 
 @api.route("/user/unbind")
-def unbind():
+async def unbind():
     qq = request.args.get("qq")
     token = request.args.get("token")
     result, msg = check_args(qq=qq, token=token)

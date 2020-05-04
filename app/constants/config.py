@@ -1,4 +1,4 @@
-from app.utils.env import env
+from app.env import env
 import time
 from typing import Optional
 

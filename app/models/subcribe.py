@@ -2,7 +2,8 @@ import pickle
 
 from aiocqhttp import Event
 from loguru import logger
-from nonebot import context_id
+from nonebot import context_id, get_bot
+from nonebot.helpers import send
 
 from app.libs.gino import db
 from app.utils.rss import get_rss_info
@@ -47,12 +48,16 @@ class SubUser(Base, db.Model):
     @classmethod
     async def add_sub(cls, event: Event, url: str, only_title=False):
         # TODO: UTF8
-        d = await get_rss_info(url)
+        try:
+            d = await get_rss_info(url)
+        except Exception:
+            await send(get_bot(), event, "获取订阅信息失败，但已添加到订阅中，我们会稍后重试。")
+            d = {"channel": {}}
+
         if not d:
-            return None, None
+            return None
         info = d["channel"]
         title = info.get("title", "无标题")
-        items = info.get("items", [])
         logger.info(info)
         sub = await SubContent.add_or_update(
             link=url, name=title, content=pickle.dumps(d),
@@ -60,14 +65,18 @@ class SubUser(Base, db.Model):
         await SubUser.create(
             ctx_id=context_id(event), link=sub.link, only_title=only_title
         )
-        return title, items
+        return title
 
     @classmethod
     async def get_sub(cls, event: Event, url: str):
         ctx_id = context_id(event)
+        loader = SubUser.load(sub_content=SubContent)
         sub = (
-            await cls.query.where(cls.link == url)
+            await cls.outerjoin(SubContent)
+            .select()
+            .where(cls.link == url)
             .where(cls.ctx_id == ctx_id)
-            .gino.first()
+            .gino.load(loader)
+            .first()
         )
         return sub

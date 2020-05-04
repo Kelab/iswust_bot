@@ -2,9 +2,10 @@ import pickle
 from quart import request, abort
 from auth_swust import Login, request as requests
 
-from app import db
+from app.libs.gino import db
 from loguru import logger
-from app.models import User, Course
+from app.models.user import User
+from app.models.course import Course
 from app.utils.common import trueRet, falseRet
 from app.utils.tools import bot_hash, check_args
 from app.libs.aio import run_sync_func
@@ -44,8 +45,9 @@ async def getCourse_util(func):
         if res.status_code == 302 or res.status_code == 301 or update:
             logger.info("qq {} 的session 失效".format(qq))
             logger.debug("load ID--{} password--{}".format(u.student_card, u.password))
+
             u_ = Login(u.student_card, u.password)
-            is_log, log_resp = u_.try_login()
+            is_log, log_resp = await run_sync_func(u_.try_login)
             if is_log:
                 u.cookies = pickle.dumps(u_.get_cookies())
                 db.session.add(u)

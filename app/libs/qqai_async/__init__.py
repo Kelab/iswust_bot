@@ -1,13 +1,13 @@
 import base64
 import hashlib
-from typing import Optional
-from typing import TypedDict
-import httpx
-
-from httpx import Response
+from typing import Optional, TypedDict
 from urllib import parse
-from app.utils.env import env
+
+import httpx
+from httpx import Response
 from loguru import logger
+
+from app.env import env
 
 
 class QQAI_KEY(TypedDict):

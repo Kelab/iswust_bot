@@ -1,6 +1,7 @@
 from datetime import timedelta
-from .utils.env import env
 from sqlalchemy.engine.url import URL
+
+from .env import env
 
 
 def get_database_url() -> URL:

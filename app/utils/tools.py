@@ -5,7 +5,7 @@ from typing import List, Optional, Tuple
 import httpx
 from loguru import logger
 
-from .env import env
+from ..env import env
 
 isUrl = re.compile(r"^https?:\/\/")
 
