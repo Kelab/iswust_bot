@@ -25,6 +25,8 @@ services:
     container_name: "iswust_nonebot"
     expose:
       - ${PORT}
+    ports:
+      - 8080:${PORT}
     environment:
       - TZ=Asia/Shanghai
       - QUART_APP=${QUART_APP}

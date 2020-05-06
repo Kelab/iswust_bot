@@ -83,7 +83,7 @@ class App extends React.Component {
         token: this.state.token,
       };
       axios
-        .post(configs.apiUrl + '/api/v1/user/bind', login_data)
+        .post(configs.apiUrl + '/api/user/bind', login_data)
         .then(res => {
           if (res.status == '200' && res.data.code == '200') {
             Toast.success(`登录成功！请返回聊天页面。`, 0, null, false);

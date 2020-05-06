@@ -5,6 +5,7 @@ from loguru import logger
 from app.models.user import User
 from app.utils.common import trueRet, falseRet
 from app.utils.tools import check_args, bot_hash
+from app.libs.aio import run_sync_func
 from . import api
 
 
@@ -28,15 +29,21 @@ async def bind():
 
     logger.info("qq{}正在请求绑定!".format(qq))
     # 是否已经绑定
-    user = User.query.filter_by(bind_qq=qq).first()
+    user = User.query.where(bind_qq=qq).gino.first()
 
     if user is None:
         logger.info("qq{}是新用户,正在尝试登录教务处...".format(qq))
         u = Login(username, password)
-        is_log, log_resp = u.try_login()
+        is_log, log_resp = await run_sync_func(u.try_login)
         if is_log:
             logger.debug(log_resp.json())
-            User.add(username, password, qq, pickle.dumps(u.get_cookies()))
+            User.add(
+                qq=qq,
+                student_id=username,
+                password=password,
+                user_info=log_resp,
+                cookies=pickle.dumps(u.get_cookies()),
+            )
             logger.info("qq{}绑定成功!".format(qq))
             return trueRet("qq绑定成功!")
         else:
