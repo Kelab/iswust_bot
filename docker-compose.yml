@@ -26,7 +26,7 @@ services:
     expose:
       - ${PORT}
     ports:
-      - 8080:${PORT}
+      - ${PORT}:${PORT}
     environment:
       - TZ=Asia/Shanghai
       - QUART_APP=${QUART_APP}
