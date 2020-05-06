@@ -29,7 +29,7 @@ class CourseStudent(Base, db.Model):
 
     student_id = Column(
         db.String(32),
-        db.ForeignKey("student.student_id", onupdate="CASCADE", ondelete="SET NULL"),
+        db.ForeignKey("user.student_id", onupdate="CASCADE", ondelete="SET NULL"),
         primary_key=True,
     )
     course_id = Column(
