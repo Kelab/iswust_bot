@@ -20,11 +20,12 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 
 from app.config import get_database_url
-from app.libs.gino import db, load_models
+from app.libs.gino import db
+from app.utils.tools import load_modules
 
 config.set_main_option("sqlalchemy.url", str(get_database_url()))
 
-load_models()
+load_modules("app.models")
 target_metadata = db
 
 

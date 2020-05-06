@@ -64,5 +64,5 @@ class CreditProgress(Base, db.Model):
     @classmethod
     async def get_all(cls, qq) -> Optional[dict]:
         # 先查 user 出来，再查 Course 表
-        user = await User.get_user_by_qq(qq)
+        user = await User.get(qq)
         # TODO 实现查表

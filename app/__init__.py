@@ -9,9 +9,9 @@ from quart import Quart
 from .libs.gino import init_db
 from .libs.cache import init_cache
 from .libs.scheduler import init_scheduler
-
-
 from .libs.roconfig import Configuration
+
+from .utils.tools import load_modules
 
 
 def init_bot(config_object: Any) -> nb.NoneBot:
@@ -35,6 +35,7 @@ def load_config():
 
 
 def register_blueprint(app: Quart):
+    load_modules("app.api")
     from .api import api as api_blueprint
 
     app.register_blueprint(api_blueprint)

@@ -1,7 +1,4 @@
 import asyncio
-import re
-from importlib import import_module
-from os import listdir, path
 
 from gino.api import Gino as _Gino
 from gino.api import GinoExecutor as _Executor
@@ -86,35 +83,6 @@ class Gino(_Gino):
 
 
 db = Gino()
-
-
-def load_models():
-    """在创建数据表之前，加载 models 下面的所有数据表
-    """
-    module_prefix = "app.models"
-    model_dir = path.join(path.dirname(__file__), "..", "models")
-    for model in listdir(model_dir):
-        model_path = path.join(model_dir, model)
-        if path.isfile(model_path) and (
-            model.startswith("_") or not model.endswith(".py")
-        ):
-            continue
-        if path.isdir(model_path) and (
-            model.startswith("_")
-            or not path.exists(path.join(model_path, "__init__.py"))
-        ):
-            continue
-
-        m = re.match(r"([_A-Z0-9a-z]+)(.py)?", model)
-        if not m:
-            continue
-        module_name = f"{module_prefix}.{m.group(1)}"
-        try:
-            import_module(module_name)
-            logger.info(f'Load model: "{module_name}"')
-        except Exception as e:
-            logger.error(f'Failed to Load "{module_name}", error: {e}')
-            logger.exception(e)
 
 
 async def init_db():

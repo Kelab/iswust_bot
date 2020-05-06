@@ -4,6 +4,7 @@ from typing import List, Optional, Tuple
 
 import httpx
 from loguru import logger
+from werkzeug.utils import find_modules, import_string
 
 from ..env import env
 
@@ -42,3 +43,15 @@ def check_args(**kwargs) -> Tuple[bool, Optional[List[str]]]:
     if msg_list:
         return False, msg_list
     return True, None
+
+
+def load_modules(path):
+    """引入路径下所有包
+    """
+    for model in find_modules(path):
+        try:
+            import_string(model)
+            logger.info(f'Load model: "{model}"')
+        except Exception as e:
+            logger.error(f'Failed to Load "{model}", error: {e}')
+            logger.exception(e)
