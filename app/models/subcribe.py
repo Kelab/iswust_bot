@@ -66,13 +66,13 @@ class SubUser(Base, db.Model):
             link=url, name=title, content=pickle.dumps(d),
         )
         await SubUser.create(
-            ctx_id=context_id(event, "group"), link=sub.link, only_title=only_title
+            ctx_id=context_id(event, mode="group"), link=sub.link, only_title=only_title
         )
         return title
 
     @classmethod
     async def get_sub(cls, event: Event, url: str):
-        ctx_id = context_id(event, "group")
+        ctx_id = context_id(event, mode="group")
         loader = SubUser.load(sub_content=SubContent)
         sub = (
             await cls.outerjoin(SubContent)
@@ -86,7 +86,7 @@ class SubUser(Base, db.Model):
 
     @classmethod
     async def get_user_subs(cls, event: Event):
-        ctx_id = context_id(event, "group")
+        ctx_id = context_id(event, mode="group")
         loader = SubUser.load(sub_content=SubContent)
         sub = (
             await cls.outerjoin(SubContent)
@@ -99,7 +99,7 @@ class SubUser(Base, db.Model):
 
     @classmethod
     async def remove_sub(cls, event: Event, url: str):
-        ctx_id = context_id(event, "group")
+        ctx_id = context_id(event, mode="group")
         sub = (
             await cls.query.where(cls.link == url)
             .where(cls.ctx_id == ctx_id)
