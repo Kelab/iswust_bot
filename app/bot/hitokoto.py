@@ -8,7 +8,7 @@ __plugin_usage__ = r"""给你回复一句话
 """.strip()
 
 
-@on_command("hitokoto", aliases=("一言",))
+@on_command("hitokoto", aliases=("一言",), only_to_me=False)
 async def _(session: CommandSession):
     _hitokoto = await hitokoto()
     if _hitokoto:

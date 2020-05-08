@@ -1,9 +1,11 @@
 import httpx
 import feedparser
+import arrow
+from app.config import MyConfig
 
 
 async def get_rss_info(url: str):
-    async with httpx.AsyncClient(timeout=None) as client:
+    async with httpx.AsyncClient(timeout=MyConfig.SUBSCIBE_INTERVAL) as client:
         response = await client.get(url)
         return feedparser.parse(response.text)
 
@@ -22,3 +24,25 @@ def diff(new, old) -> list:
         if flag == 0:
             result.append(new)
     return result
+
+
+def mk_msg_content(content, diffs: list):
+    msg_list = []
+    for item in diffs:
+        msg = "【" + content.feed.title + "】有更新：\n----------------------\n"
+
+        msg = msg + "标题：" + item["title"] + "\n"
+        msg = msg + "链接：" + item["link"] + "\n"
+
+        try:
+            msg = (
+                msg
+                + "日期："
+                + arrow.get(item["published_parsed"])
+                .shift(hours=8)
+                .format("YYYY-MM-DD HH:mm:ss")
+            )
+        except BaseException:
+            msg = msg + "日期：" + arrow.now("Asia/Shanghai").format("YYYY-MM-DD HH:mm:ss")
+        msg_list.append(msg)
+    return msg_list

@@ -21,9 +21,9 @@ async def uc(session: CommandSession):
             await session.send(f"托管日历成功！")
             await session.send(f"日历地址我稍后会发送给你。")
             return
-        await session.finish(
+        session.finish(
             f"托管日历出错，{resp['msg'].encode('gb18030').decode(encoding='utf-8')}"
         )
         return
 
-    await session.finish("托管日历出错")
+    session.finish("托管日历出错")

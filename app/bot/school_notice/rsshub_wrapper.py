@@ -33,6 +33,6 @@ def make_url(idx: int) -> List[str]:
     if idx == 0:
         url = [rsshub_url + u for u in list(rss_info.values())]
     else:
-        _url = rss_info[list(rss_info.keys())[idx]]
+        _url = rss_info[list(rss_info.keys())[idx - 1]]
         url = [rsshub_url + _url]
     return url
