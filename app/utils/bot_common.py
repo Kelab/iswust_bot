@@ -2,7 +2,6 @@ from aiocqhttp import Event
 from loguru import logger
 from nonebot import get_bot
 import asyncio
-import hashlib
 
 
 def ctx_id2event(ctx_id: str):
