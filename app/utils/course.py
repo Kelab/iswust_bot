@@ -9,7 +9,7 @@ from app.models.course import Course
 from app.utils.common import trueRet, falseRet
 from app.utils.tools import bot_hash, check_args
 from app.libs.aio import run_sync_func
-from .parse.constants import API
+from app.constants.dean import API
 
 
 async def getCourse_util(func):

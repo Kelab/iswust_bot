@@ -10,7 +10,7 @@ class User(Base, db.Model):
     __tablename__ = "user"
 
     qq = Column(db.String(16), primary_key=True)
-    student_id = Column(db.String(32))
+    student_id = Column(db.String(32), unique=True)
     password = Column(db.String(64), nullable=False)
     name = Column(db.String(64))
     class_ = Column("class", db.String(16))

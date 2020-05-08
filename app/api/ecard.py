@@ -7,7 +7,7 @@ from loguru import logger
 from app.models.user import User
 from app.utils.common import trueRet, falseRet
 from app.utils.tools import bot_hash, check_args
-from app.utils.parse.constants import API
+from app.constants.dean import API
 from app.libs.aio import run_sync_func
 from . import api
 

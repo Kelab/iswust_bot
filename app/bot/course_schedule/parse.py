@@ -3,7 +3,8 @@ import time
 from collections import defaultdict
 from typing import Optional
 
-from app.constants.config import INFO
+from app.constants.dean import INFO
+
 import arrow
 
 chinese_wday_dict = {

@@ -8,7 +8,7 @@ import time
 from auth_swust import request
 from bs4 import BeautifulSoup
 
-from app.constants import API, INFO
+from app.constants.dean import API, INFO
 
 
 def get_week():
