@@ -60,7 +60,7 @@ class SubUser(Base, db.Model):
         if not d:
             return None
         info = d["channel"]
-        title = info.get("title", "无标题")
+        title = info.get("title", url)
         logger.info(info)
         sub = await SubContent.add_or_update(
             link=url, name=title, content=pickle.dumps(d),

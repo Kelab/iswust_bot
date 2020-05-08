@@ -114,6 +114,17 @@ async def unsubscribe(session: CommandSession):
         await session.send("出了点问题，请稍后再试吧")
 
 
+@unsubscribe.args_parser
+async def _(session: CommandSession):
+    if session.is_first_run:
+        if session.current_arg:
+            try:
+                session.state["index"] = int(session.current_arg)
+            except Exception:
+                pass
+        return
+
+
 def format_subscription(index: int, sub) -> str:
     return f"序号：{index}\n" f"订阅名称：" f"{sub.sub_content.name}\n" f"订阅链接：" f"{sub.link}"
 

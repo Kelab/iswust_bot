@@ -7,7 +7,8 @@ from app.config import MyConfig
 async def get_rss_info(url: str):
     async with httpx.AsyncClient(timeout=MyConfig.SUBSCIBE_INTERVAL) as client:
         response = await client.get(url)
-        return feedparser.parse(response.text)
+        response.raise_for_status()
+        return feedparser.parse(response.text or "")
 
 
 def diff(new, old) -> list:
