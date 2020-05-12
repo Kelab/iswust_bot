@@ -1,7 +1,8 @@
 from nonebot import CommandSession, on_command
 from loguru import logger
 
-__plugin_name__ = "托管课表生成的日历(命令：托管日历)"
+__plugin_name__ = "托管日历"
+__plugin_short_description__ = "将课表生成日历,命令：托管日历"
 __plugin_usage__ = r"""输入 托管日历
 然后我会给你一个日历的在线地址，日历每天更新
 """.strip()

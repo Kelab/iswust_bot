@@ -16,7 +16,9 @@ __plugin_name__ = "推送"
 
 PLUGIN_NAME = "push"
 
-cg = CommandGroup("push", permission=perm.PRIVATE | perm.GROUP_ADMIN | perm.DISCUSS)
+cg = CommandGroup(
+    PLUGIN_NAME, permission=perm.PRIVATE | perm.GROUP_ADMIN | perm.DISCUSS
+)
 
 
 @cg.command("push", aliases=["推送", "添加推送", "新增推送", "新建推送"], only_to_me=False)
@@ -35,11 +37,13 @@ async def push(session: CommandSession):
     minute = session.state.get("minute")
     if hour is None or minute is None:
         time = session.get(
-            "time", prompt="你希望我在每天的什么时候给你推送呢？\n" "（请使用24小时制，并使用阿拉伯数字表示小时和分钟）", arg_filters=[
-            controllers.handle_cancellation(session),
-            str.lstrip,
-            validators.not_empty("请输入有效内容哦～"),
-        ]
+            "time",
+            prompt="你希望我在每天的什么时候给你推送呢？\n" "（请使用24小时制，并使用阿拉伯数字表示小时和分钟）",
+            arg_filters=[
+                controllers.handle_cancellation(session),
+                str.lstrip,
+                validators.not_empty("请输入有效内容哦～"),
+            ],
         )
         m = re.match(r"(?P<hour>\d{1,2})[.:：](?P<minute>\d{1,2})", time)
         if not m:

@@ -6,7 +6,9 @@ from nonebot import CommandSession, on_command
 from app.constants.config import web_url
 from app.utils.tools import bot_hash, dwz
 
-__plugin_name__ = "绑定教务处(命令：bind)"
+__plugin_name__ = "绑定教务处"
+__plugin_short_description__ = "命令：bind"
+
 __plugin_usage__ = r"""对我发以下关键词开始绑定：
 绑定、绑定教务处、bind"""
 
