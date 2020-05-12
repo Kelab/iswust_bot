@@ -9,7 +9,6 @@ from app.utils.parse.parse_course_table import get_course_api
 from . import api
 
 
-@api.route("/course/getCourse", methods=["GET"])
 @getCourse_util
 def getCourse(cookies, uid):
     # 如果不更新,就从数据库里面取,如果更新就重新请求

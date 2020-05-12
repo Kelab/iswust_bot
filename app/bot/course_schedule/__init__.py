@@ -11,7 +11,7 @@ from nonebot import (
 )
 from chinese_time_nlp import StringPreHandler, TimeNormalizer
 
-from app.services.course import CourseService
+from app.models.course import CourseStudent
 from loguru import logger
 
 
@@ -40,10 +40,9 @@ async def course_schedule(session: CommandSession):
     if session.state.get("course_schedule"):
         resp = session.state.get("course_schedule")
     else:
-        r = await CourseService.get_course(sender_qq)
-        if r:
-            resp = r.json()
-        else:
+        resp = await CourseStudent.get_course(sender_qq)
+
+        if not resp:
             await session.finish("查询出错")
             return
 

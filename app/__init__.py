@@ -41,6 +41,26 @@ def register_blueprint(app: Quart):
     app.register_blueprint(api_blueprint)
 
 
+def init_shell(app: Quart):
+    from .libs.gino import db
+    from app.models.user import User
+    from app.models.course import Course, CourseStudent
+    from app.models.chat_records import ChatRecords
+    from app.models.subcribe import SubContent, SubUser
+
+    @app.shell_context_processor
+    def _():
+        return {
+            "db": db,
+            "User": User,
+            "Course": Course,
+            "CourseStudent": CourseStudent,
+            "ChatRecords": ChatRecords,
+            "SubContent": SubContent,
+            "SubUser": SubUser,
+        }
+
+
 def init() -> NoneBot:
     config = load_config()
     _bot = init_bot(config)
@@ -49,4 +69,5 @@ def init() -> NoneBot:
     _bot.server_app.before_serving(init_scheduler)
     app = _bot.asgi
     register_blueprint(app)
+    init_shell(app)
     return _bot

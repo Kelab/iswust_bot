@@ -1,4 +1,5 @@
 from environs import Env
+from dotenv import load_dotenv
 
 env = Env()
-env.read_env()
+load_dotenv(encoding="utf8")

@@ -20,3 +20,7 @@ async def send_msgs(event: Event, msgs):
     bot = get_bot()
     logger.info(f"给 {event} 发送: {msgs}")
     await asyncio.wait([bot.send(event, msg) for msg in msgs])
+
+
+def qq2event(qq: str):
+    return Event(user_id=qq)
