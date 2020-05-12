@@ -30,7 +30,6 @@ logger.add(
     str(log_dir / "iswust_{time:YYYY-MM-DD}.log"),
     format="{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}",
     rotation="12:00",
-    enqueue=True,
     encoding="utf-8",
     level="DEBUG",
     compression="zip",
