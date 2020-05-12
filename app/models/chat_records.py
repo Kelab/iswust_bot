@@ -12,7 +12,7 @@ class ChatRecords(Base, db.Model):
     __tablename__ = "chat_records"
 
     id_ = Column("id", db.Integer, db.Sequence("chat_records_id_seq"), primary_key=True)
-    self_id = Column(db.Integer)
+    self_id = Column(db.String(32))
     ctx_id = Column(db.String(64))
     msg = Column(db.String)
     out = Column(db.Boolean, default=False)

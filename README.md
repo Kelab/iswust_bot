@@ -78,9 +78,9 @@ docker-compose logs -f --tail 10 nonebot
 
 ```sh
 # 如果 container 已经在运行中的话，可以使用 `exec`：
-docker-compose exec nonebot alembic revision --autogenerate -m 'message'
+docker-compose exec nonebot alembic revision --autogenerate -m 'init'
 # 没运行的话可以执行：
-docker-compose run --rm nonebot alembic revision --autogenerate -m 'message'
+docker-compose run --rm nonebot alembic revision --autogenerate -m 'init'
 ```
 
 #### 报错 `Target database is not up to date.`
