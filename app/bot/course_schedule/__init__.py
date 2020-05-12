@@ -1,7 +1,10 @@
+import json
 from typing import List
 
 import arrow
 import regex as re
+from chinese_time_nlp import StringPreHandler, TimeNormalizer
+from loguru import logger
 from nonebot import (
     CommandSession,
     IntentCommand,
@@ -9,24 +12,22 @@ from nonebot import (
     on_command,
     on_natural_language,
 )
-from chinese_time_nlp import StringPreHandler, TimeNormalizer
 
 from app.models.course import CourseStudent
-from loguru import logger
-
-
 from .parse import get_week, parse_course_by_date, str_int_wday_dict, week_course
 
-__plugin_name__ = "查询课表(命令：cs)"
-__plugin_usage__ = r"""输入 查询课课表
-或者加上时间限定：
-    - 今天课表
-    - 明天有什么课
-    - 九月十五号有什么课
-查询课表短语：cs
+__plugin_name__ = "查询/更新 课表(命令：cs/uc)"
+__plugin_usage__ = r"""查询课表输入：
+    - 查询课表
+    - 或者加上时间限定：
+      - 今天课表
+      - 明天有什么课
+      - 九月十五号有什么课
+    - cs
 
+更新课表可以输入：
     - 更新课表
-更新课表短语：uc
+    - uc
 """.strip()
 
 tn = TimeNormalizer()
@@ -43,48 +44,49 @@ async def course_schedule(session: CommandSession):
         resp = await CourseStudent.get_course(sender_qq)
 
         if not resp:
-            await session.finish("查询出错")
+            await session.send("查询出错")
             return
 
-    logger.debug(f"查询课表结果：{str(resp)}")
-    if resp["code"] == 200:
-        body = resp["data"]["body"]
-        week = session.state.get("week")
-        wday = session.state.get("wday")
-        is_today = session.state.get("today")
-        if is_today:
-            logger.info("发送当天课表")
-            now = arrow.now("Asia/Shanghai")
-            week = get_week(now.timestamp)
-            wday = str(now.isoweekday())
-            course = parse_course_by_date(body, week, wday)
-            await session.send(course)
-        elif week and wday:
-            logger.info(f"检测到时间意图：{str(session.state)}")
-            course = parse_course_by_date(body, week, wday)
-            await session.send(course)
-        elif week:
-            logger.info(f"检测到时间意图：{str(session.state)}")
-            course_dict: List[str] = week_course(body, int(week))
-            for i in course_dict:
-                await session.send(i)
-        else:
-            # 所有课表
-            course_dict: List[str] = week_course(body)
-            for i in course_dict:
-                await session.send(i)
-
-        if body["errMsg"]:
-            await session.finish(f"错误信息：{body['errMsg']}")
-
-        if body["updateTime"]:
-            await session.finish(f"课表抓取时间：{body['updateTime']}")
+    if resp == "WAIT":
+        await session.send("正在抓取课表，抓取过后我会直接发给你！")
+        return
+    elif resp == "NOT_BIND":
         return
 
-    elif resp["code"] == -1:
-        await session.finish("未绑定！")
-        return
-    await session.finish("查询出错")
+    json_: dict = json.loads(resp.course_json)  # type: ignore
+    logger.debug(f"查询课表结果：{str(json_)}")
+    body = json_["body"]
+    week = session.state.get("week")
+    wday = session.state.get("wday")
+    is_today = session.state.get("today")
+    if is_today:
+        logger.info("发送当天课表")
+        now = arrow.now("Asia/Shanghai")
+        week = get_week(now.timestamp)
+        wday = str(now.isoweekday())
+        course = parse_course_by_date(body, week, wday)
+        await session.send(course)
+    elif week and wday:
+        logger.info(f"检测到时间意图：{str(session.state)}")
+        course = parse_course_by_date(body, week, wday)
+        await session.send(course)
+    elif week:
+        logger.info(f"检测到时间意图：{str(session.state)}")
+        course_dict: List[str] = week_course(body, int(week))
+        for i in course_dict:
+            await session.send(i)
+    else:
+        # 所有课表
+        course_dict: List[str] = week_course(body)
+        for i in course_dict:
+            await session.send(i)
+
+    if body["errMsg"]:
+        await session.finish(f"错误信息：{body['errMsg']}")
+
+    if body["updateTime"]:
+        await session.finish(f"课表抓取时间：{body['updateTime']}")
+    return
 
 
 @on_natural_language("课")
@@ -124,3 +126,15 @@ async def process_accu_date(session: NLPSession):
         return IntentCommand(90.0, "cs", args=args)
 
     return IntentCommand(90.0, "cs")
+
+
+@on_command("uc", aliases=("更新课表",))
+async def uc(session: CommandSession):
+    sender_qq = session.event.get("user_id")
+    await session.send(f"正在更新课表...")
+    try:
+        await CourseStudent.update_course(sender_qq)
+    except Exception:
+        pass
+
+    session.finish("更新出错")

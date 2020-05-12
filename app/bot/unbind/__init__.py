@@ -1,5 +1,3 @@
-from typing import Optional
-
 from nonebot import CommandSession, on_command
 
 from app.models.user import User

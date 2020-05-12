@@ -41,7 +41,6 @@ async def bind():
         logger.info("qq{}是新用户,正在尝试登录教务处...".format(qq))
         u = Login(username, password)
         is_log, log_resp = await run_sync_func(u.try_login)
-        print("log_resp: ", log_resp)
         if is_log:
             user_info = await run_sync_func(log_resp.json)
             logger.debug(user_info)

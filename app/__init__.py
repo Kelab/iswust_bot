@@ -44,7 +44,7 @@ def register_blueprint(app: Quart):
 def init_shell(app: Quart):
     from .libs.gino import db
     from app.models.user import User
-    from app.models.course import Course, CourseStudent
+    from app.models.course import CourseStudent
     from app.models.chat_records import ChatRecords
     from app.models.subcribe import SubContent, SubUser
 
@@ -53,7 +53,6 @@ def init_shell(app: Quart):
         return {
             "db": db,
             "User": User,
-            "Course": Course,
             "CourseStudent": CourseStudent,
             "ChatRecords": ChatRecords,
             "SubContent": SubContent,

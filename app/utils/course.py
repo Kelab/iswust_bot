@@ -5,7 +5,7 @@ from auth_swust import Login, request as requests
 from app.libs.gino import db
 from loguru import logger
 from app.models.user import User
-from app.models.course import Course
+from app.models.course import CourseStudent
 from app.utils.common import trueRet, falseRet
 from app.utils.tools import bot_hash, check_args
 from app.libs.aio import run_sync_func
@@ -31,7 +31,7 @@ async def getCourse_util(func):
 
         if not update:
             # 直接从数据库里面取
-            cour = Course.query.filter_by(uid=u.uid).first()
+            cour = CourseStudent.query.filter_by(uid=u.uid).first()
             if cour is not None:
                 return trueRet(data=pickle.loads(cour.course_table))
 

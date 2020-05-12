@@ -5,7 +5,6 @@ import math
 import re
 import time
 
-from auth_swust import request
 from bs4 import BeautifulSoup
 
 from app.constants.dean import API, INFO
@@ -22,7 +21,7 @@ def get_week():
     return math.ceil(used_time)
 
 
-def get_course_api(sess: request.Session):
+def get_course_api(sess):
     """
     传入 requests 的 session
     返回一个list类型的API：
@@ -39,11 +38,11 @@ def get_course_api(sess: request.Session):
 
     res = sess.get(API.jwc_course_table, verify=False)
     course_table = _parse_course_table(res.text)
-    exp_course_table = _parse_exp_course_table(sess)
-    if exp_course_table:
-        course_table.extend(exp_course_table)
-    else:
-        err_msg = "实验课更新失败"
+    # exp_course_table = _parse_exp_course_table(sess)
+    # if exp_course_table:
+    #     course_table.extend(exp_course_table)
+    # else:
+    #     err_msg = "实验课更新失败"
     json = {
         "body": {
             "result": course_table,
@@ -145,7 +144,7 @@ def _parse_course_table(html):
     return list(result_dict.values())
 
 
-def _parse_exp_course_table(sess: request.Session):
+def _parse_exp_course_table(sess):
     courses = []
     post_data = {
         "currYearterm": INFO.semester_name,

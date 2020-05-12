@@ -22,5 +22,5 @@ async def send_msgs(event: Event, msgs):
     await asyncio.wait([bot.send(event, msg) for msg in msgs])
 
 
-def qq2event(qq: str):
+def qq2event(qq: int):
     return Event(user_id=qq)

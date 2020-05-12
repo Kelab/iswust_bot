@@ -3,12 +3,13 @@
 """
 
 from typing import Optional
+
 from sqlalchemy import Column
+
 from app.libs.gino import db
+
 from .base import Base
 from .user import User
-from .course import Course
-import pickle
 
 
 class PlanScore(Base, db.Model):
