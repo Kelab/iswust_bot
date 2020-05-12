@@ -1,4 +1,5 @@
 import pickle
+from typing import List
 
 from aiocqhttp import Event
 from loguru import logger
@@ -85,7 +86,7 @@ class SubUser(Base, db.Model):
         return sub
 
     @classmethod
-    async def get_user_subs(cls, event: Event):
+    async def get_user_subs(cls, event: Event) -> List["SubUser"]:
         ctx_id = context_id(event, mode="group")
         loader = SubUser.load(sub_content=SubContent)
         sub = (

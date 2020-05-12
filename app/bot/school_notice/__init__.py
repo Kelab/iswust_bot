@@ -1,26 +1,50 @@
-from app.utils.bot_common import ctx_id2event
 import asyncio
 import pickle
+from typing import Optional
 
+from apscheduler.triggers.interval import IntervalTrigger
 from loguru import logger
-from nonebot import CommandSession, CommandGroup
-from nonebot import permission as perm, get_bot
-from app.config import MyConfig
+from nonebot import CommandGroup, CommandSession
+from nonebot import permission as perm
 from nonebot.command import call_command
-from nonebot.command.argfilter import extractors, validators, controllers
+from nonebot.command.argfilter import controllers, extractors, validators
+
+from app.config import MyConfig
 from app.libs.scheduler import scheduler
-from apscheduler.triggers.interval import IntervalTrigger  # 间隔触发器
 from app.models.subcribe import SubContent, SubUser
-from app.utils.rss import get_rss_info, diff, mk_msg_content
-from app.utils.bot_common import send_msgs
+from app.utils.bot_common import ctx_id2event, send_msgs
+from app.utils.rss import diff, get_rss_info, mk_msg_content
+
 from .rsshub_wrapper import get_rss_list, make_url
 
-__plugin_name__ = "通知"
+__plugin_name__ = "订阅"
+__plugin_short_description__ = "订阅 通知/成绩/考试 等"
+__plugin_usage__ = r"""添加订阅：
+    - 订阅
+    - 添加订阅
+    - 新建订阅
+    - subscribe
+    然后会提示输入序号，你也可以直接在后面加上序号，如：
+        - 订阅 1
+        - 订阅 0
+查看订阅：
+    - 查看订阅
+    - subscribe show
 
+移除订阅：
+    - 移除订阅
+    - 取消订阅
+    - 停止订阅
+    - 删除订阅
+    - subscribe rm
+    然后会提示输入序号，你也可以直接在后面加上序号，如：
+        - 移除订阅 1
+        - 移除订阅 all
+""".strip()
 PLUGIN_NAME = "subscribe"
 
 cg = CommandGroup(
-    "subscribe", permission=perm.PRIVATE | perm.GROUP_ADMIN | perm.DISCUSS
+    PLUGIN_NAME, permission=perm.PRIVATE | perm.GROUP_ADMIN | perm.DISCUSS
 )
 
 
@@ -72,10 +96,10 @@ async def _(session: CommandSession):
     session.finish(f"以上是所有的 {len(subs)} 个订阅")
 
 
-@cg.command("unsubscribe", aliases=["取消订阅", "停止订阅", "关闭订阅", "删除订阅"], only_to_me=False)
+@cg.command("rm", aliases=["取消订阅", "停止订阅", "关闭订阅", "删除订阅", "移除订阅"], only_to_me=False)
 async def unsubscribe(session: CommandSession):
     subs = await SubUser.get_user_subs(session.event)
-    index = session.state.get("index")
+    index: Optional[str] = session.state.get("index")
     if index is None:
         session.state["subs"] = subs
         await call_command(
@@ -91,38 +115,41 @@ async def unsubscribe(session: CommandSession):
 
         index = session.get(
             "index",
-            prompt="你想取消哪一个订阅呢？（请发送序号）",
+            prompt="你想取消哪一个订阅呢？（请发送序号，或者 `all`/`所有`）",
             arg_filters=[
                 extractors.extract_text,
                 controllers.handle_cancellation(session),
                 validators.ensure_true(str.isdigit, "请输入序号哦～"),
-                int,
             ],
         )
 
-    index = index - 1
-    if not (0 <= index < len(subs)):
-        session.finish("没有找到你输入的序号哦")
+    async def rm_sub(sub):
+        try:
+            await SubUser.remove_sub(session.event, sub.link)
+            await session.send(f"{sub.sub_content.name} 取消订阅成功")
+        except Exception as e:
+            logger.exception(e)
+            await session.send("出了点问题，请稍后再试吧")
 
-    sub = subs[index]
+    if index.isdigit():
+        idx = int(index)  # type: ignore
+        idx = idx - 1
+        if not (0 <= idx < len(subs)):
+            session.finish("没有找到你输入的序号哦")
 
-    try:
-        await SubUser.remove_sub(session.event, sub.link)
-        await session.send("取消订阅成功")
-    except Exception as e:
-        logger.exception(e)
-        await session.send("出了点问题，请稍后再试吧")
+        sub = subs[idx]
+        await rm_sub(sub)
+        return
+
+    if index in ("all", "所有"):
+        await asyncio.wait([rm_sub(sub) for sub in subs])
 
 
 @unsubscribe.args_parser
 async def _(session: CommandSession):
     if session.is_first_run:
         if session.current_arg:
-            try:
-                session.state["index"] = int(session.current_arg)
-            except Exception:
-                pass
-        return
+            session.state["index"] = session.current_arg
 
 
 def format_subscription(index: int, sub) -> str:
