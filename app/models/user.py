@@ -54,7 +54,7 @@ class User(Base, db.Model):
     async def check(cls, qq: int):
         user = await cls.get(str(qq))
         if user:
-            return True
+            return user
         _bot = get_bot()
         await _bot.send(qq2event(qq), "未绑定，试试对我发送 `绑定`")
         return False

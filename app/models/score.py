@@ -1,12 +1,17 @@
 """
 因为 `成绩` 部分爬取的教务处信息无法和课程表对应上，所以这里是独立的一个表，跟 course 表没有关系。
 """
-
+import pprint
 from typing import Optional
 
+from nonebot import get_bot
 from sqlalchemy import Column
 
 from app.libs.gino import db
+from app.libs.aio import run_sync_func
+from app.libs.scheduler import scheduler
+from app.utils.bot_common import qq2event
+from app.utils.parse.credit_progress import get_credit_progress
 
 from .base import Base
 from .user import User
@@ -60,10 +65,32 @@ class CreditProgress(Base, db.Model):
 
     average_gpa = Column(db.Float)  # 平均绩点
     required_gpa = Column(db.Float)  # 必修课绩点
-    degree_gpa = Column(db.Float)
+    degree_gpa = Column(db.Float)  # 学位课绩点
 
     @classmethod
-    async def get_all(cls, qq) -> Optional[dict]:
+    async def get_progress(cls, qq: int) -> Optional[str]:
         # 先查 user 出来，再查 Course 表
-        user = await User.get(qq)
-        # TODO 实现查表
+        user = await User.check(qq)
+        if not user:
+            return "NOT_BIND"
+        query = cls.join(User).select()
+        progress = await query.where(User.qq == str(qq)).gino.first()
+        if progress is None:
+            scheduler.add_job(cls.update_progress, args=[qq])
+            return "WAIT"
+        return progress
+
+    @classmethod
+    async def update_progress(cls, qq: int):
+        user: User = await User.get(str(qq))
+        if not user:
+            return
+        from auth_swust import request as login_request
+
+        cookies = await User.get_cookies(qq)
+        sess = login_request.Session(cookies)
+        res = await run_sync_func(get_credit_progress, sess)
+        if res:
+            _bot = get_bot()
+            await _bot.send(qq2event(qq), str(pprint.pformat(res, indent=2)))
+        return
