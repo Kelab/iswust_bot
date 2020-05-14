@@ -136,6 +136,4 @@ async def uc(session: CommandSession):
     try:
         await CourseStudent.update_course(sender_qq)
     except Exception:
-        pass
-
-    session.finish("更新出错")
+        session.finish("更新出错")
