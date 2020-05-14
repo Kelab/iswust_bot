@@ -1,4 +1,3 @@
-
 from nonebot import on_command, CommandSession
 from nonebot.message import escape as message_escape
 from loguru import logger
@@ -62,17 +61,23 @@ async def run(session: CommandSession):
         session.finish(f"运行代码功能未启用")
     supported_languages = ", ".join(sorted(SUPPORTED_LANGUAGES))
     language = session.get(
-        "language", prompt=f"你想运行的代码是什么语言？\n目前支持 {supported_languages}", arg_filters=[
+        "language",
+        prompt=f"你想运行的代码是什么语言？\n目前支持 {supported_languages}",
+        arg_filters=[
             controllers.handle_cancellation(session),
             str.lstrip,
             validators.not_empty("请输入有效内容哦～"),
-        ]
+        ],
     )
-    code = session.get("code", prompt="你想运行的代码是？", arg_filters=[
+    code = session.get(
+        "code",
+        prompt="你想运行的代码是？",
+        arg_filters=[
             controllers.handle_cancellation(session),
             str.lstrip,
             validators.not_empty("请输入有效内容哦～"),
-        ])
+        ],
+    )
     await session.send("正在运行，请稍等……")
     async with httpx.AsyncClient() as client:
         resp = await client.post(

@@ -20,7 +20,7 @@ class ChatRecords(Base, db.Model):
     @classmethod
     async def add_msg(cls, event: Event, out: bool = False):
         await ChatRecords.create(
-            self_id=event.self_id,
+            self_id=str(event.self_id),
             ctx_id=context_id(event),
             msg=str(event.message),
             out=out,

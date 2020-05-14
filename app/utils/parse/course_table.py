@@ -1,5 +1,5 @@
 """
-手动解析 教务处课表
+解析 教务处课表
 """
 import math
 import re

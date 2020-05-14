@@ -1,13 +1,11 @@
 """
-手动解析 学分修读进度
+解析 学分修读进度
 """
-import re
-import time
 
 from typing import List, TypedDict
 from bs4 import BeautifulSoup
 
-from app.constants.dean import API, INFO
+from app.constants.dean import API
 
 
 class CreditProgressDict(TypedDict):

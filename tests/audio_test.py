@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 sys.path.append(str(Path(".").resolve()))
-import os
 
 filename = "777D935D643B0300777D935D643B0300.silk"
 

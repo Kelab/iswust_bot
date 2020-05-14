@@ -10,7 +10,7 @@ from app.libs.aio import run_sync_func
 from app.libs.gino import db
 from app.libs.scheduler import scheduler
 from app.utils.bot_common import qq2event
-from app.utils.parse.parse_course_table import get_course_api
+from app.utils.parse.course_table import get_course_api
 
 from .base import Base
 from .user import User
