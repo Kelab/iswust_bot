@@ -1,5 +1,4 @@
 import asyncio
-import pickle
 from typing import Optional
 
 from apscheduler.triggers.interval import IntervalTrigger
@@ -12,8 +11,6 @@ from nonebot.command.argfilter import controllers, extractors, validators
 from app.config import MyConfig
 from app.libs.scheduler import scheduler
 from app.models.subcribe import SubContent, SubUser
-from app.utils.bot_common import ctx_id2event, send_msgs
-from app.utils.rss import diff, get_rss_info, mk_msg_content
 
 from .rsshub_wrapper import get_rss_list, make_url
 
@@ -161,24 +158,4 @@ def format_subscription(index: int, sub) -> str:
     id="push_school_notice",
 )
 async def push():
-    logger.info("开始检查RSS更新")
-    all_subs = await SubContent.query.gino.all()
-    await asyncio.wait([check_update(sub) for sub in all_subs])
-
-
-async def check_update(sub):
-    users = await SubUser.get_user(sub.link)
-    event_list = [ctx_id2event(user.ctx_id) for user in users]
-    logger.info("检查" + sub.name + "更新")
-    logger.info(sub.name + "的用户们：" + str(users))
-    if not users:
-        return
-    content = await get_rss_info(sub.link)
-    old_content = pickle.loads(sub.content)
-    diffs = diff(content, old_content)
-    print("diffs: ", diffs)
-    msgs = mk_msg_content(content, diffs)
-    print("msgs: ", msgs)
-
-    await asyncio.wait([send_msgs(event, msgs) for event in event_list])
-    await SubContent.add_or_update(sub.link, sub.name, pickle.dumps(content))
+    await SubContent.check_update()

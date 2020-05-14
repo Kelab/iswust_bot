@@ -3,14 +3,9 @@
 """
 from typing import Optional
 
-from nonebot import get_bot
 from sqlalchemy import Column
 
 from app.libs.gino import db
-from app.libs.aio import run_sync_func
-from app.libs.scheduler import scheduler
-from app.utils.bot_common import qq2event
-from app.utils.parse.credit_progress import get_credit_progress
 
 from .base import Base
 from .user import User

@@ -1,3 +1,4 @@
+import asyncio
 import pickle
 from typing import List
 
@@ -7,7 +8,8 @@ from nonebot import context_id, get_bot
 from nonebot.helpers import send
 
 from app.libs.gino import db
-from app.utils.rss import get_rss_info
+from app.utils.bot_common import ctx_id2event, send_msgs
+from app.utils.rss import diff, get_rss_info, mk_msg_content
 
 from .base import Base
 
@@ -30,6 +32,30 @@ class SubContent(Base, db.Model):
         else:
             sub = await cls.create(link=link, name=name, content=content)
         return sub
+
+    @classmethod
+    async def check_update(cls):
+        logger.info("开始检查RSS更新")
+        all_subs = await SubContent.query.gino.all()
+        await asyncio.wait([cls._check_one(sub) for sub in all_subs])
+
+    @classmethod
+    async def _check_one(cls, sub):
+        logger.info("检查" + sub.name + "更新")
+        users = await SubUser.get_user(sub.link)
+        logger.info(sub.name + "的用户们：" + str(users))
+        event_list = [ctx_id2event(user.ctx_id) for user in users]
+        if not users:
+            return
+
+        content = await get_rss_info(sub.link)
+        old_content = pickle.loads(sub.content)
+        diffs = diff(content, old_content)
+        logger.info(sub.name + "的更新" + str(diffs))
+        msgs = mk_msg_content(content, diffs)
+
+        await asyncio.wait([send_msgs(event, msgs) for event in event_list])
+        await SubContent.add_or_update(sub.link, sub.name, pickle.dumps(content))
 
 
 class SubUser(Base, db.Model):
