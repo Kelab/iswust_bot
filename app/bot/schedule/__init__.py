@@ -6,9 +6,15 @@ from nonebot import CommandGroup, CommandSession, permission as perm
 from nonebot.argparse import ArgumentParser
 from nonebot.command import CommandManager
 
-from app.libs import scheduler
-from app.libs.scheduler import make_job_id, get_job, remove_job, get_jobs
+from apscheduler.job import Job
 
+from app.libs.scheduler import make_job_id, remove_job, get_jobs, get_job
+from app.libs.scheduler.command import (
+    ScheduledCommand,
+    add_scheduled_commands,
+    get_scheduled_commands_from_job,
+)
+from app.libs.scheduler.exception import JobIdConflictError
 from . import usage
 
 PLUGIN_NAME = "schedule"
@@ -37,13 +43,11 @@ async def sched_add(session: CommandSession):
         await session.send("计划任务名必须仅包含字母、数字、下划线，且以字母或下划线开头")
         return
 
-    parsed_commands: List[scheduler.ScheduledCommand] = []
+    parsed_commands: List[ScheduledCommand] = []
     invalid_commands: List[str] = []
 
     if args.verbose:
-        parsed_commands.append(
-            scheduler.ScheduledCommand(("echo",), f"开始执行计划任务 {args.name}……")
-        )
+        parsed_commands.append(ScheduledCommand(("echo",), f"开始执行计划任务 {args.name}……"))
 
     for cmd_str in args.commands:
         cmd, current_arg = CommandManager().parse_command(session.bot, cmd_str)
@@ -52,9 +56,7 @@ async def sched_add(session: CommandSession):
                 session.bot, session.event, cmd, current_arg=current_arg
             )
             if await cmd.run(tmp_session, dry=True):
-                parsed_commands.append(
-                    scheduler.ScheduledCommand(cmd.name, current_arg)
-                )
+                parsed_commands.append(ScheduledCommand(cmd.name, current_arg))
                 continue
         invalid_commands.append(cmd_str)
     if invalid_commands:
@@ -73,7 +75,7 @@ async def sched_add(session: CommandSession):
         if k in {"second", "minute", "hour", "day", "month", "day_of_week"}
     }
     try:
-        job = await scheduler.add_scheduled_commands(
+        job = await add_scheduled_commands(
             parsed_commands,
             job_id=make_job_id(PLUGIN_NAME, session.event, args.name),
             event=session.event,
@@ -81,7 +83,7 @@ async def sched_add(session: CommandSession):
             **trigger_args,
             replace_existing=args.force,
         )
-    except scheduler.JobIdConflictError:
+    except JobIdConflictError:
         # a job with same name exists
         await session.send(f"计划任务 {args.name} 已存在，" f"若要覆盖请使用 --force 参数")
         return
@@ -130,8 +132,8 @@ async def sched_remove(session: CommandSession):
         await session.send(f"没有找到计划任务 {args.name}，请检查你的输入是否正确")
 
 
-def format_job(job_name: str, job: scheduler.Job) -> str:
-    commands = scheduler.get_scheduled_commands_from_job(job)
+def format_job(job_name: str, job: Job) -> str:
+    commands = get_scheduled_commands_from_job(job)
     commands_str = "\n".join([f"- {cmd.name}，参数：{cmd.current_arg}" for cmd in commands])
     return (
         f"名称：{job_name}\n"

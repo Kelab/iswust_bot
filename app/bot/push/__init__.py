@@ -7,9 +7,16 @@ from nonebot import CommandSession, CommandGroup
 from nonebot import permission as perm
 from nonebot.command import call_command
 from nonebot.command.argfilter import converters, extractors, validators, controllers
+from apscheduler.job import Job
 
-from app.libs import scheduler
-from app.libs.scheduler import ScheduledCommand
+from app.libs.scheduler import make_job_id, remove_job, get_jobs
+from app.libs.scheduler.command import (
+    ScheduledCommand,
+    add_scheduled_commands,
+    get_scheduled_commands_from_job,
+)
+from app.libs.scheduler.exception import JobIdConflictError
+
 from app.utils.str_common import random_string
 
 __plugin_name__ = "推送"
@@ -84,9 +91,9 @@ async def push(session: CommandSession):
         switch_arg = f'"{escaped_message}"'
 
     try:
-        job = await scheduler.add_scheduled_commands(
+        job = await add_scheduled_commands(
             ScheduledCommand("switch", switch_arg),
-            job_id=scheduler.make_job_id(
+            job_id=make_job_id(
                 PLUGIN_NAME,
                 session.ctx,
                 (
@@ -103,7 +110,7 @@ async def push(session: CommandSession):
         session.finish(
             f"添加推送成功啦，下次推送时间 " f'{job.next_run_time.strftime("%Y-%m-%d %H:%M")}'
         )
-    except scheduler.JobIdConflictError:
+    except JobIdConflictError:
         session.finish("添加推送失败，有可能只是运气不好哦，请稍后重试～")
 
 
@@ -160,18 +167,18 @@ async def rm(session: CommandSession):
         session.finish("没有找到你输入的序号哦")
 
     job = jobs[index]
-    if await scheduler.remove_job(job.id):
+    if await remove_job(job.id):
         session.finish("取消推送成功")
     else:
         session.finish("出了点问题，请稍后再试吧")
 
 
-async def get_push_jobs(event) -> List[scheduler.Job]:
-    return await scheduler.get_jobs(scheduler.make_job_id(PLUGIN_NAME, event))
+async def get_push_jobs(event) -> List[Job]:
+    return await get_jobs(make_job_id(PLUGIN_NAME, event))
 
 
-def format_subscription(index: int, job: scheduler.Job) -> str:
-    command = scheduler.get_scheduled_commands_from_job(job)[0]
+def format_subscription(index: int, job: Job) -> str:
+    command = get_scheduled_commands_from_job(job)[0]
     switch_argument = command.current_arg
     message = switch_argument[switch_argument.find('"') + 1 : -1]
     message = message.replace('\\"', '"').replace("\\\\", "\\")

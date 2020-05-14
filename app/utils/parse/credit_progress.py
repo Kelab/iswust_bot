@@ -55,7 +55,6 @@ def get_credit_progress(sess) -> CreditProgressDict:
 
 
 def _parse_credit_progress(html) -> CreditProgressDict:
-    print("html: ", html)
     """
 
     :param html: 网页
@@ -64,10 +63,8 @@ def _parse_credit_progress(html) -> CreditProgressDict:
     result: CreditProgressDict = {}  # type: ignore
     soup: BeautifulSoup = BeautifulSoup(html, "lxml")
     blocks: List[BeautifulSoup] = soup.select("div.UICircle > ul.boxNavigation > li")
-    print(blocks)
     # 循环遍历每个 vlock 一共有上下两块
     for block in blocks:
-        print(block.prettify())
         result[block.span.string] = block.em.text
 
     return result

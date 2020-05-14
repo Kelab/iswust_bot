@@ -8,7 +8,7 @@ from sqlalchemy.dialects.postgresql import JSONB
 
 from app.libs.aio import run_sync_func
 from app.libs.gino import db
-from app.libs.scheduler import scheduler
+from app.libs.scheduler import add_job
 from app.utils.bot_common import qq2event
 from app.utils.parse.course_table import get_course_api
 
@@ -49,7 +49,7 @@ class CourseStudent(Base, db.Model):
         query = cls.join(User).select()
         course_student = await query.where(User.qq == str(qq)).gino.first()
         if course_student is None:
-            scheduler.add_job(cls.update_course, args=[qq])
+            await add_job(cls.update_course, args=[qq])
             return "WAIT"
         return course_student
 
