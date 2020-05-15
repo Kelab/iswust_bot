@@ -50,7 +50,6 @@ async def bind():
                 qq=qq,
                 student_id=username,
                 password=password,
-                user_info=user_info,
                 cookies=pickle.dumps(u.get_cookies()),
             )
             logger.info("qq{}绑定成功!".format(qq))

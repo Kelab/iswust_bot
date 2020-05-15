@@ -85,7 +85,7 @@ async def _(session: CommandSession):
     subs = session.state.get("subs") or await SubUser.get_user_subs(session.event)
 
     if not subs:
-        session.finish(f"你还没有订阅任何内容哦")
+        session.finish("你还没有订阅任何内容哦")
 
     for i, sub in enumerate(subs):
         await session.send(format_subscription(i + 1, sub))
