@@ -37,7 +37,9 @@ def _parse_credit_progress(html) -> CreditProgressDict:
     """
     result: CreditProgressDict = {}  # type: ignore
     soup: BeautifulSoup = BeautifulSoup(html, "lxml")
-    blocks: List[BeautifulSoup] = soup.select("div.UICircle > ul.boxNavigation > li")
+    blocks: List[BeautifulSoup] = soup.select(
+        "div#Summary > div.UICircle > ul.boxNavigation > li"
+    )
     # 循环遍历每个 block 一共有上下两块
     for block in blocks:
         result[block.span.string] = block.em.text

@@ -103,18 +103,18 @@ def _parse_course_table(html):
             # is_conflict = True
 
             # 这里的 for 只是为了获取 星期i第j讲的课 因为可能课程冲突这个时间段有两节课
-            for l in c.select("div.lecture"):
+            for lecture in c.select("div.lecture"):
                 # 课程名称
-                class_name = l.find("span", class_="course").text
+                class_name = lecture.find("span", class_="course").text
                 # 教师名称
-                teacher_name = l.find("span", class_="teacher").text
+                teacher_name = lecture.find("span", class_="teacher").text
 
                 # 上课周数
-                week_str = str(l.find("span", class_="week").text)
+                week_str = str(lecture.find("span", class_="week").text)
                 match_obj = re.match(r"(\d{2})-(\d{2}).*", week_str)
 
                 # 上课地点
-                class_place = l.find("span", class_="place").text
+                class_place = lecture.find("span", class_="place").text
 
                 # 把上课地点存起来 存成列表
                 if not location_dict.get(class_name):
