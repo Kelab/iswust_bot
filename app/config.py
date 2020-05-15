@@ -7,9 +7,12 @@ __all__ = ["get_database_url", "MyConfig"]
 
 
 def get_database_url() -> URL:
+    port = 5432
+    if env("RUN_MODE", "") != "bot":
+        port = env("DATABASE_PORT", 5432)
     return URL(
         host=env("DATABASE_HOST", "database"),
-        port=env("DATABASE_PORT", 5432),
+        port=port,
         drivername="postgresql",
         username=env("POSTGRES_USER"),
         password=env("POSTGRES_PASSWORD"),
