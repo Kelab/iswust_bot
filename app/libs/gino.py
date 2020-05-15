@@ -7,44 +7,22 @@ from gino.engine import GinoEngine as _Engine
 from gino.strategies import GinoStrategy
 
 from loguru import logger
-from nonebot import get_bot
-
-from quart.exceptions import NotFound
 
 
 class QuartModelMixin:
-    @classmethod
-    async def get_or_404(cls, *args, **kwargs):
-        rv = await cls.get(*args, **kwargs)  # type: ignore
-        if rv is None:
-            raise NotFound()
-        return rv
+    pass
 
 
 class GinoExecutor(_Executor):
-    async def first_or_404(self, *args, **kwargs):
-        rv = await self.first(*args, **kwargs)
-        if rv is None:
-            raise NotFound()
-        return rv
+    pass
 
 
 class GinoConnection(_Connection):
-    async def first_or_404(self, *args, **kwargs):
-        rv = await self.first(*args, **kwargs)
-        if rv is None:
-            raise NotFound()
-        return rv
+    pass
 
 
 class GinoEngine(_Engine):
     connection_cls = GinoConnection
-
-    async def first_or_404(self, *args, **kwargs):
-        rv = await self.first(*args, **kwargs)
-        if rv is None:
-            raise NotFound()
-        return rv
 
 
 class QuartStrategy(GinoStrategy):
@@ -66,17 +44,6 @@ class Gino(_Gino):
     model_base_classes = _Gino.model_base_classes + (QuartModelMixin,)
     query_executor = GinoExecutor
 
-    def __init__(self, app=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if app is not None:
-            self.init_app(app)
-
-    async def first_or_404(self, *args, **kwargs):
-        rv = await self.first(*args, **kwargs)
-        if rv is None:
-            raise NotFound()
-        return rv
-
     async def set_bind(self, bind, loop=None, **kwargs):
         kwargs.setdefault("strategy", "quart")
         return await super().set_bind(bind, loop=loop, **kwargs)
@@ -87,17 +54,14 @@ db = Gino()
 
 async def init_db():
     logger.debug("Initializing database")
-    bot = get_bot()
-    app = bot.asgi
-    if getattr(bot.config, "DATABASE_URL", None):
+    from app.config import MyConfig
+
+    if getattr(MyConfig, "DATABASE_URL", None):
         try:
             await db.set_bind(
-                bot.config.DATABASE_URL,
-                echo=app.config.setdefault("DB_ECHO", False),
-                min_size=app.config.setdefault("DB_POOL_MIN_SIZE", 5),
-                max_size=app.config.setdefault("DB_POOL_MAX_SIZE", 10),
+                MyConfig.DATABASE_URL,
+                echo=MyConfig.DB_ECHO,
                 loop=asyncio.get_event_loop(),
-                **app.config.setdefault("DB_KWARGS", dict()),
             )
             logger.info("Database connected")
         except Exception:

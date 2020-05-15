@@ -3,10 +3,13 @@ from sqlalchemy.engine.url import URL
 
 from .env import env
 
+__all__ = ["get_database_url", "MyConfig"]
+
 
 def get_database_url() -> URL:
     return URL(
-        host="database",
+        host=env("DATABASE_HOST", "database"),
+        port=env("DATABASE_PORT", 5432),
         drivername="postgresql",
         username=env("POSTGRES_USER"),
         password=env("POSTGRES_PASSWORD"),
@@ -14,12 +17,8 @@ def get_database_url() -> URL:
     )
 
 
-def get_super_users() -> set:
-    return env.list("SUPERUSERS", "", subcast=int)
-
-
 class MyConfig:
-    SUPERUSERS = get_super_users()
+    SUPERUSERS = env.list("SUPERUSERS", "", subcast=int)
     HOST = env("HOST", "0.0.0.0")
     PORT = env("PORT", 8080)
     DEBUG = env("DEBUG", False)
@@ -34,3 +33,4 @@ class MyConfig:
         "serializer": {"class": "aiocache.serializers.PickleSerializer"},
     }
     SUBSCIBE_INTERVAL = env.int("SUBSCIBE_INTERVAL", 600)  # 单位 s
+    DB_ECHO = env.bool("DB_ECHO", False)

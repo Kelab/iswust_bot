@@ -12,7 +12,7 @@ class ConfigurationOverrideError(ConfigurationError):
     """An exception risen for invalid configuration override."""
 
 
-def apply_key_value(obj, key, value):
+def apply_key_value(obj: Any, key: str, value):
     key = key.strip("_:")  # remove special characters from both ends
     for token in (":", "__"):
         if token in key:

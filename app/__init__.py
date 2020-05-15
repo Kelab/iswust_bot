@@ -1,30 +1,15 @@
 from os import path
-from typing import Any
 from loguru import logger
 
 import nonebot as nb
-from nonebot import NoneBot, default_config
+from nonebot import default_config
 from quart import Quart
 
-from .libs.gino import init_db
-from .libs.cache import init_cache
-from .libs.scheduler import init_scheduler
-from .libs.roconfig import Configuration
-
-from .utils.tools import load_modules
-
-
-def init_bot(config_object: Any) -> nb.NoneBot:
-    nb.init(config_object)
-    bot = nb.get_bot()
-
-    nb.load_builtin_plugins()
-    nb.load_plugins(path.join(path.dirname(__file__), "bot"), "app.bot")
-
-    return bot
+__all__ = ["init"]
 
 
 def load_config():
+    from .libs.roconfig import Configuration
     from .config import MyConfig
 
     conf = Configuration()
@@ -34,7 +19,27 @@ def load_config():
     return conf.to_config()
 
 
+def init_bot() -> nb.NoneBot:
+    config = load_config()
+    nb.init(config)
+    bot = nb.get_bot()
+
+    nb.load_builtin_plugins()
+    nb.load_plugins(path.join(path.dirname(__file__), "bot"), "app.bot")
+
+    from .libs.gino import init_db
+    from .libs.cache import init_cache
+    from .libs.scheduler import init_scheduler
+
+    bot.server_app.before_serving(init_db)
+    bot.server_app.before_serving(init_cache)
+    bot.server_app.before_serving(init_scheduler)
+    return bot
+
+
 def register_blueprint(app: Quart):
+    from .utils.tools import load_modules
+
     load_modules("app.api")
     from .api import api as api_blueprint
 
@@ -60,13 +65,16 @@ def init_shell(app: Quart):
         }
 
 
-def init() -> NoneBot:
-    config = load_config()
-    _bot = init_bot(config)
-    _bot.server_app.before_serving(init_db)
-    _bot.server_app.before_serving(init_cache)
-    _bot.server_app.before_serving(init_scheduler)
-    app = _bot.asgi
-    register_blueprint(app)
-    init_shell(app)
-    return _bot
+def init(mode: str = "bot") -> Quart:
+    from .env import load_env
+
+    load_env(mode)
+
+    if mode == "bot":
+        _bot = init_bot()
+        app = _bot.asgi
+        register_blueprint(app)
+    else:
+        app = Quart(__name__)
+        init_shell(app)
+    return app

@@ -2,10 +2,15 @@ import pathlib
 import sys
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
 from alembic import context
+from sqlalchemy import engine_from_config, pool
+
+from app.env import load_env
+
+load_env()
+from app.config import get_database_url
+from app.libs.gino import db
+from app.utils.tools import load_modules
 
 sys.path.append(str(pathlib.Path(__file__).parent.parent.resolve()))
 # this is the Alembic Config object, which provides
@@ -19,9 +24,6 @@ fileConfig(config.config_file_name)
 # add your model's MetaData object here
 # for 'autogenerate' support
 
-from app.config import get_database_url
-from app.libs.gino import db
-from app.utils.tools import load_modules
 
 config.set_main_option("sqlalchemy.url", str(get_database_url()))
 

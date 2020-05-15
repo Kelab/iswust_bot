@@ -1,6 +1,8 @@
-import app.env  # noqa: F401
-import log  # noqa: F401
-import app
+from quart import Quart
 
-bot = app.init()
-app = bot.asgi
+
+def create_app(mode="bot") -> Quart:
+    import log  # noqa: F401
+    import app
+
+    return app.init(mode)
