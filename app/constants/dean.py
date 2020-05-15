@@ -2,8 +2,9 @@ import time
 
 
 class API:
-    studentInfo = "http://my.swust.edu.cn/mht_shall/a/service/studentInfo"
-    studentMark = "http://my.swust.edu.cn/mht_shall/a/service/studentMark"
+    studentInfo = "http://myo.swust.edu.cn/mht_shall/a/service/studentInfo"
+    studentMark = "http://myo.swust.edu.cn/mht_shall/a/service/studentMark"
+    card_data = "http://myo.swust.edu.cn/mht_shall/a/service/cardData?stuempno={}"
     jwc_course_table = "https://matrix.dean.swust.edu.cn/acadmicManager/index.cfm?event=studentPortal:courseTable"
     jwc_course_mark = "https://matrix.dean.swust.edu.cn/acadmicManager/index.cfm?event=studentProfile:courseMark"
     jwc_index = "https://matrix.dean.swust.edu.cn/acadmicManager/index.cfm?event=studentPortal:DEFAULT_EVENT"

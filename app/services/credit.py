@@ -16,24 +16,18 @@ class CreditService:
         user = await User.check(qq)
         if not user:
             return "NOT_BIND"
-        await add_job(cls.update_progress, args=[qq])
+        await add_job(cls._get_progress, args=[user])
         return "WAIT"
 
     @classmethod
-    async def update_progress(cls, qq: int):
-        user: User = await User.get(str(qq))
-        if not user:
-            return
-        from auth_swust import request as login_request
-
-        cookies = await User.get_cookies(qq)
-        sess = login_request.Session(cookies)
+    async def _get_progress(cls, user: User):
+        sess = await User.get_session(user)
         res = await run_sync_func(get_credit_progress, sess)
         _bot = get_bot()
         if res:
-            await _bot.send(qq2event(qq), _format(res))
+            await _bot.send(qq2event(user.qq), _format(res))
             return
-        await _bot.send(qq2event(qq), "查询绩点出错，请稍后再试")
+        await _bot.send(qq2event(user.qq), "查询绩点出错，请稍后再试")
 
 
 def _format(credits: dict):

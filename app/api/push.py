@@ -1,13 +1,14 @@
 import json
-import nonebot as nb
-
-from quart import jsonify, request
 from typing import Optional
+
+import nonebot as nb
+from loguru import logger
 from nonebot import CQHttpError
+from quart import jsonify, request
+
+from app.utils.tools import bot_hash, check_args
 
 from . import api
-from loguru import logger
-from app.utils.tools import bot_hash, check_args
 
 
 @api.route("/push", methods=["GET", "POST"])

@@ -58,10 +58,7 @@ class CourseStudent(Base, db.Model):
         user: User = await User.get(str(qq))
         if not user:
             return
-        from auth_swust import request as login_request
-
-        cookies = await User.get_cookies(qq)
-        sess = login_request.Session(cookies)
+        sess = await User.get_session(user)
         res = await run_sync_func(get_course_api, sess)
         if res:
             c_stu = await cls.add_or_update(

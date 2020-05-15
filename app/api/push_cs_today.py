@@ -30,7 +30,6 @@ async def push_cs_today():
 
     if result and qq_:
         encrypt_qq = bot_hash(qq_)
-
         logger.info(f"推送今日课表：qq: {qq_} token: {token_} encrypt_qq: {encrypt_qq}")
         if token_ == encrypt_qq:
             try:

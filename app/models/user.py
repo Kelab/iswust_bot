@@ -60,10 +60,7 @@ class User(Base, db.Model):
         return False
 
     @classmethod
-    async def get_cookies(cls, qq: int):
-        user = await cls.get(str(qq))
-        if not user:
-            return False
+    async def get_cookies(cls, user: "User"):
         from auth_swust import Login
         from auth_swust import request as login_request
 
@@ -73,15 +70,22 @@ class User(Base, db.Model):
             sess.get, API.jwc_index, allow_redirects=False, verify=False
         )
 
-        # 302重定向了，session失效，刷新
+        # 302重定向了，session 失效，重新获取session
         if res.status_code == 302 or res.status_code == 301:
-            logger.info("qq {} 的session 失效".format(qq))
-
             u_ = Login(user.student_id, user.password)
             is_log, _ = await run_sync_func(u_.try_login)
             if is_log:
                 cookies = pickle.dumps(u_.get_cookies())
                 await user.update(cookies=cookies).apply()
+                logger.info(f"更新qq: {user.qq} 的 session")
                 return u_.get_cookies()
         else:
             return cookies
+
+    @classmethod
+    async def get_session(cls, user: "User"):
+        from auth_swust import request as login_request
+
+        cookies = await cls.get_cookies(user)
+        sess = login_request.Session(cookies)
+        return sess
