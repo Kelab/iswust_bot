@@ -127,7 +127,7 @@ async def _(session: CommandSession):
     jobs = session.state.get("jobs") or await get_push_jobs(session.event)
 
     if not jobs:
-        session.finish(f"你还没有添加任何推送哦")
+        session.finish("你还没有添加任何推送哦")
 
     for i, job in enumerate(jobs):
         await session.send(format_subscription(i + 1, job))
