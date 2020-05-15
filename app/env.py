@@ -10,5 +10,5 @@ def load_env(mode="bot"):
     load_dotenv(encoding="utf8")
 
     if mode != "bot":
-        if f := find_dotenv("quart.env"):
+        if f := find_dotenv(".env.local"):
             load_dotenv(f, encoding="utf8")

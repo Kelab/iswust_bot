@@ -5,7 +5,8 @@ logs
 .vscode
 data
 
-quart.env
+.quartenv
+.env.local
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
