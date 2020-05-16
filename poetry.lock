@@ -1714,7 +1714,7 @@ reference = "aliyun"
 url = "https://mirrors.aliyun.com/pypi/simple"
 
 [metadata]
-content-hash = "94c1157948e0dc4bcc3b9a1e293278d4536e5ea2256928f59b0b254d4285e83c"
+content-hash = "5fc3461223392ac1f49a2a15833725724121d6870658d175ec2ca272b1b44133"
 python-versions = "^3.8"
 
 [metadata.files]
