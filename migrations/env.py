@@ -1,5 +1,7 @@
 import pathlib
 import sys
+
+sys.path.append(str(pathlib.Path(__file__).parent.parent.resolve()))
 from logging.config import fileConfig
 
 from alembic import context
@@ -12,7 +14,6 @@ from app.config import get_database_url
 from app.libs.gino import db
 from app.utils.tools import load_modules
 
-sys.path.append(str(pathlib.Path(__file__).parent.parent.resolve()))
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config

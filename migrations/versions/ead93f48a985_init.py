@@ -1,8 +1,8 @@
 """init
 
-Revision ID: 99e1b3c0dae7
+Revision ID: ead93f48a985
 Revises: 
-Create Date: 2020-05-12 22:41:02.864500
+Create Date: 2020-05-16 15:46:25.500952
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '99e1b3c0dae7'
+revision = 'ead93f48a985'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -28,6 +28,45 @@ def upgrade():
     sa.Column('out', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('score_cet',
+    sa.Column('create_at', sa.DateTime(), nullable=True),
+    sa.Column('update_at', sa.DateTime(), nullable=True),
+    sa.Column('exam_id', sa.String(length=32), nullable=False),
+    sa.Column('exam_name', sa.String(length=64), nullable=True),
+    sa.Column('level', sa.Float(), nullable=True),
+    sa.Column('total', sa.Integer(), nullable=True),
+    sa.Column('listen', sa.Integer(), nullable=True),
+    sa.Column('read', sa.Integer(), nullable=True),
+    sa.Column('write', sa.Integer(), nullable=True),
+    sa.Column('common', sa.Integer(), nullable=True),
+    sa.PrimaryKeyConstraint('exam_id')
+    )
+    op.create_table('score_physic_or_common',
+    sa.Column('create_at', sa.DateTime(), nullable=True),
+    sa.Column('update_at', sa.DateTime(), nullable=True),
+    sa.Column('course_id', sa.String(length=16), nullable=False),
+    sa.Column('term', sa.String(length=64), nullable=False),
+    sa.Column('course_name', sa.String(length=64), nullable=True),
+    sa.Column('credit', sa.Float(), nullable=True),
+    sa.Column('score', sa.String(length=16), nullable=True),
+    sa.Column('make_up_score', sa.String(length=16), nullable=True),
+    sa.Column('gpa', sa.Float(), nullable=True),
+    sa.PrimaryKeyConstraint('course_id', 'term')
+    )
+    op.create_table('score_plan',
+    sa.Column('create_at', sa.DateTime(), nullable=True),
+    sa.Column('update_at', sa.DateTime(), nullable=True),
+    sa.Column('course_id', sa.String(length=16), nullable=False),
+    sa.Column('term', sa.String(length=64), nullable=False),
+    sa.Column('course_name', sa.String(length=64), nullable=True),
+    sa.Column('property', sa.String(length=64), nullable=True),
+    sa.Column('credit', sa.Float(), nullable=True),
+    sa.Column('score', sa.String(length=16), nullable=True),
+    sa.Column('make_up_score', sa.String(length=16), nullable=True),
+    sa.Column('gpa', sa.Float(), nullable=True),
+    sa.Column('season', sa.String(length=16), nullable=True),
+    sa.PrimaryKeyConstraint('course_id', 'term')
+    )
     op.create_table('sub_content',
     sa.Column('create_at', sa.DateTime(), nullable=True),
     sa.Column('update_at', sa.DateTime(), nullable=True),
@@ -42,8 +81,6 @@ def upgrade():
     sa.Column('qq', sa.String(length=16), nullable=False),
     sa.Column('student_id', sa.String(length=32), nullable=True),
     sa.Column('password', sa.String(length=64), nullable=False),
-    sa.Column('name', sa.String(length=64), nullable=True),
-    sa.Column('class', sa.String(length=16), nullable=True),
     sa.Column('cookies', sa.LargeBinary(), nullable=True),
     sa.PrimaryKeyConstraint('qq'),
     sa.UniqueConstraint('student_id')
@@ -55,38 +92,6 @@ def upgrade():
     sa.Column('course_json', postgresql.JSONB(astext_type=sa.Text()), server_default='{}', nullable=False),
     sa.ForeignKeyConstraint(['student_id'], ['user.student_id'], onupdate='CASCADE', ondelete='SET NULL'),
     sa.PrimaryKeyConstraint('student_id')
-    )
-    op.create_table('score_credit_progress',
-    sa.Column('create_at', sa.DateTime(), nullable=True),
-    sa.Column('update_at', sa.DateTime(), nullable=True),
-    sa.Column('student_id', sa.String(length=32), nullable=False),
-    sa.Column('total', sa.Float(), nullable=True),
-    sa.Column('required', sa.Float(), nullable=True),
-    sa.Column('elective', sa.Float(), nullable=True),
-    sa.Column('sport', sa.Float(), nullable=True),
-    sa.Column('common', sa.Float(), nullable=True),
-    sa.Column('degree', sa.Float(), nullable=True),
-    sa.Column('average_gpa', sa.Float(), nullable=True),
-    sa.Column('required_gpa', sa.Float(), nullable=True),
-    sa.Column('degree_gpa', sa.Float(), nullable=True),
-    sa.ForeignKeyConstraint(['student_id'], ['user.student_id'], onupdate='CASCADE', ondelete='SET NULL'),
-    sa.PrimaryKeyConstraint('student_id')
-    )
-    op.create_table('score_plan',
-    sa.Column('create_at', sa.DateTime(), nullable=True),
-    sa.Column('update_at', sa.DateTime(), nullable=True),
-    sa.Column('student_id', sa.String(length=32), nullable=False),
-    sa.Column('course_id', sa.String(length=16), nullable=False),
-    sa.Column('term', sa.String(length=64), nullable=False),
-    sa.Column('course_name', sa.String(length=64), nullable=True),
-    sa.Column('property', sa.String(length=64), nullable=True),
-    sa.Column('credit', sa.Float(), nullable=True),
-    sa.Column('score', sa.String(length=16), nullable=True),
-    sa.Column('make_up_score', sa.String(length=16), nullable=True),
-    sa.Column('gpa', sa.Float(), nullable=True),
-    sa.Column('season', sa.String(length=16), nullable=True),
-    sa.ForeignKeyConstraint(['student_id'], ['user.student_id'], onupdate='CASCADE', ondelete='SET NULL'),
-    sa.PrimaryKeyConstraint('student_id', 'course_id', 'term')
     )
     op.create_table('sub_user',
     sa.Column('create_at', sa.DateTime(), nullable=True),
@@ -103,10 +108,11 @@ def upgrade():
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
     op.drop_table('sub_user')
-    op.drop_table('score_plan')
-    op.drop_table('score_credit_progress')
     op.drop_table('course_student')
     op.drop_table('user')
     op.drop_table('sub_content')
+    op.drop_table('score_plan')
+    op.drop_table('score_physic_or_common')
+    op.drop_table('score_cet')
     op.drop_table('chat_records')
     # ### end Alembic commands ###
