@@ -19,7 +19,27 @@ from app.libs.scheduler.exception import JobIdConflictError
 from app.utils.str_ import random_string
 
 __plugin_name__ = "推送"
+__plugin_short_description__ = "命令：push"
+__plugin_usage__ = r"""新建推送输入：
+    - push
+    - 推送
+    - 添加推送
+    - 新增推送
+    - 新建推送
 
+查看推送可以输入：
+    - push.show
+    - 查看推送
+    - 我的推送
+    - 推送列表
+
+删除推送：
+    - push.rm
+    - 取消推送
+    - 停止推送
+    - 关闭推送
+    - 删除推送
+""".strip()
 PLUGIN_NAME = "push"
 
 cg = CommandGroup(

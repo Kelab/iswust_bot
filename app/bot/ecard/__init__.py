@@ -3,8 +3,16 @@ from nonebot import CommandSession, on_command
 
 from .service import ECardService
 
+__plugin_name__ = "饭卡余额"
+__plugin_short_description__ = "balance"
+__plugin_usage__ = r"""余额
+命令：
+    - 余额
+    - 一卡通余额
+""".strip()
 
-@on_command("饭卡余额", aliases=("余额", "一卡通余额"))
+
+@on_command("balance", aliases=("余额", "一卡通余额"))
 async def _(session: CommandSession):
     await session.send("学校相关接口有误")
     sender_qq = session.event.get("user_id")

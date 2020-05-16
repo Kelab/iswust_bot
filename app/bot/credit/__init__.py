@@ -3,6 +3,15 @@ from nonebot import CommandSession, on_command
 
 from .service import CreditService
 
+__plugin_name__ = "绩点"
+__plugin_short_description__ = "命令：credit"
+__plugin_usage__ = r"""查看我的绩点：
+命令：
+    - credit
+    - 绩点
+    - 我的绩点
+""".strip()
+
 
 @on_command("credit", aliases=("绩点", "我的绩点"))
 async def _(session: CommandSession):

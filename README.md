@@ -50,7 +50,7 @@ QUART_DEBUG=True
 3. 然后运行：
 
     ```sh
-    docker-compose up -d --no-recreate
+    docker-compose up -d
     ```
 
 想更新的时候执行：
