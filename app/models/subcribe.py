@@ -82,15 +82,15 @@ class SubUser(Base, db.Model):
         # TODO: UTF8
         try:
             d = await get_rss_info(url)
-        except Exception:
+        except Exception as e:
+            logger.exception(e)
             await send(get_bot(), event, "获取订阅信息失败，但已添加到订阅中，我们会稍后重试。")
-            d = {"channel": {}}
+            d = {"channel": {}, "entries": []}
 
         if not d:
             return None
         info = d["channel"]
         title = info.get("title", url)
-        logger.info(info)
         sub = await SubContent.add_or_update(
             link=url, name=title, content=pickle.dumps(d),
         )

@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from loguru import logger
 from nonebot.log import logger as nblogger
 from logging import handlers, Formatter
 
@@ -24,14 +23,3 @@ fh.setFormatter(
     )
 )
 nblogger.addHandler(fh)
-
-
-logger.add(
-    str(log_dir / "iswust_{time:YYYY-MM-DD}.log"),
-    format="{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}",
-    rotation="12:00",
-    encoding="utf-8",
-    level="DEBUG",
-    compression="zip",
-    retention="10 days",
-)

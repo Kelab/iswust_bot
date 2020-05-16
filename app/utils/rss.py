@@ -13,8 +13,8 @@ async def get_rss_info(url: str):
 
 
 def diff(new, old) -> list:
-    new_items = new.entries
-    old_items = old.entries
+    new_items = new.get("entries", [])
+    old_items = old.get("entries", [])
     result = []
 
     for new in new_items:
