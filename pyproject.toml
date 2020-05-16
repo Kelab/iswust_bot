@@ -26,6 +26,7 @@ feedparser = "^6.0.0b3"
 environs = "^7.4.0"
 tensorflow = "2.2.0rc4"
 aiocache = {extras = ["redis"], version = "^0.11.1"}
+pandas = "^1.0.3"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.7.9"

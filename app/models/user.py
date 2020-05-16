@@ -78,6 +78,6 @@ class User(Base, db.Model):
         cookies = await cache.get(key)
         if not cookies:
             cookies = await cls.get_cookies(user)
-            await cache.set(key, cookies, ttl=600)
+            await cache.set(key, cookies, ttl=60 * 60)
         sess = login_request.Session(cookies)
         return sess

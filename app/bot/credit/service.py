@@ -8,7 +8,7 @@ from app.libs.cache import cache
 from app.libs.scheduler import add_job
 from app.models.user import User
 from app.utils.bot import qq2event
-from app.utils.parse.credit_progress import get_credit_progress
+from app.utils.parse.credit_progress import get_credit_progress, CreditProgressDict
 
 _bot = get_bot()
 
@@ -31,7 +31,7 @@ class CreditService:
             res = await cache.get(key)
             if not res:
                 sess = await User.get_session(user)
-                res = await run_sync_func(get_credit_progress, sess)
+                res: CreditProgressDict = await run_sync_func(get_credit_progress, sess)
                 if res:
                     await cache.set(key, res, ttl=600)
                 else:
@@ -42,7 +42,7 @@ class CreditService:
             await _bot.send(qq2event(user.qq), "查询绩点出错，请稍后再试")
 
 
-def _format(credits: dict):
+def _format(credits: CreditProgressDict):
     msg = ""
     for name, credit in credits.items():
         msg = msg + f"{name}: {credit}\n"

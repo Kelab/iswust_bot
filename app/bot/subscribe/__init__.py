@@ -58,8 +58,8 @@ async def subscribe(session: CommandSession):
     )
 
     urls = make_url(int(message))
-    await asyncio.wait(
-        [
+    await asyncio.gather(
+        *[
             call_command(
                 session.bot,
                 session.ctx,

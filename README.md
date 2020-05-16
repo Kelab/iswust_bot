@@ -74,6 +74,12 @@ poetry install
 
 ### docker 相关命令
 
+#### 更新 poetry 依赖
+
+```sh
+docker-compose exec nonebot potery install --no-interaction --no-dev
+```
+
 #### 查看运行日志
 
 ```sh

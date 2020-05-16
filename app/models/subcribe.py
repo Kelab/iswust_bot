@@ -37,16 +37,18 @@ class SubContent(Base, db.Model):
     async def check_update(cls):
         logger.info("开始检查RSS更新")
         all_subs = await SubContent.query.gino.all()
+        if not all_subs:
+            return
         await asyncio.wait([cls._check_one(sub) for sub in all_subs])
 
     @classmethod
     async def _check_one(cls, sub):
-        logger.info("检查" + sub.name + "更新")
         users = await SubUser.get_users(sub.link)
-        logger.info(sub.name + "的用户们：" + str(users))
-        event_list = [ctx_id2event(user.ctx_id) for user in users]
         if not users:
             return
+        logger.info("检查" + sub.name + "更新")
+        logger.info(sub.name + "的用户们：" + str(users))
+        event_list = [ctx_id2event(user.ctx_id) for user in users]
 
         content = await get_rss_info(sub.link)
         old_content = pickle.loads(sub.content)
@@ -54,7 +56,7 @@ class SubContent(Base, db.Model):
         logger.info(sub.name + "的更新" + str(diffs))
         msgs = mk_msg_content(content, diffs)
 
-        await asyncio.wait([send_msgs(event, msgs) for event in event_list])
+        await asyncio.gather(*[send_msgs(event, msgs) for event in event_list])
         await SubContent.add_or_update(sub.link, sub.name, pickle.dumps(content))
 
 
