@@ -6,8 +6,7 @@ from loguru import logger
 from nonebot import CQHttpError
 from quart import jsonify, request
 
-from app.utils.tools import bot_hash, check_args
-
+from app.utils.api import check_args, to_token
 from . import api
 
 
@@ -32,7 +31,7 @@ async def push():
     rmsg_ = msg
 
     if result and qq_:
-        encrypt_qq = bot_hash(qq_)
+        encrypt_qq = to_token(qq_)
 
         logger.info(f"qq: {qq_} msg: {msg_} token: {token_} encrypt_qq: {encrypt_qq}")
         if token_ == encrypt_qq:

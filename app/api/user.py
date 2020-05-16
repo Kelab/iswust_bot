@@ -8,8 +8,7 @@ from quart import abort, request
 from app.libs.aio import run_sync_func
 from app.models.user import User
 from app.utils.bot import qq2event
-from app.utils.common import falseRet, trueRet
-from app.utils.tools import bot_hash, check_args
+from app.utils.api import false_ret, true_ret, check_args, to_token
 
 from . import api
 
@@ -26,11 +25,11 @@ async def bind():
 
     result, msg = check_args(qq=qq, username=username, password=password, token=token)
 
-    if bot_hash(qq) != token:
+    if to_token(qq) != token:
         abort(403)
 
     if not result:
-        return falseRet(msg=msg)
+        return false_ret(msg=msg)
 
     logger.info("qq{}正在请求绑定!".format(qq))
     # 是否已经绑定
@@ -55,12 +54,12 @@ async def bind():
             logger.info("qq{}绑定成功!".format(qq))
             await _bot.send(qq2event(qq), "教务处绑定成功！")
             await _bot.send(qq2event(qq), "可以向我发送 帮助 来继续使用~")
-            return trueRet("qq绑定成功!")
+            return true_ret("qq绑定成功!")
         else:
             logger.info("qq{}绑定失败!".format(qq))
             await _bot.send(qq2event(qq), "教务处绑定失败！")
-            return falseRet("qq绑定失败!失败原因是{}".format(log_resp))
-    return falseRet("该qq已经绑定了!")
+            return false_ret("qq绑定失败!失败原因是{}".format(log_resp))
+    return false_ret("该qq已经绑定了!")
 
 
 @api.route("/user/unbind")
@@ -69,18 +68,18 @@ async def unbind():
     token = request.args.get("token")
     result, msg = check_args(qq=qq, token=token)
 
-    if bot_hash(qq) != token:
+    if to_token(qq) != token:
         abort(403)
     if not result:
-        return falseRet(msg=msg)
+        return false_ret(msg=msg)
 
     logger.info("qq {}正在请求解绑!".format(qq))
 
     try:
         await User.unbind(qq)
         logger.info("qq {}请求解绑成功!".format(qq))
-        return trueRet(msg="解除绑定成功!")
+        return true_ret(msg="解除绑定成功!")
     except Exception as e:
         logger.exception(e)
 
-    return falseRet(msg="没有这个用户!")
+    return false_ret(msg="没有这个用户!")

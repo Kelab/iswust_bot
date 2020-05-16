@@ -3,7 +3,9 @@ from urllib.parse import urlencode
 
 from nonebot import CommandSession, on_command
 
-from app.utils.tools import bot_hash, dwz
+from app.utils.tools import dwz
+from app.utils.api import to_token
+
 from app.config import MyConfig
 
 __plugin_name__ = "绑定教务处"
@@ -26,7 +28,7 @@ async def bind(session: CommandSession):
     nickname: Optional[str] = sender.get("nickname")
 
     if sender_qq:
-        token = bot_hash(sender_qq)
+        token = to_token(sender_qq)
         # web 登录界面地址
         query: str = urlencode({"qq": sender_qq, "nickname": nickname, "token": token})
 
