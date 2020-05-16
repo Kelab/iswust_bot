@@ -1,10 +1,33 @@
-**/.dockerignore
-**/.git
-**/.gitignore
-**/.vscode
-**/bin
-**/docker-compose*
-**/Dockerfile*
-**/node_modules
-**/npm-debug.log
+data
+web
+tests
+
+.ipynb_checkpoints
+*.pyc
+*.pyo
+*.pyd
+.mypy_cache
+.pytest_cache
+
+# Git
+.git
+.gitignore
+
+# Docker
+docker-compose.yml
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*/*/*/__pycache__/
+*.py[cod]
+*/*.py[cod]
+*/*/*.py[cod]
+*/*/*/*.py[cod]
+
+# PyCharm
+.idea
+
+.vscode
 README.md
