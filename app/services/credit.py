@@ -1,8 +1,10 @@
 from typing import Optional
+from loguru import logger
 
 from nonebot import get_bot
 
 from app.libs.aio import run_sync_func
+from app.libs.cache import cache
 from app.libs.scheduler import add_job
 from app.models.user import User
 from app.utils.bot import qq2event
@@ -24,12 +26,20 @@ class CreditService:
 
     @classmethod
     async def _get_progress(cls, user: User):
-        sess = await User.get_session(user)
-        res = await run_sync_func(get_credit_progress, sess)
-        if res:
+        try:
+            key = f"credit/{user.qq}"
+            res = await cache.get(key)
+            if not res:
+                sess = await User.get_session(user)
+                res = await run_sync_func(get_credit_progress, sess)
+                if res:
+                    await cache.set(key, res, ttl=600)
+                else:
+                    raise ValueError("查询绩点出错")
             await _bot.send(qq2event(user.qq), _format(res))
-            return
-        await _bot.send(qq2event(user.qq), "查询绩点出错，请稍后再试")
+        except Exception as e:
+            logger.exception(e)
+            await _bot.send(qq2event(user.qq), "查询绩点出错，请稍后再试")
 
 
 def _format(credits: dict):

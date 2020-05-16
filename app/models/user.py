@@ -6,6 +6,7 @@ from sqlalchemy import Column
 
 from app.constants.dean import API
 from app.libs.aio import run_sync_func
+from app.libs.cache import cache
 from app.libs.gino import db
 from app.utils.bot import qq2event
 
@@ -73,6 +74,10 @@ class User(Base, db.Model):
     async def get_session(cls, user: "User"):
         from auth_swust import request as login_request
 
-        cookies = await cls.get_cookies(user)
+        key = f"cookies/{user.qq}"
+        cookies = await cache.get(key)
+        if not cookies:
+            cookies = await cls.get_cookies(user)
+            await cache.set(key, cookies, ttl=600)
         sess = login_request.Session(cookies)
         return sess

@@ -42,6 +42,6 @@ def _parse_credit_progress(html) -> CreditProgressDict:
     )
     # 循环遍历每个 block 一共有上下两块
     for block in blocks:
-        result[block.span.string] = block.em.text
+        result[str(block.span.string)] = str(block.em.text)
 
     return result
