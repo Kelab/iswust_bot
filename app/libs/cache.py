@@ -1,10 +1,6 @@
-from aiocache import caches
-from nonebot import get_bot
+from aiocache import Cache
+from aiocache.serializers import PickleSerializer
 
-
-def init_cache() -> None:
-    """
-    Initialize the cache module.
-    """
-    bot = get_bot()
-    caches.set_config({"default": bot.config.AIOCACHE_DEFAULT_CONFIG})
+cache = Cache(
+    Cache.REDIS, endpoint="redis", namespace="nb", serializer=PickleSerializer(),
+)

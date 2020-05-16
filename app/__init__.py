@@ -28,12 +28,11 @@ def init_bot() -> nb.NoneBot:
     nb.load_plugins(path.join(path.dirname(__file__), "bot"), "app.bot")
 
     from .libs.gino import init_db
-    from .libs.cache import init_cache
     from .libs.scheduler import init_scheduler
 
     bot.server_app.before_serving(init_db)
-    bot.server_app.before_serving(init_cache)
     bot.server_app.before_serving(init_scheduler)
+
     return bot
 
 
