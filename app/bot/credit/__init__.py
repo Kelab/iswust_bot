@@ -1,7 +1,7 @@
 from loguru import logger
 from nonebot import CommandSession, on_command
 
-from app.services.credit import CreditService
+from .service import CreditService
 
 
 @on_command("credit", aliases=("绩点", "我的绩点"))

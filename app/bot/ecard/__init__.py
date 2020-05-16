@@ -1,7 +1,7 @@
 from nonebot import IntentCommand, NLPSession, on_natural_language
 from nonebot import CommandSession, on_command
 
-from app.services.ecard import ECardService
+from .service import ECardService
 
 
 @on_command("饭卡余额", aliases=("余额", "一卡通余额"))
