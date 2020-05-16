@@ -1,8 +1,10 @@
-from app.libs.gino import db
-from .base import Base
-from sqlalchemy import Column
 from aiocqhttp import Event
 from nonebot import context_id
+from sqlalchemy import Column
+
+from app.libs.gino import db
+
+from .base import Base
 
 
 class ChatRecords(Base, db.Model):

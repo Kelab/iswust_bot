@@ -9,7 +9,7 @@ from sqlalchemy.dialects.postgresql import JSONB
 from app.libs.aio import run_sync_func
 from app.libs.gino import db
 from app.libs.scheduler import add_job
-from app.utils.bot_common import qq2event
+from app.utils.bot import qq2event
 from app.utils.parse.course_table import get_course_api
 
 from .base import Base
@@ -46,10 +46,12 @@ class CourseStudent(Base, db.Model):
         if not await User.check(qq):
             return "NOT_BIND"
 
+        _bot = get_bot()
         query = cls.join(User).select()
         course_student = await query.where(User.qq == str(qq)).gino.first()
         if course_student is None:
             await add_job(cls.update_course, args=[qq])
+            await _bot.send(qq2event(qq), "正在抓取课表，抓取过后我会直接发给你！")
             return "WAIT"
         return course_student
 
@@ -66,4 +68,3 @@ class CourseStudent(Base, db.Model):
             )
             await call_command(get_bot(), qq2event(qq), "cs")
             return c_stu
-        return

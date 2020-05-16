@@ -14,6 +14,7 @@ from nonebot import (
 )
 
 from app.models.course import CourseStudent
+
 from .parse import get_week, parse_course_by_date, str_int_wday_dict, week_course
 
 __plugin_name__ = "查询/更新 课表"
@@ -49,7 +50,6 @@ async def course_schedule(session: CommandSession):
             return
 
     if resp == "WAIT":
-        await session.send("正在抓取课表，抓取过后我会直接发给你！")
         return
     elif resp == "NOT_BIND":
         return
@@ -97,7 +97,7 @@ async def process_accu_date(session: NLPSession):
 
     week_re = re.search(r"下周", msg)
     if week_re:
-        logger.info(f"获取下周课表")
+        logger.info("获取下周课表")
         week = get_week(now.timestamp)
         args = {"week": week + 1}
         await session.send(f"下周课表（第{week + 1}周）：")
@@ -132,7 +132,7 @@ async def process_accu_date(session: NLPSession):
 @on_command("uc", aliases=("更新课表",))
 async def uc(session: CommandSession):
     sender_qq = session.event.get("user_id")
-    await session.send(f"正在更新课表...")
+    await session.send("正在更新课表...")
     try:
         await CourseStudent.update_course(sender_qq)
     except Exception:

@@ -9,25 +9,14 @@ async def _(session: CommandSession):
     await session.send("学校相关接口有误")
     sender_qq = session.event.get("user_id")
     try:
-        resp = await ECardService.get_balance(sender_qq)
-
-        if not resp:
-            await session.send("查询出错")
-            return
-
-        if resp == "WAIT":
-            await session.send("正在抓取余额，抓取过后我会直接发给你！")
-            return
-        elif resp == "NOT_BIND":
-            return
-
+        await ECardService.get_balance(sender_qq)
     except Exception:
         await session.send("查询出错")
 
 
 @on_command("饭卡消费", aliases=("消费", "消费记录"))
 async def _(session: CommandSession):
-    session.finish("还不想实现")
+    await session.send("学校相关接口有误")
 
 
 @on_natural_language(["饭卡", "一卡通", "ecard"])

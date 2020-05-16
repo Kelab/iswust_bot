@@ -41,7 +41,6 @@ async def push_cs_today():
                 rcode_ = 500
                 rmsg_ = "向用户发消息失败！"
             bot._server_app.config["JSONIFY_MIMETYPE"] = "text/html"
-            return jsonify(code=rcode_, msg=rmsg_)
         else:
             rmsg_ = "验证信息错误"
     logger.info(f"rcode_: {rcode_} rmsg_: {rmsg_}")

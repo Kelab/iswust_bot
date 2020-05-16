@@ -1,8 +1,9 @@
-from loguru import logger
-from app.models.subcribe import SubUser
-from nonebot import CommandSession, CommandGroup
 from httpx import ConnectTimeout
+from loguru import logger
+from nonebot import CommandGroup, CommandSession
 from nonebot.command.argfilter import controllers, validators
+
+from app.models.subcribe import SubUser
 
 rss_cg = CommandGroup("rss", only_to_me=False)
 

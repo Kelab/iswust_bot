@@ -3,8 +3,8 @@ from urllib.parse import urlencode
 
 from nonebot import CommandSession, on_command
 
-from app.constants.config import web_url
 from app.utils.tools import bot_hash, dwz
+from app.config import MyConfig
 
 __plugin_name__ = "绑定教务处"
 __plugin_short_description__ = "命令：bind"
@@ -15,7 +15,11 @@ __plugin_usage__ = r"""对我发以下关键词开始绑定：
 
 @on_command("bind", aliases=("绑定", "绑定教务处"))
 async def bind(session: CommandSession):
-    await session.send(f"开始请求绑定~ 请等待")
+    web_url = MyConfig.WEB_URL
+    if not web_url:
+        session.finish("绑定功能未启用")
+
+    await session.send("开始请求绑定~ 请等待")
 
     sender: dict[str, Any] = session.event.get("sender", {})
     sender_qq: Optional[str] = sender.get("user_id")
@@ -26,7 +30,7 @@ async def bind(session: CommandSession):
         # web 登录界面地址
         query: str = urlencode({"qq": sender_qq, "nickname": nickname, "token": token})
 
-        url_ = f"{web_url}?{query}"
+        url_ = f"{MyConfig.WEB_URL}?{query}"
         shorten_url_ = await dwz(url_)
         if shorten_url_:
             session.finish(f"请点击链接绑定：{shorten_url_}")

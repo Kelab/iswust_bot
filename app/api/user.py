@@ -7,7 +7,7 @@ from quart import abort, request
 
 from app.libs.aio import run_sync_func
 from app.models.user import User
-from app.utils.bot_common import qq2event
+from app.utils.bot import qq2event
 from app.utils.common import falseRet, trueRet
 from app.utils.tools import bot_hash, check_args
 
@@ -77,7 +77,7 @@ async def unbind():
     logger.info("qq {}正在请求解绑!".format(qq))
 
     try:
-        User.unbind(qq)
+        await User.unbind(qq)
         logger.info("qq {}请求解绑成功!".format(qq))
         return trueRet(msg="解除绑定成功!")
     except Exception as e:

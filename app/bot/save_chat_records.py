@@ -1,5 +1,6 @@
-from nonebot import get_bot
 from aiocqhttp import Event
+from nonebot import get_bot
+
 from app.models.chat_records import ChatRecords
 
 PLUGIN_NAME = "save_chat_records"

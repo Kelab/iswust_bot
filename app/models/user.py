@@ -7,7 +7,7 @@ from sqlalchemy import Column
 from app.constants.dean import API
 from app.libs.aio import run_sync_func
 from app.libs.gino import db
-from app.utils.bot_common import qq2event
+from app.utils.bot import qq2event
 
 from .base import Base
 

@@ -37,3 +37,4 @@ class MyConfig:
     }
     SUBSCIBE_INTERVAL = env.int("SUBSCIBE_INTERVAL", 600)  # 单位 s
     DB_ECHO = env.bool("DB_ECHO", False)
+    WEB_URL = env("WEB_URL", "").rstrip("/")

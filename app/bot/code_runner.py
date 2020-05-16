@@ -58,7 +58,7 @@ async def run(session: CommandSession):
     api_token = env("GLOT_IO_TOKEN", None)
     if not api_token:
         logger.error("未设置 `GLOT_IO_TOKEN`")
-        session.finish(f"运行代码功能未启用")
+        session.finish("运行代码功能未启用")
     supported_languages = ", ".join(sorted(SUPPORTED_LANGUAGES))
     language = session.get(
         "language",
@@ -95,7 +95,7 @@ async def run(session: CommandSession):
         )
         print("resp: ", resp)
     if not resp:
-        session.finish(f"运行失败，服务可能暂时不可用，请稍后再试。")
+        session.finish("运行失败，服务可能暂时不可用，请稍后再试。")
 
     payload = resp.json()
 
@@ -108,7 +108,7 @@ async def run(session: CommandSession):
         out, remained_out = out[: 60 * 10], out[60 * 10 :]
 
         if remained_lines or remained_out:
-            out += f"\n（输出过多，已忽略剩余内容）"
+            out += "\n（输出过多，已忽略剩余内容）"
 
         out = message_escape(out)
         if out:

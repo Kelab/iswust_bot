@@ -2,19 +2,20 @@ import asyncio
 import re
 from typing import List
 
-from nonebot import CommandGroup, CommandSession, permission as perm
+from apscheduler.job import Job
+from nonebot import CommandGroup, CommandSession
+from nonebot import permission as perm
 from nonebot.argparse import ArgumentParser
 from nonebot.command import CommandManager
 
-from apscheduler.job import Job
-
-from app.libs.scheduler import make_job_id, remove_job, get_jobs, get_job
+from app.libs.scheduler import get_job, get_jobs, make_job_id, remove_job
 from app.libs.scheduler.command import (
     ScheduledCommand,
     add_scheduled_commands,
     get_scheduled_commands_from_job,
 )
 from app.libs.scheduler.exception import JobIdConflictError
+
 from . import usage
 
 PLUGIN_NAME = "schedule"
@@ -111,7 +112,7 @@ async def sched_list(session: CommandSession):
     job_id_prefix = make_job_id(PLUGIN_NAME, session.event)
     jobs = await get_jobs(make_job_id(PLUGIN_NAME, session.event))
     if not jobs:
-        await session.send(f"你还没有添加过计划任务")
+        await session.send("你还没有添加过计划任务")
         return
 
     for job in jobs:

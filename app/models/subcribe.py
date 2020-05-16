@@ -8,7 +8,7 @@ from nonebot import context_id, get_bot
 from nonebot.helpers import send
 
 from app.libs.gino import db
-from app.utils.bot_common import ctx_id2event, send_msgs
+from app.utils.bot import ctx_id2event, send_msgs
 from app.utils.rss import diff, get_rss_info, mk_msg_content
 
 from .base import Base
@@ -42,7 +42,7 @@ class SubContent(Base, db.Model):
     @classmethod
     async def _check_one(cls, sub):
         logger.info("检查" + sub.name + "更新")
-        users = await SubUser.get_user(sub.link)
+        users = await SubUser.get_users(sub.link)
         logger.info(sub.name + "的用户们：" + str(users))
         event_list = [ctx_id2event(user.ctx_id) for user in users]
         if not users:
@@ -136,6 +136,6 @@ class SubUser(Base, db.Model):
         return True
 
     @classmethod
-    async def get_user(cls, url: str):
+    async def get_users(cls, url: str):
         sub = await cls.query.where(cls.link == url).gino.all()
         return sub
