@@ -10,7 +10,7 @@ def get_name(p):
     return p.name + desc
 
 
-@on_command("man", aliases=["使用帮助", "帮助", "使用方法"], only_to_me=False)
+@on_command("man", aliases=["使用帮助", "帮助", "使用方法", "help"], only_to_me=False)
 async def _(session: CommandSession):
     # 获取设置了名称的插件列表
     plugins = list(filter(lambda p: p.name, nonebot.get_loaded_plugins()))
