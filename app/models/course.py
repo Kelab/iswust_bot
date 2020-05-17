@@ -15,8 +15,6 @@ from app.utils.parse.course_table import get_course_api
 from .base import Base
 from .user import User
 
-_bot = get_bot()
-
 
 class CourseStudent(Base, db.Model):
     """学生选课表 Model
@@ -47,7 +45,7 @@ class CourseStudent(Base, db.Model):
     async def get_course(cls, qq: int) -> Union["CourseStudent", str]:
         if not await User.check(qq):
             return "NOT_BIND"
-
+        _bot = get_bot()
         query = cls.join(User).select()
         course_student = await query.where(User.qq == str(qq)).gino.first()
         if course_student is None:
@@ -61,6 +59,7 @@ class CourseStudent(Base, db.Model):
         user: User = await User.get(str(qq))
         if not user:
             return
+        _bot = get_bot()
         sess = await User.get_session(user)
         res = await run_sync_func(get_course_api, sess)
         if res:

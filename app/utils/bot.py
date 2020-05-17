@@ -6,8 +6,6 @@ from nonebot import get_bot
 from nonebot.command import kill_current_session
 from nonebot.message import Message, handle_message
 
-bot = get_bot()
-
 
 def ctx_id2event(ctx_id: str):
     if ctx_id.startswith("/group/"):
@@ -20,10 +18,10 @@ def ctx_id2event(ctx_id: str):
 
 
 async def send_msgs(event: Event, msgs):
+    bot = get_bot()
     if not msgs:
         return
     for msg in msgs:
-        logger.info(f"给 {event} 发送: {msg}")
         await bot.send(event, msg)
 
 
@@ -39,6 +37,7 @@ def replace_event_msg(event: Event, msg: str):
 
 
 async def switch_session(event, msg):
+    bot = get_bot()
     kill_current_session(event)
     new_event = replace_event_msg(event, msg)
     await bot.send(new_event, "re: " + msg)

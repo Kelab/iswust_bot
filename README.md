@@ -122,6 +122,7 @@ docker-compose rm -s -v database
 docker volume rm iswust_nonebot_database_data
 # 再启动
 docker-compose up -d database
+docker-compose exec nonebot alembic upgrade head
 ```
 
 或者直接删除所有东西，包括 `container`，`volume`：

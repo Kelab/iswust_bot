@@ -92,7 +92,6 @@ async def run(session: CommandSession):
             },
             headers={"Authorization": f"Token {api_token}"},
         )
-        print("resp: ", resp)
     if not resp:
         session.finish("运行失败，服务可能暂时不可用，请稍后再试。")
 

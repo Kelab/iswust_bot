@@ -9,6 +9,7 @@ from app.libs.aio import run_sync_func
 from app.libs.cache import cache
 from app.libs.scheduler import add_job
 from app.models.user import User
+from app.models.score import save_score
 from app.utils.bot import qq2event, send_msgs
 from app.utils.parse.score import ScoreDict, get_score
 
@@ -38,6 +39,7 @@ class ScoreService:
                     await cache.set(key, res, ttl=600)
                 else:
                     raise ValueError("查询成绩出错")
+            await save_score(user.student_id, res)
             await send_msgs(qq2event(user.qq), get_msgs(res))
         except Exception as e:
             logger.exception(e)
