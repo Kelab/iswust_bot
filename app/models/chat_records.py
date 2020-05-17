@@ -27,3 +27,12 @@ class ChatRecords(Base, db.Model):
             msg=str(event.message),
             out=out,
         ),
+
+    @classmethod
+    async def get_last_msg(cls, event: Event):
+        return (
+            await ChatRecords.query.where(cls.ctx_id == context_id(event))
+            .where(cls.self_id == str(event.self_id),)
+            .order_by(cls.id_.desc())
+            .gino.first()
+        )

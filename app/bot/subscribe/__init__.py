@@ -8,7 +8,7 @@ from nonebot import permission as perm
 from nonebot.command import call_command
 from nonebot.command.argfilter import controllers, extractors, validators
 
-from app.config import MyConfig
+from app.config import Config
 from app.libs.scheduler import scheduler
 from app.models.subcribe import SubContent, SubUser
 
@@ -154,7 +154,7 @@ def format_subscription(index: int, sub) -> str:
 
 
 @scheduler.scheduled_job(
-    IntervalTrigger(seconds=MyConfig.SUBSCIBE_INTERVAL, jitter=60),
+    IntervalTrigger(seconds=Config.SUBSCIBE_INTERVAL, jitter=60),
     id="push_school_notice",
 )
 async def push():

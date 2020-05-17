@@ -14,7 +14,7 @@ defaults = [
 ]
 
 
-@on_command("hitokoto", aliases=("一言",), only_to_me=False)
+@on_command("hitokoto", aliases=("一言", "hi"), only_to_me=False)
 async def _(session: CommandSession):
     _hitokoto = await hitokoto()
     if _hitokoto:

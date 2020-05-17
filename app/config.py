@@ -3,7 +3,7 @@ from sqlalchemy.engine.url import URL
 
 from .env import env
 
-__all__ = ["get_database_url", "MyConfig"]
+__all__ = ["get_database_url", "Config"]
 
 
 def get_database_url() -> URL:
@@ -20,7 +20,7 @@ def get_database_url() -> URL:
     )
 
 
-class MyConfig:
+class Config:
     SUPERUSERS = env.list("SUPERUSERS", "", subcast=int)
     HOST = env("HOST", "0.0.0.0")
     PORT = env("PORT", 8080)

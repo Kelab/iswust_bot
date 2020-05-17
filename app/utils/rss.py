@@ -2,11 +2,11 @@ import arrow
 import feedparser
 import httpx
 
-from app.config import MyConfig
+from app.config import Config
 
 
 async def get_rss_info(url: str):
-    async with httpx.AsyncClient(timeout=MyConfig.SUBSCIBE_INTERVAL) as client:
+    async with httpx.AsyncClient(timeout=Config.SUBSCIBE_INTERVAL) as client:
         response = await client.get(url)
         response.raise_for_status()
         return feedparser.parse(response.text or "")

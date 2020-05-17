@@ -54,14 +54,12 @@ db = Gino()
 
 async def init_db():
     logger.debug("Initializing database")
-    from app.config import MyConfig
+    from app.config import Config
 
-    if getattr(MyConfig, "DATABASE_URL", None):
+    if getattr(Config, "DATABASE_URL", None):
         try:
             await db.set_bind(
-                MyConfig.DATABASE_URL,
-                echo=MyConfig.DB_ECHO,
-                loop=asyncio.get_event_loop(),
+                Config.DATABASE_URL, echo=Config.DB_ECHO, loop=asyncio.get_event_loop(),
             )
             logger.info("Database connected")
         except Exception:

@@ -1,7 +1,12 @@
+import asyncio
+
 from aiocqhttp import Event
 from loguru import logger
 from nonebot import get_bot
-import asyncio
+from nonebot.command import kill_current_session
+from nonebot.message import Message, handle_message
+
+bot = get_bot()
 
 
 def ctx_id2event(ctx_id: str):
@@ -17,7 +22,6 @@ def ctx_id2event(ctx_id: str):
 async def send_msgs(event: Event, msgs):
     if not msgs:
         return
-    bot = get_bot()
     for msg in msgs:
         logger.info(f"给 {event} 发送: {msg}")
         await bot.send(event, msg)
@@ -25,3 +29,18 @@ async def send_msgs(event: Event, msgs):
 
 def qq2event(qq: int):
     return Event(user_id=qq)
+
+
+def replace_event_msg(event: Event, msg: str):
+    new_event = Event.from_payload(event)
+    new_event["message"] = Message(msg)
+    new_event["raw_message"] = msg
+    return new_event
+
+
+async def switch_session(event, msg):
+    kill_current_session(event)
+    new_event = replace_event_msg(event, msg)
+    await bot.send(new_event, "re: " + msg)
+    event["to_me"] = True
+    asyncio.ensure_future(handle_message(bot, new_event))

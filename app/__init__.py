@@ -10,11 +10,11 @@ __all__ = ["init"]
 
 def load_config():
     from .libs.roconfig import Configuration
-    from .config import MyConfig
+    from .config import Config
 
     conf = Configuration()
     conf.add_object(default_config)
-    conf.add_object(MyConfig)
+    conf.add_object(Config)
     logger.info(conf.to_dict())
     return conf.to_config()
 

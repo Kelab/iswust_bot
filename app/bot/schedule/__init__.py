@@ -19,6 +19,9 @@ from app.libs.scheduler.exception import JobIdConflictError
 from . import usage
 
 PLUGIN_NAME = "schedule"
+__plugin_name__ = "计划任务"
+__plugin_short_description__ = "命令：schedule"
+__plugin_usage__ = r"""输入 `schedule --help` 查看帮助""".strip()
 
 cg = CommandGroup(
     PLUGIN_NAME, permission=perm.PRIVATE | perm.GROUP_ADMIN, shell_like=True
