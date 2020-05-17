@@ -33,7 +33,7 @@ services:
     volumes:
       - .:/qbot
       - ./data/coolq:/coolq
-    command: poetry run quart run --host ${HOST} --port ${PORT}
+    command: quart run --host ${HOST} --port ${PORT}
     depends_on:
       - database
       - redis
