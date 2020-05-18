@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import Optional
 
 import pandas as pd
@@ -9,11 +10,9 @@ from app.libs.aio import run_sync_func
 from app.libs.cache import cache
 from app.libs.scheduler import add_job
 from app.models.user import User
-from app.models.score import save_score
+from app.models.score import save_score, PlanScore
 from app.utils.bot import qq2event, send_msgs
 from app.utils.parse.score import ScoreDict, get_score
-
-_bot = get_bot()
 
 
 class ScoreService:
@@ -24,6 +23,7 @@ class ScoreService:
         if not user:
             return "NOT_BIND"
         await add_job(cls._get, args=[user])
+        _bot = get_bot()
         await _bot.send(qq2event(qq), "正在抓取成绩，抓取过后我会直接发给你！")
         return "WAIT"
 
@@ -43,7 +43,36 @@ class ScoreService:
             await send_msgs(qq2event(user.qq), get_msgs(res))
         except Exception as e:
             logger.exception(e)
+            _bot = get_bot()
             await _bot.send(qq2event(user.qq), "查询成绩出错，请稍后再试")
+
+    @classmethod
+    async def load_score(cls, qq: int) -> Optional[str]:
+        # 先查 user 出来，再查 Course 表
+        user = await User.check(qq)
+        if not user:
+            return "NOT_BIND"
+        await add_job(cls._load_score, args=[user])
+        _bot = get_bot()
+        await _bot.send(qq2event(qq), "正在load成绩")
+        return "WAIT"
+
+    @classmethod
+    async def _load_score(cls, user: User) -> Optional[str]:
+        # 先查 user 出来，再查 Course 表
+        scores = await PlanScore.query.where(
+            PlanScore.student_id == user.student_id
+        ).gino.all()
+        dct = defaultdict(list)
+        for item in scores:
+            for en, cn in zip(PlanScore._en_list, PlanScore._cn_list):
+                dct[cn].append(getattr(item, en, None))
+            dct["term"].append(getattr(item, "term", None))
+            dct["season"].append(getattr(item, "season", None))
+
+        _bot = get_bot()
+        df = pd.DataFrame(data=dct)
+        await _bot.send(qq2event(user.qq), str(df))
 
 
 def calc_gpa(table, jidian_col="绩点", xuefen_col="学分", required=False):
@@ -85,20 +114,20 @@ def get_msgs(score: ScoreDict):
 
     # Plan
     plan = score["plan"]
-    semester_score = []
-    for semester in plan:
-        for _season_dst in plan[semester]:
+    term_score = []
+    for term in plan.keys():
+        for _season_dst in plan[term]:
             data = _season_dst["data"]
             season = _season_dst["season"]
             jidian = calc_gpa(data, required=True)
-            semester_score.append(
-                f"{semester} {season}\n"
+            term_score.append(
+                f"{term} {season}\n"
                 + tabulate(data)
                 + f"\n平均绩点：{jidian['mean']}\n"
                 + f"必修绩点：{jidian['required']}\n"
             )
-    semester_score.reverse()
-    msgs.extend(semester_score)
+    term_score.reverse()
+    msgs.extend(term_score)
     summary = score["summary"]
     msgs.append(_format_credit(summary))
     return msgs

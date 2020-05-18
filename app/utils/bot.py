@@ -1,7 +1,6 @@
 import asyncio
 
 from aiocqhttp import Event
-from loguru import logger
 from nonebot import get_bot
 from nonebot.command import kill_current_session
 from nonebot.message import Message, handle_message

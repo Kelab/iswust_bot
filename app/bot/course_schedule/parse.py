@@ -25,7 +25,7 @@ def get_week(target_time) -> int:
     :return: 返回当前时间戳的周数
     """
     # 将格式字符串转换为时间戳
-    start_time = int(time.mktime(INFO.semester_start_day))
+    start_time = int(time.mktime(INFO.term_start_day))
     # 加1，因为刚好七天的时候 used_weeks 的值会是 1.0, 会认为还是第一周
     used_weeks = (target_time - start_time + 10) / (24 * 60 * 60 * 7)
     return math.ceil(used_weeks)

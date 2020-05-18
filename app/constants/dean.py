@@ -16,5 +16,5 @@ class API:
 
 
 class INFO:
-    semester_start_day = time.strptime("2020-02-17", "%Y-%m-%d")
-    semester_name = "2019-2020-2"
+    term_start_day = time.strptime("2020-02-17", "%Y-%m-%d")
+    term_name = "2019-2020-2"

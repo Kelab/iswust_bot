@@ -29,7 +29,7 @@ def rm_nan(table: pd.DataFrame):
 _p = re.compile(r"(\d*-\d*)学年")
 
 
-def extract_semester(df: pd.DataFrame):
+def extract_term(df: pd.DataFrame):
     text = df.iloc[0][0]
     text = text.replace(" ", "")
     match = _p.match(text)
@@ -48,14 +48,14 @@ def get_score(sess):
     return _parse_score(res.text)
 
 
-class SemesterDict(TypedDict):
+class TermDict(TypedDict):
     data: pd.DataFrame  # `春/秋` 季学期数据
     season: str
 
 
 class ScoreDict(TypedDict):
     cet: pd.DataFrame
-    plan: Dict[str, List[SemesterDict]]
+    plan: Dict[str, List[TermDict]]
     physical: pd.DataFrame
     common: pd.DataFrame
     summary: CreditProgressDict
@@ -96,33 +96,32 @@ def _parse_physic_or_common(dom) -> pd.DataFrame:
     return table
 
 
-def _parse_plan(dom) -> Dict[str, List[SemesterDict]]:
+def _parse_plan(dom) -> Dict[str, List[TermDict]]:
     _tables = pd.read_html(str(dom.select("table")))
     result = {}
     for table in _tables:
         table.dropna(thresh=len(table.columns) - 2, inplace=True)  # 去除 NaN 行
         table.reset_index(drop=True, inplace=True)
         # line 0: 哪个学期
-        semester = extract_semester(table)
-        if not semester:
+        term = extract_term(table)
+        if not term:
             continue
-        semester_lst = []  # type: List[SemesterDict]
+        term_lst = []  # type: List[TermDict]
         start_index = 0
         for idx, series in table.iterrows():
-            semester_dct: SemesterDict = {}  # type: ignore
+            term_dct: TermDict = {}  # type: ignore
             text = series[0]
             # 找到 `平均学分绩点` 这一行进行切分，分为上下两部分
             if text.startswith("平均学分绩点"):
                 new_df = table.iloc[start_index:idx].copy()
                 new_df.reset_index(inplace=True, drop=True)
                 # 学期名 春 秋
-                semester_dct["season"] = new_df.iat[0, 0]
+                term_dct["season"] = new_df.iat[0, 0]
                 # drop 掉 season 这一列
-                new_df = new_df.drop(0, axis=1)
                 clear_lino1(new_df)
                 rm_nan(new_df)
-                semester_dct["data"] = new_df
+                term_dct["data"] = new_df
                 start_index = idx + 1
-                semester_lst.append(semester_dct)
-        result[semester] = semester_lst
+                term_lst.append(term_dct)
+        result[term] = term_lst
     return result

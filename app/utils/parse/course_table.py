@@ -15,7 +15,7 @@ def get_week():
     :return: 返回当前周数
     """
     # 将格式字符串转换为时间戳
-    start_time = int(time.mktime(INFO.semester_start_day))
+    start_time = int(time.mktime(INFO.term_start_day))
     now_time = int(time.time())
     used_time = (now_time - start_time + 1) / (24 * 60 * 60 * 7)
     return math.ceil(used_time)
@@ -147,7 +147,7 @@ def _parse_course_table(html):
 def _parse_exp_course_table(sess):
     courses = []
     post_data = {
-        "currYearterm": INFO.semester_name,
+        "currYearterm": INFO.term_name,
         "currTeachCourseCode": "%",
         "page": 1,
     }

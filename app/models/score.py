@@ -1,10 +1,11 @@
 """
 因为 `成绩` 部分爬取的教务处信息无法和课程表对应上，所以这里是独立的一个表，跟 course 表没有关系。
 """
+from typing import Dict, List
 from sqlalchemy import Column
 
 from app.libs.gino import db
-from app.utils.parse.score import ScoreDict
+from app.utils.parse.score import ScoreDict, TermDict
 
 from .base import Base
 
@@ -41,29 +42,29 @@ class PlanScore(Base, db.Model):
     season = Column(db.String(16))  # 春季 秋季 term中表现为春季2 秋季1
 
     @classmethod
-    async def add_or_update_one(cls, student_id, semester, season, series):
-        kwargs = dict(student_id=student_id, term=semester, season=season)
+    async def add_or_update_one(cls, student_id, term, season, series):
+        kwargs = dict(student_id=student_id, term=term, season=season)
         for cn_key, en_key in zip(cls._cn_list, cls._en_list):
             kwargs[en_key] = series[cn_key]
-        sub = (
+        sco = (
             await cls.query.where(cls.student_id == student_id)
             .where(cls.course_id == series["课程号"])
-            .where(cls.term == semester)
+            .where(cls.term == term)
             .gino.first()
         )
-        if sub:
-            await sub.update(**kwargs).apply()
+        if sco:
+            await sco.update(**kwargs).apply()
         else:
-            sub = await cls.create(**kwargs)
+            await cls.create(**kwargs)
 
     @classmethod
-    async def add_or_update(cls, student_id, plan):
-        for semester in plan:
-            for _season_dst in plan[semester]:
+    async def add_or_update(cls, student_id, plan: Dict[str, List[TermDict]]):
+        for term in plan.keys():
+            for _season_dst in plan[term]:
                 data = _season_dst["data"]
                 season = _season_dst["season"]
                 for _, series in data.iterrows():
-                    await cls.add_or_update_one(student_id, semester, season, series)
+                    await cls.add_or_update_one(student_id, term, season, series)
 
 
 class PhysicalOrCommonScore(Base, db.Model):
@@ -101,16 +102,16 @@ class PhysicalOrCommonScore(Base, db.Model):
         kwargs = dict(student_id=student_id, cata=cata)
         for cn_key, en_key in zip(cls._cn_list, cls._en_list):
             kwargs[en_key] = series[cn_key]
-        sub = (
+        sco = (
             await cls.query.where(cls.student_id == student_id)
             .where(cls.course_id == series["课程号"])
             .where(cls.term == series["学期"])
             .gino.first()
         )
-        if sub:
-            await sub.update(**kwargs).apply()
+        if sco:
+            await sco.update(**kwargs).apply()
         else:
-            sub = await cls.create(**kwargs)
+            await cls.create(**kwargs)
 
     @classmethod
     async def add_or_update(cls, student_id, cata, table):
@@ -155,15 +156,15 @@ class CETScore(Base, db.Model):
         kwargs = dict(student_id=student_id)
         for cn_key, en_key in zip(cls._cn_list, cls._en_list):
             kwargs[en_key] = series[cn_key]
-        sub = (
+        sco = (
             await cls.query.where(cls.student_id == student_id)
             .where(cls.exam_id == series["准考证号"])
             .gino.first()
         )
-        if sub:
-            await sub.update(**kwargs).apply()
+        if sco:
+            await sco.update(**kwargs).apply()
         else:
-            sub = await cls.create(**kwargs)
+            await cls.create(**kwargs)
 
     @classmethod
     async def add_or_update(cls, student_id, table):
