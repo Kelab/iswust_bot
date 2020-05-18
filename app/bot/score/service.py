@@ -1,4 +1,3 @@
-from collections import defaultdict
 from typing import Optional
 
 import pandas as pd
@@ -12,7 +11,7 @@ from app.libs.scheduler import add_job
 from app.models.user import User
 from app.models.score import save_score, PlanScore
 from app.utils.bot import qq2event, send_msgs
-from app.utils.parse.score import ScoreDict, get_score
+from app.utils.parse.score import ScoreDict, parse_score
 
 
 class ScoreService:
@@ -34,13 +33,14 @@ class ScoreService:
             res = await cache.get(key)
             if not res:
                 sess = await User.get_session(user)
-                res: ScoreDict = await run_sync_func(get_score, sess)
+                res: ScoreDict = await run_sync_func(parse_score, sess)
                 if res:
                     await cache.set(key, res, ttl=600)
                 else:
                     raise ValueError("查询成绩出错")
             await save_score(user.student_id, res)
-            await send_msgs(qq2event(user.qq), get_msgs(res))
+            msgs = await get_msgs(res)
+            await send_msgs(qq2event(user.qq), msgs)
         except Exception as e:
             logger.exception(e)
             _bot = get_bot()
@@ -59,19 +59,15 @@ class ScoreService:
 
     @classmethod
     async def _load_score(cls, user: User) -> Optional[str]:
+
         # 先查 user 出来，再查 Course 表
         scores = await PlanScore.query.where(
             PlanScore.student_id == user.student_id
         ).gino.all()
-        dct = defaultdict(list)
-        for item in scores:
-            for en, cn in zip(PlanScore._en_list, PlanScore._cn_list):
-                dct[cn].append(getattr(item, en, None))
-            dct["term"].append(getattr(item, "term", None))
-            dct["season"].append(getattr(item, "season", None))
-
+        if not scores:
+            return
+        df = PlanScore.to_df(scores)
         _bot = get_bot()
-        df = pd.DataFrame(data=dct)
         await _bot.send(qq2event(user.qq), str(df))
 
 
@@ -87,70 +83,18 @@ def calc_gpa(table, jidian_col="绩点", xuefen_col="学分", required=False):
     return result
 
 
-def get_msgs(score: ScoreDict):
-    # CET
+async def get_msgs(score: ScoreDict):
     msgs = []
-    cet_df = score["cet"]
-
-    msgs.append("四六级成绩：\n" + tabulate_cet(cet_df))
-
-    # Common
-    common_df = score["common"]
-    jidian = calc_gpa(common_df)
-    msgs.append(
-        "全校通选课：\n"
-        + tabulate(common_df, is_common_physic=True)
-        + f"平均绩点：{jidian['mean']}\n"
-    )
-
-    # Physical
-    physical_df = score["physical"]
-    jidian = calc_gpa(physical_df)
-    msgs.append(
-        "体育成绩：\n"
-        + tabulate(physical_df, is_common_physic=True)
-        + f"平均绩点：{jidian['mean']}\n"
-    )
-
-    # Plan
-    plan = score["plan"]
-    term_score = []
-    for term in plan.keys():
-        for _season_dst in plan[term]:
-            data = _season_dst["data"]
-            season = _season_dst["season"]
-            jidian = calc_gpa(data, required=True)
-            term_score.append(
-                f"{term} {season}\n"
-                + tabulate(data)
-                + f"\n平均绩点：{jidian['mean']}\n"
-                + f"必修绩点：{jidian['required']}\n"
-            )
-    term_score.reverse()
-    msgs.extend(term_score)
-    summary = score["summary"]
-    msgs.append(_format_credit(summary))
+    msgs.append(_format_cet(score["cet"]))
+    msgs.append(_format_physical_or_physical(score, "common"))
+    msgs.append(_format_physical_or_physical(score, "physical"))
+    msgs.extend(_format_plan(score["plan"]))
+    msgs.append(_format_credit(score["summary"]))
     return msgs
 
 
-def tabulate(table, is_common_physic=False):
-    msg = "---------\n"
-    for _, series in table.iterrows():
-        if is_common_physic:
-            msg += str(series["学期"]) + "\n"
-        if not is_common_physic:
-            msg += "[" + str(series["课程性质"]) + "]"
-        msg += str(series["课程"]) + "\n"
-        msg += "- 学分：" + str(series["学分"])
-        msg += "   绩点：" + str(series["绩点"]) + "\n"
-        msg += "- 正考：" + str(series["正考"])
-        msg += "   补考：" + str(series["补考"]) + "\n"
-
-    return msg
-
-
-def tabulate_cet(table):
-    msg = "---------\n"
+def _format_cet(table):
+    msg = "四六级成绩：\n---------\n"
     for _, series in table.iterrows():
         msg += str(series["考试场次"]) + "\n"
         msg += "- 准考证号：" + str(series["准考证号"]) + "\n"
@@ -160,5 +104,49 @@ def tabulate_cet(table):
         msg += "   阅读：" + str(series["阅读"]) + "\n"
         msg += "- 写作：" + str(series["写作"])
         msg += "   综合：" + str(series["综合"]) + "\n"
+    return msg
+
+
+def _format_physical_or_physical(score, cata):
+    cata_cn = "体育成绩" if cata == "physical" else "全校通选课"
+    df = score[cata]
+    return (
+        f"{cata_cn}：\n"
+        + tabulate(df, is_common_physic=True)
+        + f"平均绩点：{calc_gpa(df)['mean']}\n"
+    )
+
+
+def _format_plan(plan):
+    term_score = []
+    terms = pd.unique(plan["term"])
+    for term in terms:
+        _term = plan[plan["term"] == term]
+        seasons = pd.unique(_term["season"])
+        for season in seasons:
+            data = _term[_term["season"] == season]
+            jidian = calc_gpa(data, required=True)
+            term_score.append(
+                f"{term} {season}\n"
+                + tabulate(data)
+                + f"\n平均绩点：{jidian['mean']}\n"
+                + f"必修绩点：{jidian['required']}\n"
+            )
+    term_score.reverse()
+    return term_score
+
+
+def tabulate(table, is_common_physic=False):
+    msg = "---------\n"
+    for _, series in table.iterrows():
+        if is_common_physic:
+            msg += str(series["学期"]) + "\n"
+        if not is_common_physic:
+            msg += "[" + str(series["课程性质"]) + "] "
+        msg += str(series["课程"]) + "\n"
+        msg += "- 学分：" + str(series["学分"])
+        msg += "   绩点：" + str(series["绩点"]) + "\n"
+        msg += "- 正考：" + str(series["正考"])
+        msg += "   补考：" + str(series["补考"]) + "\n"
 
     return msg

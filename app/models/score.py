@@ -1,13 +1,15 @@
 """
 因为 `成绩` 部分爬取的教务处信息无法和课程表对应上，所以这里是独立的一个表，跟 course 表没有关系。
 """
-from typing import Dict, List
+from typing import List
+import pandas as pd
 from sqlalchemy import Column
 
 from app.libs.gino import db
-from app.utils.parse.score import ScoreDict, TermDict
+from app.utils.parse.score import ScoreDict
 
 from .base import Base
+from collections import defaultdict
 
 
 class PlanScore(Base, db.Model):
@@ -58,13 +60,27 @@ class PlanScore(Base, db.Model):
             await cls.create(**kwargs)
 
     @classmethod
-    async def add_or_update(cls, student_id, plan: Dict[str, List[TermDict]]):
-        for term in plan.keys():
-            for _season_dst in plan[term]:
-                data = _season_dst["data"]
-                season = _season_dst["season"]
+    async def add_or_update(cls, student_id, plan):
+        terms = pd.unique(plan["term"])
+        for term in terms:
+            _term = plan[plan["term"] == term]
+            seasons = pd.unique(_term["season"])
+            for season in seasons:
+                data = _term[_term["season"] == season]
                 for _, series in data.iterrows():
                     await cls.add_or_update_one(student_id, term, season, series)
+
+    @classmethod
+    def to_df(cls, plan_scores: List["PlanScore"]):
+        dct = defaultdict(list)
+        for item in plan_scores:
+            for en, cn in zip(PlanScore._en_list, PlanScore._cn_list):
+                dct[cn].append(getattr(item, en, None))
+            dct["term"].append(getattr(item, "term", None))
+            dct["season"].append(getattr(item, "season", None))
+
+        df = pd.DataFrame(data=dct)
+        return df
 
 
 class PhysicalOrCommonScore(Base, db.Model):
@@ -114,7 +130,8 @@ class PhysicalOrCommonScore(Base, db.Model):
             await cls.create(**kwargs)
 
     @classmethod
-    async def add_or_update(cls, student_id, cata, table):
+    async def add_or_update(cls, student_id, score_dict, cata):
+        table = score_dict[cata]
         for _, series in table.iterrows():
             await cls.add_or_update_one(student_id, cata, series)
 
@@ -174,16 +191,10 @@ class CETScore(Base, db.Model):
 
 async def save_score(student_id, score: ScoreDict):
     # CET
-    cet_df = score["cet"]
-    await CETScore.add_or_update(student_id, cet_df)
-
+    await CETScore.add_or_update(student_id, score["cet"])
     # Common
-    common_df = score["common"]
-    await PhysicalOrCommonScore.add_or_update(student_id, "common", common_df)
-
+    await PhysicalOrCommonScore.add_or_update(student_id, score, "common")
     # Physical
-    physical_df = score["physical"]
-    await PhysicalOrCommonScore.add_or_update(student_id, "physical", physical_df)
+    await PhysicalOrCommonScore.add_or_update(student_id, score, "physical")
     # Plan
-    plan = score["plan"]
-    await PlanScore.add_or_update(student_id, plan)
+    await PlanScore.add_or_update(student_id, score["plan"])
