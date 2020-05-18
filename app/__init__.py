@@ -50,7 +50,7 @@ def init_shell(app: Quart):
     from app.models.user import User
     from app.models.course import CourseStudent
     from app.models.chat_records import ChatRecords
-    from app.models.subcribe import SubContent, SubUser
+    from app.models.subscribe import SubContent, SubUser
 
     @app.shell_context_processor
     def _():

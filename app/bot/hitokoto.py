@@ -1,5 +1,6 @@
-from typing import Optional
 from random import choice
+from typing import Optional
+
 import httpx
 from nonebot import CommandSession, on_command
 

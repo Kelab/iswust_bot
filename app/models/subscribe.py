@@ -37,9 +37,9 @@ class SubContent(Base, db.Model):
     async def check_update(cls):
         logger.info("开始检查RSS更新")
         all_subs = await SubContent.query.gino.all()
-        if not all_subs:
-            return
-        await asyncio.wait([cls._check_one(sub) for sub in all_subs])
+        if all_subs:
+            await asyncio.wait([cls._check_one(sub) for sub in all_subs])
+        logger.info("结束检查RSS更新")
 
     @classmethod
     async def _check_one(cls, sub):

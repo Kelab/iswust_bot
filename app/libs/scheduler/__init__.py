@@ -18,7 +18,7 @@ scheduler = AsyncIOScheduler()
 
 async def init_scheduler():
     _bot = nb.get_bot()
-    jobstores = {"default": RedisJobStore(host="redis", port=6379, db=13)}  # 存储器
+    jobstores = {"default": RedisJobStore(host="redis", port=6379)}  # 存储器
     if nbscheduler and nbscheduler.running:
         nbscheduler.shutdown(wait=False)
 

@@ -1,9 +1,12 @@
+from apscheduler.triggers.interval import IntervalTrigger
 from httpx import ConnectTimeout
 from loguru import logger
 from nonebot import CommandGroup, CommandSession
 from nonebot.command.argfilter import controllers, validators
 
-from app.models.subcribe import SubUser
+from app.config import Config
+from app.libs.scheduler import scheduler
+from app.models.subscribe import SubContent, SubUser
 
 rss_cg = CommandGroup("rss", only_to_me=False)
 
@@ -50,3 +53,10 @@ async def _(session: CommandSession):
         session.pause("链接不能为空呢，请重新输入")
 
     session.state[session.current_key] = stripped_arg
+
+
+@scheduler.scheduled_job(
+    IntervalTrigger(seconds=Config.SUBSCIBE_INTERVAL, jitter=60), id="rss_update",
+)
+async def rss_update():
+    await SubContent.check_update()

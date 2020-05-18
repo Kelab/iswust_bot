@@ -1,14 +1,10 @@
-from loguru import logger
 import regex as re
-from nonebot import (
-    message_preprocessor,
-    MessageSegment,
-    NoneBot,
-)
-from nonebot.helpers import send
 from aiocqhttp import Event
+from loguru import logger
+from nonebot import MessageSegment, NoneBot, message_preprocessor
+from nonebot.helpers import send
 
-from app.libs.qqai_async.aaiasr import echo, check_qqai_key
+from app.libs.qqai_async.aaiasr import check_qqai_key, echo
 
 record_re = re.compile(r"^\[CQ:record,file=([A-Z0-9]{32}\.silk)\]$")
 

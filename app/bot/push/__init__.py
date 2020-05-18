@@ -40,6 +40,7 @@ __plugin_usage__ = r"""新建推送输入：
     - 关闭推送
     - 删除推送
 """.strip()
+
 PLUGIN_NAME = "push"
 
 cg = CommandGroup(
