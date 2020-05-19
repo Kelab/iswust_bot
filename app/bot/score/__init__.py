@@ -14,17 +14,7 @@ __plugin_usage__ = r"""输入 查询成绩/成绩
 async def score(session: CommandSession):
     sender_qq = session.event.get("user_id")
     try:
-        await ScoreService.get_score(sender_qq)
-    except Exception as e:
-        logger.exception(e)
-        await session.send("查询出错")
-
-
-@on_command("load_score")
-async def load_score(session: CommandSession):
-    sender_qq = session.event.get("user_id")
-    try:
-        await ScoreService.load_score(sender_qq)
+        await ScoreService.send_score(sender_qq)
     except Exception as e:
         logger.exception(e)
         await session.send("查询出错")

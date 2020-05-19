@@ -1,8 +1,14 @@
+from aiocqhttp import Event
+from apscheduler.triggers.interval import IntervalTrigger
 from loguru import logger
 from nonebot import get_bot
 from nonebot.command import _FinishException
-from app.libs.scheduler import get_job, make_job_id, remove_job, add_job
-from apscheduler.triggers.interval import IntervalTrigger
+
+from app.config import Config
+from app.bot.score.service import ScoreService
+from app.libs.scheduler import add_job, get_job, make_job_id, remove_job
+from app.models.user import User
+from app.models.score import PlanScore, PhysicalOrCommonScore, CETScore, save_score
 
 PLUGIN_NAME = "sub_score_update"
 PREFIX = "s"
@@ -26,7 +32,9 @@ async def handle_subscribe_score(event, msg: str):
                 # 添加任务
                 await add_job(
                     func=check_update,
-                    trigger=IntervalTrigger(minutes=10, jitter=10),
+                    trigger=IntervalTrigger(
+                        seconds=Config.CACHE_SCORE_INTERVAL + 120, jitter=10
+                    ),
                     args=(event,),
                     id=make_job_id(PLUGIN_NAME, event),
                     misfire_grace_time=60,
@@ -39,8 +47,15 @@ async def handle_subscribe_score(event, msg: str):
         raise _FinishException
 
 
-async def check_update(event):
-    logger.info(event)
+async def check_update(event: Event):
+    logger.info(f"检查 {event.user_id} 是否有新成绩")
+    user = await User.check(event.user_id)
+    if not user:
+        return
+    score = await ScoreService._get_score(user)
+    await PlanScore.check_update(event, score["plan"])
+
+    await save_score(user, score)
 
 
 async def handle_get_scores(event):

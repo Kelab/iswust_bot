@@ -1,15 +1,19 @@
 """
 因为 `成绩` 部分爬取的教务处信息无法和课程表对应上，所以这里是独立的一个表，跟 course 表没有关系。
 """
+from collections import defaultdict
 from typing import List
+
 import pandas as pd
+from aiocqhttp import Event
+from nonebot import get_bot
 from sqlalchemy import Column
 
 from app.libs.gino import db
+from app.models.user import User
 from app.utils.parse.score import ScoreDict
-
+from app.bot.score.utils import tabulate
 from .base import Base
-from collections import defaultdict
 
 
 class PlanScore(Base, db.Model):
@@ -80,6 +84,26 @@ class PlanScore(Base, db.Model):
             dct["season"].append(getattr(item, "season", None))
 
         df = pd.DataFrame(data=dct)
+        return df
+
+    @classmethod
+    async def check_update(cls, event: Event, plan: pd.DataFrame):
+        old_score = await cls.load_score(event)
+        diffs = diff(plan, old_score)
+        print(diffs)
+        if not diffs.empty:
+            bot = get_bot()
+            await bot.send(event, f"有新的成绩：\n{tabulate(diffs)}")
+
+    @classmethod
+    async def load_score(cls, event: Event) -> pd.DataFrame:
+        user = await User.check(event.user_id)
+        if not user:
+            return
+        scores = await cls.query.where(cls.student_id == user.student_id).gino.all()
+        if not scores:
+            return
+        df = cls.to_df(scores)
         return df
 
 
@@ -189,12 +213,26 @@ class CETScore(Base, db.Model):
             await cls.add_or_update_one(student_id, series)
 
 
-async def save_score(student_id, score: ScoreDict):
-    # CET
-    await CETScore.add_or_update(student_id, score["cet"])
-    # Common
-    await PhysicalOrCommonScore.add_or_update(student_id, score, "common")
-    # Physical
-    await PhysicalOrCommonScore.add_or_update(student_id, score, "physical")
-    # Plan
-    await PlanScore.add_or_update(student_id, score["plan"])
+async def save_score(user, score: ScoreDict):
+    await CETScore.add_or_update(user.student_id, score["cet"])
+    await PhysicalOrCommonScore.add_or_update(user.student_id, score, "common")
+    await PhysicalOrCommonScore.add_or_update(user.student_id, score, "physical")
+    await PlanScore.add_or_update(user.student_id, score["plan"])
+
+
+def diff(new, old) -> pd.DataFrame:
+    result = []
+    for idx, n_series in new.iterrows():
+        flag = 0
+        for _, o_series in old.iterrows():
+            if (
+                n_series["课程号"] == o_series["课程号"]
+                and n_series["term"] == o_series["term"]
+                and n_series["season"] == o_series["season"]
+            ):
+                flag = 1
+                break
+        if flag == 0:
+            result.append(idx)
+    df = new.iloc[result]
+    return df

@@ -7,11 +7,8 @@ from nonebot.command import call_command, _FinishException
 from app.env import env
 from app.models.subscribe import SubUser
 
-rsshub_url: str = env("RSSHUB_URL", "")
-rsshub_url = rsshub_url.rstrip("/")
-
 PREFIX = "r"
-
+rsshub_url: str = env("RSSHUB_URL", "").rstrip("/")
 rss_info = {
     "教务处新闻": "/swust/jwc/news",
     "教务处通知 创新创业教育": "/swust/jwc/notice/1",
@@ -93,7 +90,6 @@ async def handle_rm_notice(event, idx):
     if idx.startswith(PREFIX):
         bot = get_bot()
         idx = idx.replace(PREFIX, "")
-        print("idx: ", idx)
         if idx.isdigit():
             subs = await SubUser.get_user_subs(event)
             idx = int(idx)  # type: ignore
