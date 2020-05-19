@@ -8,8 +8,10 @@ export default defineConfig({
     type: 'none',
   },
   cssModulesTypescriptLoader: {},
+  esbuild: {},
   antd: {
     compact: true,
   },
+  ignoreMomentLocale: true,
   routes: [{ path: '/', component: '@/pages/index' }],
 });
