@@ -39,6 +39,7 @@ async def handle_subscribe_score(event, msg: str):
                     id=make_job_id(PLUGIN_NAME, event),
                     misfire_grace_time=60,
                     job_defaults={"max_instances": 10},
+                    replace_existing=True,
                 )
                 await bot.send(event, "添加成功！")
         except Exception as e:
