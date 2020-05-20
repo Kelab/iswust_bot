@@ -10,6 +10,7 @@ from apscheduler.jobstores.redis import RedisJobStore
 from apscheduler.jobstores.base import JobLookupError
 from apscheduler.job import Job
 
+from app.config import Config
 
 from ..aio import run_sync_func
 
@@ -18,7 +19,11 @@ scheduler = AsyncIOScheduler()
 
 async def init_scheduler():
     _bot = nb.get_bot()
-    jobstores = {"default": RedisJobStore(host="redis", port=6379)}  # 存储器
+    jobstores = {
+        "default": RedisJobStore(
+            host="redis", port=6379, password=Config.REDIS_PASSWORD
+        )
+    }  # 存储器
     if nbscheduler and nbscheduler.running:
         nbscheduler.shutdown(wait=False)
 

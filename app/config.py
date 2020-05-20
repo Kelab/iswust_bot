@@ -39,3 +39,4 @@ class Config:
     CACHE_SCORE_INTERVAL = env.int("CACHE_SCORE_INTERVAL", 60 * 30)  # 单位 s
     DB_ECHO = env.bool("DB_ECHO", False)
     WEB_URL = env("WEB_URL", "").rstrip("/")
+    REDIS_PASSWORD = env("REDIS_PASSWORD", "")

@@ -47,7 +47,7 @@ services:
       - ${REDIS_PORT}:6379
     volumes:
       - redis_data:/data
-    entrypoint: redis-server --appendonly yes
+    entrypoint: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
     environment:
       - TZ=Asia/Shanghai
     sysctls:
