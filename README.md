@@ -9,7 +9,9 @@
 
 致谢：
 
+- Nonebot <https://github.com/nonebot/nonebot>
 - 奶茶机器人 <https://github.com/cczu-osa/aki>
+- ELF_RSS <https://github.com/Quan666/ELF_RSS>
 
 ---
 
@@ -19,13 +21,7 @@
 
 复制一份 `.env.example` 重命名为 `.env`，并修改里面的内容。  
 
-创建 `.quartenv` 里面填入：
-
-```dotenv
-QUART_APP="run:create_app()"
-# 是否开启 DEBUG 模式
-QUART_DEBUG=True
-```
+复制一份 `.quartenv.example` 重命名为 `.quartenv`，并修改里面的内容。  
 
 ### 启动
 

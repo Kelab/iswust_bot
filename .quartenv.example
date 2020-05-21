@@ -1,0 +1,4 @@
+# asgi 位置
+QUART_APP="run:create_app()"
+# 是否开启 DEBUG 模式
+QUART_DEBUG=True
