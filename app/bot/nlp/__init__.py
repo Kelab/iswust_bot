@@ -1,9 +1,9 @@
-from nonebot import on_natural_language, NLPSession, IntentCommand
-from nonebot.command import CommandManager, call_command
-from typing import Dict, Tuple, Any
+from typing import Any, Dict, Tuple
 
-from rapidfuzz import process, fuzz
 from loguru import logger
+from nonebot import IntentCommand, NLPSession, on_natural_language
+from nonebot.command import CommandManager
+from rapidfuzz import fuzz, process
 
 
 def gen_commands_keys(commands: Dict[Tuple, Any]):
@@ -32,7 +32,4 @@ async def _(session: NLPSession):
         result = cmd.split(" ")
         result[0] = cmd
         result = " ".join(result)
-        await call_command(
-            session.bot, session.event, "switch", current_arg=result, check_perm=False,
-        )  # type: ignore
-        return IntentCommand(100, "nlp_found")
+        return IntentCommand(confidence, "switch", current_arg=result,)

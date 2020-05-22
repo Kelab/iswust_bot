@@ -108,7 +108,7 @@ cg = CommandGroup(
 )
 
 
-@cg.command(PLUGIN_NAME, aliases=["提醒", "添加提醒", "新增提醒", "新建提醒"], only_to_me=False)
+@cg.command(PLUGIN_NAME, aliases=["添加提醒", "新增提醒", "新建提醒"], only_to_me=False)
 async def push(session: CommandSession):
     message = session.get(
         "message",
