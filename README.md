@@ -73,7 +73,7 @@ poetry install
 #### 更新 poetry 依赖
 
 ```sh
-docker-compose exec nonebot potery install --no-interaction --no-dev
+docker-compose exec nonebot poetry install --no-interaction --no-dev
 ```
 
 #### 查看运行日志
