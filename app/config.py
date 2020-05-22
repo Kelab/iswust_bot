@@ -24,7 +24,7 @@ class Config:
     SUPERUSERS = env.list("SUPERUSERS", "", subcast=int)
     HOST = env("HOST", "0.0.0.0")
     PORT = env("PORT", 8080)
-    DEBUG = env("DEBUG", False)
+    DEBUG = env.bool("DEBUG", False)
     NICKNAME = "小科"
     COMMAND_START = {""}
     COMMAND_SEP = {"."}
