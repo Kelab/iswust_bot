@@ -27,7 +27,7 @@ from . import EXPR_COULD_NOT, EXPR_OK, EXPR_REMIND
 PLUGIN_NAME = "remind"
 
 
-async def remind(target: str, event: CQEvent):
+async def remind(target: str, event: CQEvent, **kwargs):
     """Send shake and remind notification to user
 
     Args:
@@ -72,6 +72,7 @@ async def alarm(session: CommandSession):
             ),
         ),
         args=[target, session.event],
+        kwargs={"remark": target},
     )
     cmd, current_arg = CommandManager().parse_command(session.bot, target)
     if cmd:
@@ -264,14 +265,24 @@ async def get_push_jobs(event) -> List[Job]:
 
 
 def format_subscription(index: int, job: Job) -> str:
-    command = get_scheduled_commands_from_job(job)[0]
-    switch_argument = command.current_arg
-    message = switch_argument[switch_argument.find('"') + 1 : -1]
-    message = message.replace('\\"', '"').replace("\\\\", "\\")
-    return (
-        f"序号：{index}\n"
-        f"下次提醒时间："
-        f'{job.next_run_time.strftime("%Y-%m-%d %H:%M:%S")}\n'
-        f"提醒内容："
-        f"{message}"
-    )
+    try:
+        command = get_scheduled_commands_from_job(job)[0]
+        switch_argument = command.current_arg
+        message = switch_argument[switch_argument.find('"') + 1 : -1]
+        message = message.replace('\\"', '"').replace("\\\\", "\\")
+        return (
+            f"序号：{index}\n"
+            f"下次提醒时间："
+            f'{job.next_run_time.strftime("%Y-%m-%d %H:%M:%S")}\n'
+            f"提醒内容："
+            f"{message}"
+        )
+    except Exception:
+        message = job.kwargs["remark"]
+        return (
+            f"序号：{index}\n"
+            f"下次提醒时间："
+            f'{job.next_run_time.strftime("%Y-%m-%d %H:%M:%S")}\n'
+            f"提醒内容："
+            f"{message}"
+        )
