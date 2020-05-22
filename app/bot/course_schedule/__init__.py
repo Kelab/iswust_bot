@@ -20,16 +20,16 @@ from .parse import get_week, parse_course_by_date, str_int_wday_dict, week_cours
 __plugin_name__ = "查询/更新 课表"
 __plugin_short_description__ = "命令：cs/uc"
 __plugin_usage__ = r"""查询课表输入：
+    - cs
     - 查询课表
     - 或者加上时间限定：
       - 今天课表
       - 明天有什么课
       - 九月十五号有什么课
-    - cs
 
 更新课表可以输入：
-    - 更新课表
     - uc
+    - 更新课表
 """.strip()
 
 tn = TimeNormalizer()
@@ -101,7 +101,7 @@ async def process_accu_date(session: NLPSession):
         week = get_week(now.timestamp)
         args = {"week": week + 1}
         await session.send(f"下周课表（第{week + 1}周）：")
-        return IntentCommand(90.0, "cs", args=args)
+        return IntentCommand(80.0, "cs", args=args)
 
     res = tn.parse(target=msg, timeBase=now)
     logger.debug(f"课程时间意图分析结果: {str(msg)} -> {str(res)}")
@@ -115,7 +115,7 @@ async def process_accu_date(session: NLPSession):
         )
         logger.info(f"第{str(week)}周，星期{str_int_wday_dict.get(wday,wday)}")
         args = {"wday": wday, "week": week}
-        return IntentCommand(90.0, "cs", args=args)
+        return IntentCommand(80.0, "cs", args=args)
 
     # 周数匹配
     text = StringPreHandler.numberTranslator(msg)
@@ -124,9 +124,9 @@ async def process_accu_date(session: NLPSession):
         await session.send(f"{week_re.group(0)}课表：")
         logger.info(f"周数分析结果:{week_re.group(1)}")
         args = {"week": week_re.group(1)}
-        return IntentCommand(90.0, "cs", args=args)
+        return IntentCommand(80.0, "cs", args=args)
 
-    return IntentCommand(90.0, "cs")
+    return IntentCommand(80.0, "cs")
 
 
 @on_command("uc", aliases=("更新课表",))

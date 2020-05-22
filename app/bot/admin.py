@@ -14,7 +14,8 @@ async def get_config(session: CommandSession):
 
 @on_command("get_commands", aliases=["命令"], permission=perm.SUPERUSER)
 async def get_command(session: CommandSession):
-    await session.send(f"{pprint.pformat(CommandManager().commands, indent=2)}")
+    await session.send(f"{pprint.pformat(CommandManager._commands, indent=2)}")
+    await session.send(f"{pprint.pformat(CommandManager._aliases, indent=2)}")
 
 
 cc = CommandGroup("cache", permission=perm.SUPERUSER)

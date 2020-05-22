@@ -26,8 +26,8 @@ class Config:
     PORT = env("PORT", 8080)
     DEBUG = env("DEBUG", False)
     NICKNAME = "小科"
-    COMMAND_START = {"", "/", "\\"}
-    COMMAND_SEP = {"|", "."}
+    COMMAND_START = {""}
+    COMMAND_SEP = {"."}
     DATABASE_URL = get_database_url()
     SESSION_RUN_TIMEOUT = timedelta(minutes=2)
     SECRET = env("SECRET")

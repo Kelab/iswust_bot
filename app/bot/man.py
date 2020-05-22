@@ -1,8 +1,10 @@
 import nonebot
 from nonebot import on_command, CommandSession
 
+from rapidfuzz import fuzz
 
-def get_name(p):
+
+def get_description(p):
     try:
         desc = f" ({p.module.__plugin_short_description__})"
     except Exception:
@@ -18,8 +20,10 @@ async def _(session: CommandSession):
     arg = session.current_arg_text.strip().lower()
     if not arg:
         # 如果用户没有发送参数，则发送功能列表
-        await session.send("我现在支持的功能有：\n" + "\n".join(get_name(p) for p in plugins))
-        await session.finish(
+        await session.send(
+            "我现在支持的功能有：\n" + "\n".join(get_description(p) for p in plugins)
+        )
+        session.finish(
             '输入 "帮助+空格+功能名" 查看各功能使用指南以及命令。\n' + '如："帮助 绑定教务处"，不需要加上括号及括号内内容。'
         )
 
@@ -27,10 +31,9 @@ async def _(session: CommandSession):
 
     # 如果发了参数则发送相应命令的使用帮助
     for p in plugins:
-        if p.name.lower() == arg:
+        if fuzz.partial_ratio(p.name.lower(), arg) > 0.6:
             found = True
-            await session.finish(p.usage)
-            break
+            session.finish(p.usage)
 
     if not found:
-        await session.finish(f"暂时没有 {arg} 这个功能呢")
+        session.finish(f"暂时没有 {arg} 这个功能呢")
