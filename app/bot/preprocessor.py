@@ -1,7 +1,7 @@
 import regex as re
 from aiocqhttp import Event
 from loguru import logger
-from nonebot import MessageSegment, NoneBot, message_preprocessor
+from nonebot import Message, NoneBot, message_preprocessor
 from nonebot.helpers import send
 
 from app.libs.qqai_async.aaiasr import check_qqai_key, echo
@@ -29,11 +29,11 @@ async def audio_preprocessor(bot: NoneBot, event: Event, *args):
         logger.info(f"result: {result}, rec_text: {rec_text}")
 
         if result:
-            event["message"] = MessageSegment.text(rec_text)
+            event["message"] = Message(rec_text)
             event["raw_message"] = rec_text
             await send(bot, event, f"语音识别结果：{rec_text}")
         else:
-            event["message"] = MessageSegment.text("")
+            event["message"] = Message("")
             event["raw_message"] = ""
             await send(bot, event, f"语音识别失败，原因：{rec_text}")
 

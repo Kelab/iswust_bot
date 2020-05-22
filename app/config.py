@@ -25,7 +25,7 @@ class Config:
     HOST = env("HOST", "0.0.0.0")
     PORT = env("PORT", 8080)
     DEBUG = env("DEBUG", False)
-    NICKNAME = {"小科", "小助手", "助手"}
+    NICKNAME = "小科"
     COMMAND_START = {"", "/", "\\"}
     COMMAND_SEP = {"|", "."}
     DATABASE_URL = get_database_url()

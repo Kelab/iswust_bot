@@ -1262,6 +1262,18 @@ url = "https://mirrors.aliyun.com/pypi/simple"
 
 [[package]]
 category = "main"
+description = "rapid fuzzy string matching"
+name = "rapidfuzz"
+optional = false
+python-versions = ">=3.5"
+version = "0.8.2"
+
+[package.source]
+reference = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
+
+[[package]]
+category = "main"
 description = "Python client for Redis key-value store"
 name = "redis"
 optional = false
@@ -1714,7 +1726,7 @@ reference = "aliyun"
 url = "https://mirrors.aliyun.com/pypi/simple"
 
 [metadata]
-content-hash = "5fc3461223392ac1f49a2a15833725724121d6870658d175ec2ca272b1b44133"
+content-hash = "d379276f9d62829f185cbcb764b01e8093f2f34460a109f3a11bb26f9ee8e988"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -2317,6 +2329,32 @@ pytz = [
 quart = [
     {file = "Quart-0.11.5-py3-none-any.whl", hash = "sha256:187427d1a2d7fed20dcb825dddbe20fd971efd7ec413639f95d2e28ff59a0cb1"},
     {file = "Quart-0.11.5.tar.gz", hash = "sha256:bd93650fa856dcfbc3890952ab3ca53f7755ab506d453a209db63713eceeceda"},
+]
+rapidfuzz = [
+    {file = "rapidfuzz-0.8.2-cp35-cp35m-macosx_10_9_x86_64.whl", hash = "sha256:9f60c2e8c0382a1adfbcba42f8b1b476af73105b2ceaa95202443dad76ac77e8"},
+    {file = "rapidfuzz-0.8.2-cp35-cp35m-manylinux2010_i686.whl", hash = "sha256:407c7580e5d15212ba8fe037bb552da644564f9fd19e30af134d4350a2920229"},
+    {file = "rapidfuzz-0.8.2-cp35-cp35m-manylinux2010_x86_64.whl", hash = "sha256:570c82c53abdabb0a4385433f91c173f37cb0f77780a96bba9afe30cd021ca22"},
+    {file = "rapidfuzz-0.8.2-cp35-cp35m-win32.whl", hash = "sha256:cbe947b143e9992c113348bf7bda9d1418aadf9eae4e8a24967c14790c589b7c"},
+    {file = "rapidfuzz-0.8.2-cp35-cp35m-win_amd64.whl", hash = "sha256:447d1bcd5acf9cb2dd1ee528259b573ddd190ab4366ab234f68a51bdc657ac60"},
+    {file = "rapidfuzz-0.8.2-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:c0c7afcd430499343c6b0a9b81f99150a0b22e5ef0b630c1aa9773d03920d6f3"},
+    {file = "rapidfuzz-0.8.2-cp36-cp36m-manylinux2010_i686.whl", hash = "sha256:cc31eb18555c3bddf51d1a5f8110660568a833dc4f7855579a45eabdb3cdef5f"},
+    {file = "rapidfuzz-0.8.2-cp36-cp36m-manylinux2010_x86_64.whl", hash = "sha256:964a1bf351072cd6154e7a90e69f5950d6e20c3e8bbaf68fda70aa33d56b7250"},
+    {file = "rapidfuzz-0.8.2-cp36-cp36m-win32.whl", hash = "sha256:0d51d50bf5cb126d990c4aaf3c4d9a43532ea63b1b98e252d1b1daf85c3cfa60"},
+    {file = "rapidfuzz-0.8.2-cp36-cp36m-win_amd64.whl", hash = "sha256:f3c5d1a40eeb9ebc1b2baed2192fe89d4736a882d1275829788af8571677ac41"},
+    {file = "rapidfuzz-0.8.2-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:9f855e61594e5e4b43419da2e5d4803bff45da27aaf90fc1edfff7d627098795"},
+    {file = "rapidfuzz-0.8.2-cp37-cp37m-manylinux2010_i686.whl", hash = "sha256:a3628cfec92294605bf4f69e9a14ebae04ee285ea964815456a78a53f2731a7e"},
+    {file = "rapidfuzz-0.8.2-cp37-cp37m-manylinux2010_x86_64.whl", hash = "sha256:5fb291d193abf43fcb7cbe2643e1aa331fac0febcc838c7ccd9663e7dead5ede"},
+    {file = "rapidfuzz-0.8.2-cp37-cp37m-win32.whl", hash = "sha256:3e15ec61c7735a1f8b067e4162fa48bd2ca89725a2fdb1e54d1998e9fd2c1cc8"},
+    {file = "rapidfuzz-0.8.2-cp37-cp37m-win_amd64.whl", hash = "sha256:32168942b935885670e101e3c45ab5e91f9dc5847a8027935e5ba47efa887ac3"},
+    {file = "rapidfuzz-0.8.2-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:11b90dd94106ca84f41f876dbba07111166ae2ae3d9600a6382487e4fdfdd79e"},
+    {file = "rapidfuzz-0.8.2-cp38-cp38-manylinux2010_i686.whl", hash = "sha256:30e9900165a5123a040924c48054205909e238710203d1ebaec76e5e217a4edc"},
+    {file = "rapidfuzz-0.8.2-cp38-cp38-manylinux2010_x86_64.whl", hash = "sha256:6f9fe2c53ea4a5f682fc41e4650d6c8ae652e971e495548a8b18cba2a2134d46"},
+    {file = "rapidfuzz-0.8.2-cp38-cp38-win32.whl", hash = "sha256:2df6f14393d52e41e2312924c0eeb6810fceda8b6e866345d54d2aa1b282dd03"},
+    {file = "rapidfuzz-0.8.2-cp38-cp38-win_amd64.whl", hash = "sha256:00f870d81d4c854b5539314c46888cbd996bb54588f0d410118f43c0bf2c9f09"},
+    {file = "rapidfuzz-0.8.2-pp36-pypy36_pp73-macosx_10_9_x86_64.whl", hash = "sha256:a8b35d365c4e4430f00b67408ff38e0e1b6c3ac58857cf73e9494692593bc720"},
+    {file = "rapidfuzz-0.8.2-pp36-pypy36_pp73-manylinux2010_x86_64.whl", hash = "sha256:f4d474710eeea13b37f4ed10ba9e334378ba04745a7f6e6eb5ff47f6f2e190ef"},
+    {file = "rapidfuzz-0.8.2-pp36-pypy36_pp73-win32.whl", hash = "sha256:840363ba9ff915d44522cb1f8257c6644ce13d4f8432af44ec4bc9baa764cf6e"},
+    {file = "rapidfuzz-0.8.2.tar.gz", hash = "sha256:9b923626a742d946622503ccf9b17191954ae0d324f5d549239931d6e0b9d119"},
 ]
 redis = [
     {file = "redis-3.5.1-py2.py3-none-any.whl", hash = "sha256:a5b0e25890d216d8189636742c50ab992e42eea699bcc1b08cc2d6bf3adff52a"},
