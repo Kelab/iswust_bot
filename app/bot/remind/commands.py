@@ -126,7 +126,7 @@ async def push(session: CommandSession):
     if hour is None or minute is None:
         time = session.get(
             "time",
-            prompt="你希望我在每天的什么时候给你提醒呢？\n",
+            prompt="你希望我在每天的什么时候给你提醒呢？",
             arg_filters=[
                 controllers.handle_cancellation(session),
                 str.lstrip,
@@ -272,6 +272,7 @@ def format_subscription(index: int, job: Job) -> str:
         message = message.replace('\\"', '"').replace("\\\\", "\\")
         return (
             f"序号：{index}\n"
+            f"类型：计划任务\n"
             f"下次提醒时间："
             f'{job.next_run_time.strftime("%Y-%m-%d %H:%M:%S")}\n'
             f"提醒内容："
@@ -281,7 +282,7 @@ def format_subscription(index: int, job: Job) -> str:
         message = job.kwargs["remark"]
         return (
             f"序号：{index}\n"
-            f"下次提醒时间："
+            f"提醒时间："
             f'{job.next_run_time.strftime("%Y-%m-%d %H:%M:%S")}\n'
             f"提醒内容："
             f"{message}"
