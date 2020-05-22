@@ -7,29 +7,27 @@ from rapidfuzz import fuzz, process
 
 
 def gen_commands_keys(commands: Dict[Tuple, Any]):
-    result = []
+    result_set = set()
     for item in commands.keys():
         if len(item) == 1:
-            result.append(item[0])
-    return result
+            result_set.add(item[0])
+    return result_set
 
 
 @on_natural_language()
 async def _(session: NLPSession):
+    # 获取所有命令作为一个集合
     commands = CommandManager._commands  # type: Dict[Tuple, Any]
-    choices = gen_commands_keys(commands)
     aliases = CommandManager._aliases  # type: Dict[str, Any]
-    choices.extend(list(aliases.keys()))
-    msg = session.event.raw_message
-    cmd, confidence = process.extractOne(
-        session.event.raw_message, choices, scorer=fuzz.WRatio
-    )
-    logger.debug(f"session.event.raw_message: {msg}")
-    logger.debug(f"cmd, confidence: {cmd} {confidence}")
-    if confidence >= 60.0:
-        # choose the intent command with highest confidence
-        logger.debug(f"fuzz result: {cmd}")
-        result = cmd.split(" ")
-        result[0] = cmd
-        result = " ".join(result)
-        return IntentCommand(confidence, "switch", current_arg=result,)
+    choices = gen_commands_keys(commands)
+    choices |= set(aliases.keys())
+
+    raw_message = session.event.raw_message.split()
+    # 假设该消息为命令，取第一个字段
+    query_cmd = raw_message[0]
+    cmd, confidence = process.extractOne(query_cmd, choices, scorer=fuzz.WRatio)
+    logger.debug(f"query_cmd: {query_cmd}")
+    logger.debug(f"fuzz cmd, confidence: {cmd} {confidence}")
+    if confidence - 66 > 0:
+        raw_message[0] = cmd
+        return IntentCommand(confidence, "switch", current_arg=" ".join(raw_message),)
