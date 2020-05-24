@@ -4,11 +4,11 @@ from loguru import logger
 from nonebot import get_bot
 from nonebot.command import _FinishException
 
-from app.config import Config
 from app.bot.score.service import ScoreService
+from app.config import Config
 from app.libs.scheduler import add_job, get_job, make_job_id, remove_job
+from app.models.score import CETScore, PhysicalOrCommonScore, PlanScore, save_score
 from app.models.user import User
-from app.models.score import PlanScore, PhysicalOrCommonScore, CETScore, save_score
 
 PLUGIN_NAME = "sub_score_update"
 PREFIX = "s"

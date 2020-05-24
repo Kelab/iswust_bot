@@ -10,20 +10,14 @@ from app.utils.api import check_args, to_token
 from . import api
 
 
-@api.route("/push", methods=["GET", "POST"])
+@api.route("/push", methods=["POST"])
 async def push():
     bot = nb.get_bot()
-    if request.method == "GET":
-        query: dict = request.args
-        qq_: Optional[str] = query.get("qq")
-        msg_: Optional[str] = query.get("msg")
-        token_: Optional[str] = query.get("token")
 
-    else:
-        query: dict = json.loads(await request.get_data())
-        qq_: Optional[str] = query.get("qq")
-        msg_: Optional[str] = query.get("msg")
-        token_: Optional[str] = query.get("token")
+    query: dict = json.loads(await request.get_data())
+    qq_: Optional[str] = query.get("qq")
+    msg_: Optional[str] = query.get("msg")
+    token_: Optional[str] = query.get("token")
 
     result, msg = check_args(qq=qq_, msg=msg_, token=token_)
 

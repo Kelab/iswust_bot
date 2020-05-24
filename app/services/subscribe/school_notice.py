@@ -1,8 +1,9 @@
 import asyncio
 from typing import List
+
 from loguru import logger
 from nonebot import get_bot
-from nonebot.command import call_command, _FinishException
+from nonebot.command import _FinishException, call_command
 
 from app.env import env
 from app.models.subscribe import SubUser

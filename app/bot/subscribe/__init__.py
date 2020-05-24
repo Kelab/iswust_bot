@@ -8,9 +8,9 @@ from nonebot.command import call_command
 from nonebot.command.argfilter import controllers, extractors, validators
 
 
-from .school_notice import get_rss_list
-from .score import get_score_subscribes
-from .wrapper import handle_message, get_subs, handle_rm
+from app.services.subscribe.school_notice import get_rss_list
+from app.services.subscribe.score import get_score_subscribes
+from app.services.subscribe.wrapper import handle_message, get_subs, handle_rm
 
 __plugin_name__ = "订阅"
 __plugin_short_description__ = "订阅 通知/成绩/考试 等，命令： subscribe"
