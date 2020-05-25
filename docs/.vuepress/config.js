@@ -1,13 +1,21 @@
 module.exports = {
+  host: "localhost",
   title: "小科",
   description: "基于自然语言处理的高校教务 QQ 助手",
   markdown: {
     lineNumbers: true
   },
+  plugins: [
+    [
+      "@vuepress/register-components",
+      {
+        componentDir: "components"
+      }
+    ]
+  ],
   head: [
     ["link", { rel: "icon", href: `/logo.png` }],
-    ["meta", { name: "theme-color", content: "#ffffff" }],
-    ["meta", { name: "msapplication-TileColor", content: "#00aba9" }]
+    ["meta", { name: "theme-color", content: "#ffffff" }]
   ],
   themeConfig: {
     repo: "BudyLab/iswust_bot",
@@ -20,22 +28,20 @@ module.exports = {
     sidebar: {
       "/guide/": [
         {
-          title: "指南",
+          title: "帮助",
           collapsable: false,
           children: [
             "",
-            "installation",
-            "getting-started",
-            "whats-happened",
-            "basic-configuration",
-            "command",
-            "nl-processor",
-            "tuling",
-            "notice-and-request",
-            "cqhttp",
-            "scheduler",
-            "usage",
-            "whats-next"
+            "bind",
+            "code_runner",
+            "course_schedule",
+            "credit",
+            "ecard",
+            "hitokoto",
+            "remind",
+            "rss",
+            "score",
+            "subscribe"
           ]
         }
       ]
