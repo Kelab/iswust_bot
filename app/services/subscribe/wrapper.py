@@ -1,38 +1,53 @@
 from loguru import logger
-from nonebot import get_bot
 from nonebot.command import _FinishException
 
-from .school_notice import (handle_get_notices, handle_rm_notice,
-                            handle_school_notice)
-from .score import handle_get_scores, handle_rm_score, handle_subscribe_score
+from typing import Dict
+from aiocqhttp import Event
+
+from .school_notice import SchoolNoticeSub
+from .score import ScoreSub
+from . import BaseSub
 
 
-async def handle_message(event, message):
-    try:
-        await handle_school_notice(event, message)
-        await handle_subscribe_score(event, message)
-        bot = get_bot()
-        await bot.send(event, "序号不存在")
-    except _FinishException:
-        pass
-    except Exception as e:
-        logger.exception(e)
+class SubWrapper(BaseSub):
+    @classmethod
+    def get_subs(cls) -> Dict[str, str]:
+        result = {}
+        result.update(SchoolNoticeSub.get_subs())
+        result.update(ScoreSub.get_subs())
+        return result
 
+    @classmethod
+    async def get_user_sub(cls, event: Event) -> dict:
+        result = {}
+        result.update(await SchoolNoticeSub.get_user_sub(event))
+        result.update(await ScoreSub.get_user_sub(event))
+        return result
 
-async def get_subs(event):
-    result = {}
-    result.update(await handle_get_notices(event))
-    result.update(await handle_get_scores(event))
-    return result
+    @classmethod
+    async def del_sub(cls, event: Event, key: str) -> bool:
+        try:
+            await SchoolNoticeSub.del_sub(event, key)
+            await ScoreSub.del_sub(event, key)
+            # 上面处理成功后已经 raise 了 _FinishException
+            await cls.bot.send(event, "序号不存在")
+            return False
+        except _FinishException:
+            return True
+        except Exception as e:
+            logger.exception(e)
+            return False
 
-
-async def handle_rm(event, idx):
-    try:
-        await handle_rm_notice(event, idx)
-        await handle_rm_score(event, idx)
-        bot = get_bot()
-        await bot.send(event, "序号不存在")
-    except _FinishException:
-        pass
-    except Exception as e:
-        logger.exception(e)
+    @classmethod
+    async def add_sub(cls, event: Event, key: str) -> bool:
+        try:
+            await SchoolNoticeSub.add_sub(event, key)
+            await ScoreSub.add_sub(event, key)
+            # 上面处理成功后已经 raise 了 _FinishException
+            await cls.bot.send(event, "序号不存在")
+            return False
+        except _FinishException:
+            return True
+        except Exception as e:
+            logger.exception(e)
+            return False

@@ -1,16 +1,13 @@
 import asyncio
 from typing import Optional
 
-from loguru import logger
 from nonebot import CommandGroup, CommandSession
 from nonebot import permission as perm
 from nonebot.command import call_command
 from nonebot.command.argfilter import controllers, extractors, validators
 
 
-from app.services.subscribe.school_notice import get_rss_list
-from app.services.subscribe.score import get_score_subscribes
-from app.services.subscribe.wrapper import handle_message, get_subs, handle_rm
+from app.services.subscribe.wrapper import SubWrapper
 
 __plugin_name__ = "订阅"
 __plugin_short_description__ = "订阅 通知/成绩/考试 等，命令： subscribe"
@@ -42,10 +39,11 @@ cg = CommandGroup(
 )
 
 
-def get_subscribe_lst() -> str:
+def get_subscribe_str() -> str:
     msg = ""
-    msg += get_rss_list().strip() + "\n"
-    msg += get_score_subscribes().strip() + "\n"
+    dct = SubWrapper.get_subs()
+    for k, v in dct.items():
+        msg = msg + f"{k}. {v}\n"
 
     return msg
 
@@ -56,14 +54,14 @@ def get_subscribe_lst() -> str:
 async def subscribe(session: CommandSession):
     message = session.get(
         "message",
-        prompt=f"你想订阅什么内容呢？（请输入序号，也可输入 `取消、不` 等语句取消）：\n{get_subscribe_lst()}",
+        prompt=f"你想订阅什么内容呢？（请输入序号，也可输入 `取消、不` 等语句取消）：\n{get_subscribe_str()}",
         arg_filters=[
             controllers.handle_cancellation(session),
-            str.lstrip,
+            str.strip,
             validators.not_empty("请输入有效内容哦～"),
         ],
     )
-    await handle_message(session.event, message)
+    await SubWrapper.add_sub(session.event, message)
 
 
 @subscribe.args_parser
@@ -76,7 +74,7 @@ async def _(session: CommandSession):
 
 @cg.command("show", aliases=["查看订阅", "我的订阅", "订阅列表"], only_to_me=False)
 async def _(session: CommandSession):
-    subs = session.state.get("subs") or await get_subs(session.event)
+    subs = session.state.get("subs") or await SubWrapper.get_user_sub(session.event)
 
     if not subs:
         session.finish("你还没有订阅任何内容哦")
@@ -89,11 +87,9 @@ async def _(session: CommandSession):
 
 @cg.command("rm", aliases=["取消订阅", "停止订阅", "关闭订阅", "删除订阅", "移除订阅"], only_to_me=False)
 async def unsubscribe(session: CommandSession):
-    subs = await get_subs(session.event)
-    logger.info(f"subs: {subs}",)
-    index: Optional[str] = session.state.get("index")
-    logger.info(f"session.state: {session.state}",)
-    if index is None:
+    subs = await SubWrapper.get_user_sub(session.event)
+    key: Optional[str] = session.state.get("key")
+    if key is None:
         session.state["subs"] = subs
         await call_command(
             session.bot,
@@ -106,8 +102,8 @@ async def unsubscribe(session: CommandSession):
         if not subs:
             session.finish()
 
-        index = session.get(
-            "index",
+        key = session.get(
+            "key",
             prompt="你想取消哪一个订阅呢？（请发送序号，或者 `取消`）",
             arg_filters=[
                 extractors.extract_text,
@@ -115,15 +111,15 @@ async def unsubscribe(session: CommandSession):
             ],
         )
 
-    if index:
-        await handle_rm(session.event, index)
+    if key:
+        await SubWrapper.del_sub(session.event, key)
 
 
 @unsubscribe.args_parser
 async def _(session: CommandSession):
     if session.is_first_run:
         if session.current_arg:
-            session.state["index"] = session.current_arg
+            session.state["key"] = session.current_arg
 
 
 def format_subscription(k, v) -> str:

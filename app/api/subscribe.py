@@ -1,14 +1,13 @@
 from typing import Optional
+
 from quart import abort, request
 from quart.views import MethodView
 
-from app.services.subscribe.school_notice import get_rss_list
-from app.services.subscribe.score import get_score_subscribes
-from app.services.subscribe.wrapper import get_subs, handle_message, handle_rm
-
-from . import api
+from app.services.subscribe.wrapper import SubWrapper
 from app.utils.api import check_args, false_ret, to_token, true_ret
 from app.utils.bot import qq2event
+
+from . import api
 
 
 class SubsAPI(MethodView):
@@ -25,8 +24,10 @@ class SubsAPI(MethodView):
         if to_token(qq) != token:
             abort(403)
 
-        subs = await get_subs(qq2event(int(qq)))  # type: ignore
-        return true_ret(data=subs)
+        user_subs = await SubWrapper.get_user_sub(qq2event(qq))  # type: ignore
+        available_subs = SubWrapper.get_subs()
+
+        return true_ret(data=available_subs)
 
     def post(self):
         ...

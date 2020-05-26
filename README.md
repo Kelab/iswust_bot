@@ -2,6 +2,7 @@
 
 整合了很多功能的教务机器人
 
+[![Deploy Docs](https://github.com/BudyLab/iswust_bot/workflows/Deploy%20Docs/badge.svg)](https://github.com/BudyLab/iswust_bot/actions?query=workflow%3A%22Deploy+Docs%22)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 > nonebot 参考手册：  
