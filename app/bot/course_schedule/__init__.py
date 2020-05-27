@@ -101,7 +101,7 @@ async def process_accu_date(session: NLPSession):
         week = get_week(now.timestamp)
         args = {"week": week + 1}
         await session.send(f"下周课表（第{week + 1}周）：")
-        return IntentCommand(80.0, "cs", args=args)
+        return IntentCommand(100, "cs", args=args)
 
     res = tn.parse(target=msg, timeBase=now)
     logger.debug(f"课程时间意图分析结果: {str(msg)} -> {str(res)}")
@@ -115,7 +115,7 @@ async def process_accu_date(session: NLPSession):
         )
         logger.info(f"第{str(week)}周，星期{str_int_wday_dict.get(wday,wday)}")
         args = {"wday": wday, "week": week}
-        return IntentCommand(80.0, "cs", args=args)
+        return IntentCommand(100, "cs", args=args)
 
     # 周数匹配
     text = StringPreHandler.numberTranslator(msg)
@@ -124,9 +124,9 @@ async def process_accu_date(session: NLPSession):
         await session.send(f"{week_re.group(0)}课表：")
         logger.info(f"周数分析结果:{week_re.group(1)}")
         args = {"week": week_re.group(1)}
-        return IntentCommand(80.0, "cs", args=args)
+        return IntentCommand(100, "cs", args=args)
 
-    return IntentCommand(80.0, "cs")
+    return IntentCommand(100, "cs")
 
 
 @on_command("uc", aliases=("更新课表",))

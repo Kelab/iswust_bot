@@ -30,5 +30,4 @@ async def _(session: NLPSession):
     logger.debug(f"fuzz cmd, confidence: {cmd} {confidence}")
     if confidence - 66 > 0:
         raw_message[0] = cmd
-        await session.send(f"我猜你说的是 {cmd} 吧？")
         return IntentCommand(confidence, "switch", current_arg=" ".join(raw_message),)
