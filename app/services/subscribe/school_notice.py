@@ -9,11 +9,12 @@ from app.models.subscribe import SubUser
 
 from . import BaseSub
 
+rsshub_url: str = env("RSSHUB_URL", "").rstrip("/")
+
 
 class SchoolNoticeSub(BaseSub):
     PREFIX = "r"
-    rsshub_url: str = env("RSSHUB_URL", "").rstrip("/")
-    rss_info = {
+    sub_info = {
         "教务处新闻": "/swust/jwc/news",
         "教务处通知 创新创业教育": "/swust/jwc/notice/1",
         "教务处通知 学生学业": "/swust/jwc/notice/2",
@@ -26,13 +27,11 @@ class SchoolNoticeSub(BaseSub):
         "计科学院通知 通知公告": "/swust/cs/3",
         "计科学院通知 教研动态": "/swust/cs/4",
     }
-
-    dct = {PREFIX + str(idx): k for idx, k in enumerate(rss_info.keys())}
-    inv_dct = {v: k for k, v in dct.items()}
+    inv_sub_info = {v: k for k, v in sub_info.items()}
 
     @classmethod
     def get_subs(cls) -> Dict[str, str]:
-        return cls.dct
+        return cls.dct()
 
     @classmethod
     async def get_user_sub(cls, event: Event) -> dict:
@@ -40,8 +39,9 @@ class SchoolNoticeSub(BaseSub):
         subs = await SubUser.get_user_subs(event)
         if subs:
             for sub in subs:
-                name = sub.sub_content.name
-                key = cls.inv_dct.get(name)
+                link = sub.link.replace(rsshub_url, "")
+                name = cls.inv_sub_info.get(link, "")
+                key = cls.inv_dct().get(name)
                 if not key:
                     continue
                 result[key] = name
@@ -50,22 +50,25 @@ class SchoolNoticeSub(BaseSub):
     @classmethod
     async def del_sub(cls, event: Event, key: str):
         if key.startswith(cls.PREFIX):
-            name = cls.dct.get(key)
-            if name:
+            try:
+                name = cls.dct().get(key, "")
+                link = cls.sub_info.get(name)
                 subs = await SubUser.get_user_subs(event)
                 for sub in subs:
-                    if sub.sub_content.name == name:
+                    sub_link = sub.link.replace(rsshub_url, "")
+                    if sub_link == link:
                         await cls.rm_sub(event, sub)
                         break
-            else:
+            except Exception:
                 await cls.bot.send(event, "没有找到你输入的序号哦")
             raise _FinishException
 
     @classmethod
     def _make_url(cls, key: str) -> Optional[str]:
-        _url = cls.dct.get(key)
+        name = cls.dct().get(key, "")
+        _url = cls.sub_info.get(name)
         if _url:
-            return cls.rsshub_url + _url
+            return rsshub_url + _url
         return None
 
     @classmethod

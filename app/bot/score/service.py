@@ -35,7 +35,7 @@ class ScoreService:
             sess = await User.get_session(user)
             res: ScoreDict = await run_sync_func(parse_score, sess)
             if res:
-                await cache.set(key, res, ttl=Config.CACHE_SCORE_INTERVAL)
+                await cache.set(key, res, ttl=Config.CACHE_SESSION_TIMEOUT)
             else:
                 raise ValueError("查询成绩出错")
         return res

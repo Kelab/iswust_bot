@@ -90,7 +90,6 @@ class PlanScore(Base, db.Model):
     async def check_update(cls, event: Event, plan: pd.DataFrame):
         old_score = await cls.load_score(event)
         diffs = diff(plan, old_score)
-        print(diffs)
         if not diffs.empty:
             bot = get_bot()
             await bot.send(event, f"有新的成绩：\n{tabulate(diffs)}")
