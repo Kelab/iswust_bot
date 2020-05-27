@@ -4,7 +4,7 @@
     "punctuation": ".,;:!。，；：！"
   },
   "MD007": {
-    "indent": 4
+    "indent": 2
   },
   "no-hard-tabs": false,
   "line-length": false,

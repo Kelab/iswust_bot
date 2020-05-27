@@ -29,20 +29,30 @@ module.exports = {
       "/guide/": [
         {
           title: "帮助",
+          collapsable: true,
+          children: [""]
+        },
+        {
+          title: "教务相关",
           collapsable: false,
           children: [
-            "",
             "bind",
-            "code_runner",
             "course_schedule",
             "credit",
             "ecard",
-            "hitokoto",
-            "remind",
-            "rss",
             "score",
             "subscribe"
           ]
+        },
+        {
+          title: "效率相关",
+          collapsable: false,
+          children: ["remind", "code_runner", "rss"]
+        },
+        {
+          title: "其他",
+          collapsable: false,
+          children: ["hitokoto"]
         }
       ]
     }

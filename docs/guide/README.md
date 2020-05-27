@@ -7,7 +7,7 @@
   <chat-message nickname="小科" avatar="/logo.jpg">你好</chat-message>
   <chat-message nickname="Artin" color="#3e484e">绑定教务处</chat-message>
   <chat-message nickname="小科" avatar="/logo.jpg">开始请求绑定~ 请等待</chat-message>
-  <chat-message nickname="小科" avatar="/logo.jpg">请点击链接绑定：https://example.com</chat-message>
+  <chat-message nickname="小科" avatar="/logo.jpg">请点击链接绑定：<a>https://example.com</a></chat-message>
 </panel-view>
 
 ::: tip 提示
