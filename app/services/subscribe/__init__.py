@@ -2,11 +2,9 @@ from abc import ABC
 from typing import Dict
 from aiocqhttp import Event
 
-from nonebot import get_bot
 
 
 class BaseSub(ABC):
-    bot = get_bot()
     PREFIX = ""
     sub_info = {}
 

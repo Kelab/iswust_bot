@@ -79,7 +79,6 @@ class SubUser(Base, db.Model):
 
     @classmethod
     async def add_sub(cls, event: Event, url: str, only_title=False):
-        # TODO: UTF8
         try:
             d = await get_rss_info(url)
         except Exception as e:

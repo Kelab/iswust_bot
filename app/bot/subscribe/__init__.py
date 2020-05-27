@@ -6,8 +6,7 @@ from nonebot import permission as perm
 from nonebot.command import call_command
 from nonebot.command.argfilter import controllers, extractors, validators
 
-
-from app.services.subscribe.wrapper import SubWrapper
+from app.services.subscribe.wrapper import SubWrapper, judge_sub
 
 __plugin_name__ = "订阅"
 __plugin_short_description__ = "订阅 通知/成绩/考试 等，命令： subscribe"
@@ -61,7 +60,12 @@ async def subscribe(session: CommandSession):
             validators.not_empty("请输入有效内容哦～"),
         ],
     )
-    await SubWrapper.add_sub(session.event, message)
+    SubC = judge_sub(message)
+    if not SubC:
+        session.finish("输入序号有误！")
+
+    _, msg = await SubC.add_sub(session.event, message)
+    session.finish(msg)
 
 
 @subscribe.args_parser
@@ -112,7 +116,12 @@ async def unsubscribe(session: CommandSession):
         )
 
     if key:
-        await SubWrapper.del_sub(session.event, key)
+        SubC = judge_sub(key)
+        if not SubC:
+            session.finish("输入序号有误！")
+
+        _, msg = await SubC.del_sub(session.event, key)
+        session.finish(msg)
 
 
 @unsubscribe.args_parser

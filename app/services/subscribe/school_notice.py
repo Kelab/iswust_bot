@@ -1,8 +1,8 @@
-from typing import Dict, Optional
+from typing import Dict, Optional, Tuple
 
 from aiocqhttp import Event
-from loguru import logger
-from nonebot.command import _FinishException, call_command
+from nonebot import get_bot
+from nonebot.command import call_command
 
 from app.env import env
 from app.models.subscribe import SubUser
@@ -48,20 +48,19 @@ class SchoolNoticeSub(BaseSub):
         return result
 
     @classmethod
-    async def del_sub(cls, event: Event, key: str):
-        if key.startswith(cls.PREFIX):
-            try:
-                name = cls.dct().get(key, "")
-                link = cls.sub_info.get(name)
-                subs = await SubUser.get_user_subs(event)
-                for sub in subs:
-                    sub_link = sub.link.replace(rsshub_url, "")
-                    if sub_link == link:
-                        await cls.rm_sub(event, sub)
-                        break
-            except Exception:
-                await cls.bot.send(event, "没有找到你输入的序号哦")
-            raise _FinishException
+    async def del_sub(cls, event: Event, key: str) -> Tuple[bool, str]:
+        try:
+            name = cls.dct().get(key, "")
+            link = cls.sub_info.get(name)
+            subs = await SubUser.get_user_subs(event)
+            for sub in subs:
+                sub_link = sub.link.replace(rsshub_url, "")
+                if sub_link == link:
+                    await SubUser.remove_sub(event, sub.link)
+                    return True, f"{sub.sub_content.name} 删除成功"
+            return False, "你没有这个订阅哦"
+        except Exception:
+            return False, "出了点问题，请稍后再试吧"
 
     @classmethod
     def _make_url(cls, key: str) -> Optional[str]:
@@ -72,26 +71,16 @@ class SchoolNoticeSub(BaseSub):
         return None
 
     @classmethod
-    async def add_sub(cls, event: Event, key: str):
-        if key.startswith(cls.PREFIX):
-            url = cls._make_url(key)
-            if url:
-                await call_command(
-                    cls.bot,
-                    event,
-                    ("rss", "add"),
-                    args={"url": url},
-                    disable_interaction=True,
-                )
-            else:
-                await cls.bot.send(event, "序号不存在")
-            raise _FinishException
-
-    @classmethod
-    async def rm_sub(cls, event, sub):
-        try:
-            await SubUser.remove_sub(event, sub.link)
-            await cls.bot.send(event, f"{sub.sub_content.name} 删除成功")
-        except Exception as e:
-            logger.exception(e)
-            await cls.bot.send(event, "出了点问题，请稍后再试吧")
+    async def add_sub(cls, event: Event, key: str) -> Tuple[bool, str]:
+        url = cls._make_url(key)
+        if url:
+            await call_command(
+                get_bot(),
+                event,
+                ("rss", "add"),
+                args={"url": url, "silent": True},
+                disable_interaction=True,
+            )
+            return True, "添加成功"
+        else:
+            return False, "序号不存在"
