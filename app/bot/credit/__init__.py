@@ -5,7 +5,10 @@ from .service import CreditService
 
 __plugin_name__ = "绩点"
 __plugin_short_description__ = "命令：credit"
-__plugin_usage__ = r"""查看我的绩点：
+__plugin_usage__ = r"""
+帮助链接：https://bot.artin.li/guide/credit.html
+
+查看我的绩点：
 命令：
     - credit
     - 绩点

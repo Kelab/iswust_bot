@@ -10,7 +10,10 @@ from app.services.subscribe.wrapper import SubWrapper, judge_sub
 
 __plugin_name__ = "订阅"
 __plugin_short_description__ = "订阅 通知/成绩/考试 等，命令： subscribe"
-__plugin_usage__ = r"""添加订阅：
+__plugin_usage__ = r"""
+帮助链接：https://bot.artin.li/guide/subscribe.html
+
+添加订阅：
     - 订阅
     - 添加订阅
     - 新建订阅

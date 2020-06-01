@@ -19,7 +19,10 @@ from .parse import get_week, parse_course_by_date, str_int_wday_dict, week_cours
 
 __plugin_name__ = "查询/更新 课表"
 __plugin_short_description__ = "命令：cs/uc"
-__plugin_usage__ = r"""查询课表输入：
+__plugin_usage__ = r"""
+帮助链接：https://bot.artin.li/guide/course_schedule.html
+
+查询课表输入：
     - cs
     - 查询课表
     - 或者加上时间限定：

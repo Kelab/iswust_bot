@@ -11,7 +11,10 @@ from app.utils.tools import dwz
 __plugin_name__ = "绑定教务处"
 __plugin_short_description__ = "命令：bind/unbind"
 
-__plugin_usage__ = r"""对我发以下关键词绑定教务处：
+__plugin_usage__ = r"""
+帮助链接：https://bot.artin.li/guide/bind.html
+
+对我发以下关键词绑定教务处：
     - bind
     - 绑定
     - 绑定教务处

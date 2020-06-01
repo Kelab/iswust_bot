@@ -8,7 +8,10 @@ from nonebot import get_bot
 
 __plugin_name__ = "⏰ 提醒"
 __plugin_short_description__ = "[原 push]命令：remind"
-__plugin_usage__ = r"""新建提醒输入：
+__plugin_usage__ = r"""
+帮助链接：https://bot.artin.li/guide/remind.html
+
+新建提醒输入：
     - remind
     - 提醒
     - 添加提醒

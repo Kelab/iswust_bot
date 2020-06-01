@@ -8,7 +8,10 @@ from app.env import env
 
 __plugin_name__ = "运行代码"
 __plugin_short_description__ = "命令: run"
-__plugin_usage__ = r"""运行代码：
+__plugin_usage__ = r"""
+帮助链接：https://bot.artin.li/guide/code_runner.html
+
+运行代码：
     - code_runner
     - run
     - 执行代码

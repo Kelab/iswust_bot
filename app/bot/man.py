@@ -23,6 +23,7 @@ async def _(session: CommandSession):
         await session.send(
             "我现在支持的功能有：\n" + "\n".join(get_description(p) for p in plugins)
         )
+        await session.send("具体各功能帮助请查看：https://bot.artin.li/guide/")
         session.finish(
             '输入 "帮助+空格+功能名" 查看各功能使用指南以及命令。\n' + '如："帮助 绑定教务处"，不需要加上括号及括号内内容。'
         )
