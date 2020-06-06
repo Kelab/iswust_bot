@@ -1,3 +1,5 @@
+import queryString from 'query-string';
+
 export function CloseWebPage() {
   if (navigator.userAgent.indexOf('MSIE') > 0) {
     if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
@@ -20,3 +22,17 @@ export function CloseWebPage() {
     window.close();
   }
 }
+
+export const getUserFromQuery = () => {
+  let b64 = window.location.search.substring(1);
+  try {
+    let query = window.atob(b64);
+    let parsedQuery = queryString.parse(query);
+    return {
+      qq: parsedQuery.qq || '',
+      token: parsedQuery.token || '',
+    };
+  } catch (error) {
+    return {};
+  }
+};

@@ -1,29 +1,28 @@
-.App {
-  text-align: center;
-  margin: 50px;
-}
+@import '../styles/parameter.less';
 
-.qq_avatar {
-  height: 140px;
-  width: 140px;
-  margin: 14px;
-  pointer-events: none;
-  border-radius: 50%;
-  border: solid 2px #939393;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.login-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(240, 240, 240);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.link {
-  color: #61dafb;
-  cursor: pointer;
+  .login-card {
+    padding: 50px;
+    @media @mobile {
+      font-size: 1.5rem !important;
+      .ant-form {
+        & label {
+          font-size: unset;
+        }
+        &-item {
+          font-size: 1.5rem !important;
+        }
+        & .ant-input {
+          font-size: unset !important;
+        }
+      }
+    }
+  }
 }

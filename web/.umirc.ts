@@ -6,10 +6,22 @@ export default defineConfig({
   },
   cssModulesTypescriptLoader: {},
   esbuild: {},
+  dynamicImport: {
+    loading: '@/components/Loading',
+  },
   ignoreMomentLocale: true,
-  title: 'Nonebot',
+  title: '小科',
   routes: [
-    { path: '/login', component: '@/pages/Login', title: 'Login' },
-    { path: '/user', component: '@/pages/UserCenter', title: 'UserCenter' },
+    {
+      path: '/',
+      component: '@/pages/index',
+      routes: [
+        { path: '/login', component: '@/pages/Login', title: 'Login' },
+        { path: '/user', component: '@/pages/UserCenter', title: 'UserCenter' },
+      ],
+    },
   ],
+  define: {
+    API_URL: process.env['API_URL'],
+  },
 });

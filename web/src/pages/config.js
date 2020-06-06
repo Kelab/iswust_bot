@@ -1,3 +1,3 @@
 export default {
-  apiUrl: process.env['API_URL'],
+  apiUrl: API_URL,
 };
