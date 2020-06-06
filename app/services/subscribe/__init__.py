@@ -3,7 +3,6 @@ from typing import Dict
 from aiocqhttp import Event
 
 
-
 class BaseSub(ABC):
     PREFIX = ""
     sub_info = {}

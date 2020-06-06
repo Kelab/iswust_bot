@@ -8,7 +8,7 @@ from loguru import logger
 from app.bot.score.service import ScoreService
 from app.config import Config
 from app.libs.scheduler import add_job, get_jobs, make_job_id, remove_job
-from app.models.score import CETScore, PhysicalOrCommonScore, PlanScore, save_score
+from app.models.score import PlanScore, save_score
 from app.models.user import User
 
 from . import BaseSub

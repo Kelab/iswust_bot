@@ -4,6 +4,10 @@ from aiocqhttp import Event
 from nonebot import get_bot
 from nonebot.command import kill_current_session
 from nonebot.message import Message, handle_message
+from app.utils.api import to_token
+from urllib.parse import urlencode
+from base64 import b64encode
+from app.config import Config
 
 
 def ctx_id2event(ctx_id: str):
@@ -32,6 +36,17 @@ def qq2event(qq: int):
         sub_type="friend",
         to_me=True,
     )
+
+
+def get_user_center(event: Event):
+    sender_qq = event.user_id
+
+    if sender_qq:
+        token = to_token(sender_qq)
+        # web 登录界面地址
+        query: str = urlencode({"qq": sender_qq, "token": token})
+        encoded_query = b64encode(query.encode("utf8")).decode("utf8")
+        return f"{Config.WEB_URL}/user/?{encoded_query}"
 
 
 def replace_event_msg(event: Event, msg: str):

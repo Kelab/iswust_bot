@@ -7,7 +7,7 @@ from quart import abort, request
 
 from app.libs.aio import run_sync_func
 from app.models.user import User
-from app.utils.bot import qq2event
+from app.utils.bot import qq2event, get_user_center
 from app.utils.api import false_ret, true_ret, check_args, to_token
 
 from . import api
@@ -54,6 +54,10 @@ async def bind():
             logger.info("qq{}绑定成功!".format(qq))
             await _bot.send(qq2event(qq), "教务处绑定成功！")
             await _bot.send(qq2event(qq), "可以向我发送 帮助 来继续使用~")
+            await _bot.send(qq2event(qq), "点击 https://bot.artin.li 来查看帮助~")
+            await _bot.send(
+                qq2event(qq), f"点击个人中心可以配置更多： {get_user_center(qq2event(qq))}"
+            )
             return true_ret("qq绑定成功!")
         else:
             logger.info("qq{}绑定失败!".format(qq))
