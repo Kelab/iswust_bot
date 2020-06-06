@@ -22,7 +22,7 @@ async def add(session: CommandSession):
             validators.not_empty("请输入有效内容哦～"),
         ],
     )
-    if session.state.get("silent"):
+    if not session.state.get("silent"):
         await session.send(f"正在处理订阅链接：{url}")
 
     try:

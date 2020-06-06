@@ -83,8 +83,8 @@ class SubUser(Base, db.Model):
             d = await get_rss_info(url)
         except Exception as e:
             logger.exception(e)
-            await send(get_bot(), event, "获取订阅信息失败，但已添加到订阅中，我们会稍后重试。")
-            d = {"channel": {}, "entries": []}
+            await send(get_bot(), event, f"获取 {url} 订阅信息失败，请稍后重试。")
+            return None
 
         if not d:
             return None

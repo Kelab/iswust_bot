@@ -73,6 +73,7 @@ class SchoolNoticeSub(BaseSub):
     @classmethod
     async def add_sub(cls, event: Event, key: str) -> Tuple[bool, str]:
         url = cls._make_url(key)
+        name = cls.dct().get(key, "")
         if url:
             await call_command(
                 get_bot(),
@@ -81,6 +82,6 @@ class SchoolNoticeSub(BaseSub):
                 args={"url": url, "silent": True},
                 disable_interaction=True,
             )
-            return True, "添加成功"
+            return True, f"订阅 {name} 成功"
         else:
             return False, "序号不存在"

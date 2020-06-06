@@ -25,7 +25,13 @@ async def send_msgs(event: Event, msgs):
 
 
 def qq2event(qq: int):
-    return Event(user_id=qq)
+    return Event(
+        user_id=qq,
+        message_type="private",
+        post_type="message",
+        sub_type="friend",
+        to_me=True,
+    )
 
 
 def replace_event_msg(event: Event, msg: str):
