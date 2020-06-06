@@ -1,12 +1,18 @@
 import asyncio
 from typing import Optional
 
+from base64 import b64encode
+
+from aiocqhttp import Event
 from nonebot import CommandGroup, CommandSession
 from nonebot import permission as perm
 from nonebot.command import call_command
 from nonebot.command.argfilter import controllers, extractors, validators
 
 from app.services.subscribe.wrapper import SubWrapper, judge_sub
+from app.utils.api import to_token
+from urllib.parse import urlencode
+from app.config import Config
 
 __plugin_name__ = "订阅"
 __plugin_short_description__ = "订阅 通知/成绩/考试 等，命令： subscribe"
@@ -79,6 +85,18 @@ async def _(session: CommandSession):
         return
 
 
+def get_user_center(event: Event):
+    sender = event.get("sender", {})
+    sender_qq: Optional[str] = sender.get("user_id")
+
+    if sender_qq:
+        token = to_token(sender_qq)
+        # web 登录界面地址
+        query: str = urlencode({"qq": sender_qq, "token": token})
+        encoded_query = b64encode(query.encode("utf8")).decode("utf8")
+        return f"{Config.WEB_URL}/user/?{encoded_query}"
+
+
 @cg.command("show", aliases=["查看订阅", "我的订阅", "订阅列表"], only_to_me=False)
 async def _(session: CommandSession):
     subs = session.state.get("subs") or await SubWrapper.get_user_sub(session.event)
@@ -89,7 +107,8 @@ async def _(session: CommandSession):
     for k, v in subs.items():
         await session.send(format_subscription(k, v))
         await asyncio.sleep(0.05)
-    session.finish(f"以上是所有的 {len(subs)} 个订阅")
+    await session.send(f"以上是所有的 {len(subs)} 个订阅")
+    session.finish(f"订阅管理：{get_user_center(session.event)}")
 
 
 @cg.command("rm", aliases=["取消订阅", "停止订阅", "关闭订阅", "删除订阅", "移除订阅"], only_to_me=False)

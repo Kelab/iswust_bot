@@ -4,11 +4,11 @@ from typing import List, Optional, Tuple
 from ..env import env
 
 
-def true_ret(data="NULL", msg="success"):
+def true_ret(data=None, msg="success"):
     return {"code": 200, "data": data, "msg": msg}
 
 
-def false_ret(data="NULL", msg="fail", code=-1):
+def false_ret(data=None, msg="fail", code=-1):
     return {"code": code, "data": data, "msg": msg}
 
 

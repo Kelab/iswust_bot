@@ -7,6 +7,7 @@ from app.config import Config
 from app.models.user import User
 from app.utils.api import to_token
 from app.utils.tools import dwz
+from base64 import b64encode
 
 __plugin_name__ = "绑定教务处"
 __plugin_short_description__ = "命令：bind/unbind"
@@ -43,11 +44,8 @@ async def bind(session: CommandSession):
         token = to_token(sender_qq)
         # web 登录界面地址
         query: str = urlencode({"qq": sender_qq, "nickname": nickname, "token": token})
-
-        url_ = f"{Config.WEB_URL}?{query}"
-        shorten_url_ = await dwz(url_)
-        if shorten_url_:
-            session.finish(f"请点击链接绑定：{shorten_url_}")
+        encoded_query = b64encode(query.encode("utf8")).decode("utf8")
+        url_ = f"{Config.WEB_URL}/login/?{encoded_query}"
         session.finish(f"请点击链接绑定：{url_}")
 
 
