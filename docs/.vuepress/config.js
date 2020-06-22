@@ -1,7 +1,7 @@
 module.exports = {
   host: "localhost",
-  title: "小科 - 基于自然语言处理的高校教务 QQ 助手",
-  description: "基于自然语言处理的高校教务 QQ 助手",
+  title: "小科 - 基于自然语言处理的 QQ 教务机器人",
+  description: "基于自然语言处理的 QQ 教务机器人",
   markdown: {
     lineNumbers: true
   },

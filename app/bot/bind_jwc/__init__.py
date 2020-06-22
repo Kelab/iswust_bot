@@ -1,4 +1,3 @@
-from typing import Any, Optional
 from urllib.parse import urlencode
 
 from nonebot import CommandSession, on_command
