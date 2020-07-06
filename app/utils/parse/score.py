@@ -1,6 +1,7 @@
 from typing import TypedDict, List
 
 import pandas as pd
+import numpy as np
 import regex as re
 from bs4 import BeautifulSoup
 
@@ -21,7 +22,7 @@ def clear_lino1(table: pd.DataFrame):
 def rm_nan(table: pd.DataFrame):
     """替换 NaN 为 无"""
     table.fillna("无", inplace=True)
-    table.replace(pd.np.nan, "无", regex=True, inplace=True)
+    table.replace(np.nan, "无", regex=True, inplace=True)
 
 
 def extract_term(df: pd.DataFrame):

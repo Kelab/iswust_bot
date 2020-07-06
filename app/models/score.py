@@ -89,6 +89,8 @@ class PlanScore(Base, db.Model):
     @classmethod
     async def check_update(cls, event: Event, plan: pd.DataFrame):
         old_score = await cls.load_score(event)
+        if old_score is None:
+            return
         diffs = diff(plan, old_score)
         if not diffs.empty:
             bot = get_bot()
