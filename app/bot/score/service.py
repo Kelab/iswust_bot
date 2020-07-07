@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 from loguru import logger
 from nonebot import get_bot
@@ -7,12 +7,15 @@ from app.config import Config
 from app.libs.aio import run_sync_func
 from app.libs.cache import cache
 from app.libs.scheduler import add_job
-from app.models.score import save_score
+from app.utils.score import save_score
 from app.models.user import User
 from app.utils.bot import qq2event
-from app.utils.parse.score import ScoreDict, parse_score
+from app.utils.parse.score import parse_score
 
 from .utils import send_score
+
+if TYPE_CHECKING:
+    from app.utils.parse.score import ScoreDict
 
 
 class ScoreService:

@@ -11,9 +11,15 @@ from sqlalchemy import Column
 
 from app.libs.gino import db
 from app.models.user import User
-from app.utils.parse.score import ScoreDict
 from app.bot.score.utils import tabulate
+from app.utils.score import diff
 from .base import Base
+
+
+class ScoreCata:
+    COMMON = "common"  # 通选课
+    PHYSICAL = "physical"  # 体育
+    REQUIRED = "required"  # 必修课
 
 
 class PlanScore(Base, db.Model):
@@ -31,7 +37,7 @@ class PlanScore(Base, db.Model):
         "gpa",
     ]
     __tablename__ = "score_plan"
-
+    id_ = Column("id", db.Integer, db.Sequence("plan_score_id_seq"), primary_key=True)
     student_id = Column(
         db.String(32),
         db.ForeignKey("user.student_id", onupdate="CASCADE", ondelete="SET NULL"),
@@ -109,7 +115,7 @@ class PlanScore(Base, db.Model):
 
 
 class PhysicalOrCommonScore(Base, db.Model):
-    """计划课程成绩 Model
+    """课程成绩 Model
     """
 
     _cn_list = ["学期", "课程", "课程号", "学分", "正考", "补考", "绩点"]
@@ -123,7 +129,9 @@ class PhysicalOrCommonScore(Base, db.Model):
         "gpa",
     ]
     __tablename__ = "score_physic_or_common"
-
+    id_ = Column(
+        "id", db.Integer, db.Sequence("physic_or_common_score_id_seq"), primary_key=True
+    )
     student_id = Column(
         db.String(32),
         db.ForeignKey("user.student_id", onupdate="CASCADE", ondelete="SET NULL"),
@@ -136,7 +144,7 @@ class PhysicalOrCommonScore(Base, db.Model):
     score = Column(db.String(16))  # 可能考试成绩是 `通过`
     make_up_score = Column(db.String(16))  # 补考成绩
     gpa = Column(db.String(16))
-    cata = Column(db.String(16))  # common 或 physical
+    cata = Column(db.String(16))
 
     @classmethod
     async def add_or_update_one(cls, student_id, cata, series):
@@ -177,7 +185,7 @@ class CETScore(Base, db.Model):
         "common",
     ]
     __tablename__ = "score_cet"
-
+    id_ = Column("id", db.Integer, db.Sequence("cet_score_id_seq"), primary_key=True)
     student_id = Column(
         db.String(32),
         db.ForeignKey("user.student_id", onupdate="CASCADE", ondelete="SET NULL"),
@@ -212,28 +220,3 @@ class CETScore(Base, db.Model):
     async def add_or_update(cls, student_id, table):
         for _, series in table.iterrows():
             await cls.add_or_update_one(student_id, series)
-
-
-async def save_score(user, score: ScoreDict):
-    await CETScore.add_or_update(user.student_id, score["cet"])
-    await PhysicalOrCommonScore.add_or_update(user.student_id, score, "common")
-    await PhysicalOrCommonScore.add_or_update(user.student_id, score, "physical")
-    await PlanScore.add_or_update(user.student_id, score["plan"])
-
-
-def diff(new, old) -> pd.DataFrame:
-    result = []
-    for idx, n_series in new.iterrows():
-        flag = 0
-        for _, o_series in old.iterrows():
-            if (
-                n_series["课程号"] == o_series["课程号"]
-                and n_series["term"] == o_series["term"]
-                and n_series["season"] == o_series["season"]
-            ):
-                flag = 1
-                break
-        if flag == 0:
-            result.append(idx)
-    df = new.iloc[result]
-    return df

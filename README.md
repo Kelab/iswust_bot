@@ -1,4 +1,4 @@
-# iswust_nonebot
+# iswust_bot
 
 整合了很多功能的教务机器人
 
@@ -90,6 +90,7 @@ docker-compose logs -f --tail 10 nonebot
 docker-compose exec nonebot alembic revision --autogenerate -m 'init'
 # 没运行的话可以执行：
 docker-compose run --rm nonebot alembic revision --autogenerate -m 'init'
+docker-compose run --rm nonebot alembic revision --autogenerate -m 'add score id'
 ```
 
 #### 报错 `Target database is not up to date.`

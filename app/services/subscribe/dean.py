@@ -8,7 +8,9 @@ from loguru import logger
 from app.bot.score.service import ScoreService
 from app.config import Config
 from app.libs.scheduler import add_job, get_jobs, make_job_id, remove_job
-from app.models.score import PlanScore, save_score
+from app.models.score import PlanScore
+from app.utils.score import save_score
+
 from app.models.user import User
 
 from . import BaseSub
@@ -25,7 +27,6 @@ class CheckUpdate:
             return
         score = await ScoreService._get_score(user)
         await PlanScore.check_update(event, score["plan"])
-
         await save_score(user, score)
 
     @staticmethod
