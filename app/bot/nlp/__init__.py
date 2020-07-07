@@ -31,7 +31,9 @@ async def _(session: NLPSession):
     if result:
         cmd, confidence = result
         if commands_dct.get((cmd,)) is not None:
-            if check_permission(session.bot, session.event, commands_dct[cmd].permission):
+            if check_permission(
+                session.bot, session.event, commands_dct[cmd].permission
+            ):
                 fuzz_cmd = cmd
 
     # 检查 commands 没有匹配到命令
@@ -43,7 +45,9 @@ async def _(session: NLPSession):
         result = process.extractOne(query_cmd, choices, scorer=fuzz.WRatio)
         if result:
             alias, confidence = result
-            if check_permission(session.bot, session.event, aliases_dct[alias].permission):
+            if check_permission(
+                session.bot, session.event, aliases_dct[alias].permission
+            ):
                 fuzz_cmd = alias
 
     if fuzz_cmd is not None:

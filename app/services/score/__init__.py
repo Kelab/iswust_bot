@@ -1,24 +1,32 @@
-from typing import Optional, TYPE_CHECKING
+from typing import Optional
 
+from aiocqhttp import Event
 from loguru import logger
 from nonebot import get_bot
+import pandas as pd
 
 from app.config import Config
 from app.libs.aio import run_sync_func
 from app.libs.cache import cache
 from app.libs.scheduler import add_job
-from app.utils.score import save_score
+from app.models.score import PlanScore
 from app.models.user import User
 from app.utils.bot import qq2event
-from app.utils.parse.score import parse_score
-
-from .utils import send_score
-
-if TYPE_CHECKING:
-    from app.utils.parse.score import ScoreDict
+from .parse import parse_score, ScoreDict
+from .utils import diff_score, send_score, tabulate, save_score
 
 
 class ScoreService:
+    @classmethod
+    async def check_update(cls, event: Event, plan: pd.DataFrame):
+        old_score = await PlanScore.load_score(event)
+        if old_score is None:
+            return
+        diffs = diff_score(plan, old_score)
+        if not diffs.empty:
+            bot = get_bot()
+            await bot.send(event, f"有新的成绩：\n{tabulate(diffs)}")
+
     @classmethod
     async def send_score(cls, qq: int) -> Optional[str]:
         # 先查 user 出来，再查 Course 表

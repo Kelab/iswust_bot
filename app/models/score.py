@@ -6,13 +6,10 @@ from typing import List
 
 import pandas as pd
 from aiocqhttp import Event
-from nonebot import get_bot
 from sqlalchemy import Column
 
 from app.libs.gino import db
 from app.models.user import User
-from app.bot.score.utils import tabulate
-from app.utils.score import diff
 from .base import Base
 
 
@@ -91,16 +88,6 @@ class PlanScore(Base, db.Model):
 
         df = pd.DataFrame(data=dct)
         return df
-
-    @classmethod
-    async def check_update(cls, event: Event, plan: pd.DataFrame):
-        old_score = await cls.load_score(event)
-        if old_score is None:
-            return
-        diffs = diff(plan, old_score)
-        if not diffs.empty:
-            bot = get_bot()
-            await bot.send(event, f"有新的成绩：\n{tabulate(diffs)}")
 
     @classmethod
     async def load_score(cls, event: Event) -> pd.DataFrame:

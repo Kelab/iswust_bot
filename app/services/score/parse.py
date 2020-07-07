@@ -7,8 +7,6 @@ from bs4 import BeautifulSoup
 
 from app.constants.dean import API
 
-from .credit_progress import _parse_credit_progress, CreditProgressDict
-
 
 def clear_lino1(table: pd.DataFrame):
     """这一步是把 columns 替换为第一行的内容
@@ -54,7 +52,6 @@ class ScoreDict(TypedDict):
     plan: pd.DataFrame
     physical: pd.DataFrame
     common: pd.DataFrame
-    summary: CreditProgressDict
 
 
 def _parse_score(html) -> ScoreDict:
@@ -66,7 +63,6 @@ def _parse_score(html) -> ScoreDict:
     result["plan"] = _parse_plan(b)  # 计划课程
     result["physical"] = _parse_physic_or_common(b, "physical")
     result["common"] = _parse_physic_or_common(b, "common")  # 通选课
-    result["summary"] = _parse_credit_progress(html)
     return result
 
 

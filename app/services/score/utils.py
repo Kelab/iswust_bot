@@ -1,8 +1,9 @@
 import pandas as pd
 
-from app.bot.credit.service import _format as _format_credit
+from app.models.score import CETScore, PhysicalOrCommonScore, PlanScore, ScoreCata
 from app.utils.bot import qq2event, send_msgs
-from app.utils.parse.score import ScoreDict
+
+from .parse import ScoreDict
 
 
 def calc_gpa(table, jidian_col="绩点", xuefen_col="学分", required=False):
@@ -23,8 +24,25 @@ async def send_score(user, score: ScoreDict):
     msgs.append(_format_physical_or_physical(score, "common"))
     msgs.append(_format_physical_or_physical(score, "physical"))
     msgs.extend(_format_plan(score["plan"]))
-    msgs.append(_format_credit(score["summary"]))
     await send_msgs(qq2event(user.qq), msgs)
+
+
+def diff_score(new, old) -> pd.DataFrame:
+    result = []
+    for idx, n_series in new.iterrows():
+        flag = 0
+        for _, o_series in old.iterrows():
+            if (
+                n_series["课程号"] == o_series["课程号"]
+                and n_series["term"] == o_series["term"]
+                and n_series["season"] == o_series["season"]
+            ):
+                flag = 1
+                break
+        if flag == 0:
+            result.append(idx)
+    df = new.iloc[result]
+    return df
 
 
 def _format_cet(table):
@@ -84,3 +102,12 @@ def tabulate(table, is_common_physic=False):
         msg += "   补考：" + str(series["补考"]) + "\n"
 
     return msg
+
+
+async def save_score(user, score: ScoreDict):
+    await CETScore.add_or_update(user.student_id, score["cet"])
+    await PhysicalOrCommonScore.add_or_update(user.student_id, score, ScoreCata.COMMON)
+    await PhysicalOrCommonScore.add_or_update(
+        user.student_id, score, ScoreCata.PHYSICAL
+    )
+    await PlanScore.add_or_update(user.student_id, score["plan"])

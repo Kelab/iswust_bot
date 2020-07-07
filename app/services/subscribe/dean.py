@@ -5,11 +5,11 @@ from apscheduler.job import Job
 from apscheduler.triggers.interval import IntervalTrigger
 from loguru import logger
 
-from app.bot.score.service import ScoreService
+
 from app.config import Config
 from app.libs.scheduler import add_job, get_jobs, make_job_id, remove_job
-from app.models.score import PlanScore
-from app.utils.score import save_score
+from app.services.score import ScoreService
+from app.services.score.utils import save_score
 
 from app.models.user import User
 
@@ -26,7 +26,7 @@ class CheckUpdate:
         if not user:
             return
         score = await ScoreService._get_score(user)
-        await PlanScore.check_update(event, score["plan"])
+        await ScoreService.check_update(event, score["plan"])
         await save_score(user, score)
 
     @staticmethod

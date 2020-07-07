@@ -1,7 +1,7 @@
 from loguru import logger
 from nonebot import CommandSession, on_command
 
-from .service import ScoreService
+from app.services.score import ScoreService
 
 __plugin_name__ = "查询成绩"
 __plugin_short_description__ = "命令：score"
