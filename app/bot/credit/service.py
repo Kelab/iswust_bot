@@ -8,7 +8,7 @@ from app.libs.cache import cache
 from app.libs.scheduler import add_job
 from app.models.user import User
 from app.utils.bot import qq2event
-from app.utils.parse.credit_progress import get_credit_progress, CreditProgressDict
+from app.services.credit.parse import get_credit_progress, CreditProgressDict
 
 _bot = get_bot()
 

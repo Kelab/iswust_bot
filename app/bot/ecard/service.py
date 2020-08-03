@@ -6,7 +6,7 @@ from app.libs.aio import run_sync_func
 from app.libs.scheduler import add_job
 from app.models.user import User
 from app.utils.bot import qq2event
-from app.utils.parse.ecard import get_ecard_balance
+from app.services.ecard.parse import get_ecard_balance
 
 _bot = get_bot()
 
