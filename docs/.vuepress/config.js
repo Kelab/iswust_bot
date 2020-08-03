@@ -24,11 +24,17 @@ module.exports = {
     editLinkText: "在 GitHub 上编辑此页",
     lastUpdated: "上次更新",
     activeHeaderLinks: false,
-    nav: [{ text: "帮助", link: "/guide/" }],
+    nav: [
+      { text: "使用", link: "/guide/" },
+      {
+        text: "部署",
+        link: "/deploy/"
+      }
+    ],
     sidebar: {
       "/guide/": [
         {
-          title: "帮助",
+          title: "开始使用",
           collapsable: true,
           children: [""]
         },
@@ -53,6 +59,18 @@ module.exports = {
           title: "其他",
           collapsable: false,
           children: ["hitokoto"]
+        }
+      ],
+      "/deploy/": [
+        {
+          title: "总览",
+          collapsable: false,
+          children: ["", "update"]
+        },
+        {
+          title: "配置项",
+          collapsable: false,
+          children: ["set-env", "set-qq"]
         }
       ]
     }

@@ -1,61 +1,15 @@
 # iswust_bot
 
-整合了很多功能的教务机器人
-
 [![Deploy Docs](https://github.com/BudyLab/iswust_bot/workflows/Deploy%20Docs/badge.svg)](https://github.com/BudyLab/iswust_bot/actions?query=workflow%3A%22Deploy+Docs%22)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-> nonebot 参考手册：  
-> <https://nonebot.cqp.moe>
-
-致谢：
-
-- Nonebot <https://github.com/nonebot/nonebot>
-- 奶茶机器人 <https://github.com/cczu-osa/aki>
-- ELF_RSS <https://github.com/Quan666/ELF_RSS>
+整合了很多功能的教务机器人，[文档 - 开始使用](https://bot.artin.li/)  
 
 ---
 
 ## 配置
 
-### 创建环境变量
-
-复制一份 `.env.example` 重命名为 `.env`，并修改里面的内容。  
-
-复制一份 `.quartenv.example` 重命名为 `.quartenv`，并修改里面的内容。  
-
-### 启动
-
-需要先[创建环境变量](#创建环境变量)。  
-需要先[创建环境变量](#创建环境变量)。  
-需要先[创建环境变量](#创建环境变量)。  
-
-1. 首先 build 镜像：
-
-    ```sh
-    docker-compose build
-    ```
-
-    需要等执行完，build 阶段需要使用 pip 安装各种包比较慢。
-
-2. 创建\更新 数据库结构：
-
-    ```sh
-    docker-compose run --rm nonebot alembic upgrade head
-    ```
-
-3. 然后运行：
-
-    ```sh
-    docker-compose up -d
-    ```
-
-想更新的时候执行：
-
-```sh
-docker-compose pull # 拉取依赖的镜像
-docker-compose build # 重新打包
-```
+查看文档中 [deploy](https://bot.artin.li/deploy/) 一节的内容。
 
 ## 开发
 
@@ -134,3 +88,9 @@ docker-compose down -v --remove-orphans
 ```sh
 docker-compose restart nonebot
 ```
+
+## 致谢
+
+- Nonebot <https://github.com/nonebot/nonebot>
+- 奶茶机器人 <https://github.com/cczu-osa/aki>
+- ELF_RSS <https://github.com/Quan666/ELF_RSS>
