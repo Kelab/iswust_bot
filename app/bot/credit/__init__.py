@@ -18,7 +18,7 @@ __plugin_usage__ = r"""
 
 @on_command("credit", aliases=("绩点", "我的绩点"))
 async def _(session: CommandSession):
-    sender_qq = session.event.get("user_id")
+    sender_qq = session.event["user_id"]
     try:
         await CreditService.get_progress(sender_qq)
     except Exception as e:

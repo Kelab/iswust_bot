@@ -1,4 +1,5 @@
 import pandas as pd
+from nonebot import get_bot
 
 from app.models.score import CETScore, PhysicalOrCommonScore, PlanScore, ScoreCata
 from app.utils.bot import qq2event, send_msgs
@@ -25,6 +26,11 @@ async def send_score(user, score: ScoreDict):
     msgs.append(_format_physical_or_physical(score, "physical"))
     msgs.extend(_format_plan(score["plan"]))
     await send_msgs(qq2event(user.qq), msgs)
+
+
+async def send_cet_score(user, score: ScoreDict):
+    bot = get_bot()
+    await bot.send(qq2event(user.qq), _format_cet(score["cet"]))
 
 
 def diff_score(new, old) -> pd.DataFrame:
@@ -105,9 +111,13 @@ def tabulate(table, is_common_physic=False):
 
 
 async def save_score(user, score: ScoreDict):
-    await CETScore.add_or_update(user.student_id, score["cet"])
+    await save_cet_score(user, score)
     await PhysicalOrCommonScore.add_or_update(user.student_id, score, ScoreCata.COMMON)
     await PhysicalOrCommonScore.add_or_update(
         user.student_id, score, ScoreCata.PHYSICAL
     )
     await PlanScore.add_or_update(user.student_id, score["plan"])
+
+
+async def save_cet_score(user, score: ScoreDict):
+    await CETScore.add_or_update(user.student_id, score["cet"])

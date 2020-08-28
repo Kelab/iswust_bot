@@ -17,7 +17,7 @@ __plugin_usage__ = r"""
 @on_command("balance", aliases=("余额", "一卡通余额"))
 async def _(session: CommandSession):
     await session.send("学校相关接口有误")
-    sender_qq = session.event.get("user_id")
+    sender_qq = session.event["user_id"]
     try:
         await ECardService.get_balance(sender_qq)
     except Exception:

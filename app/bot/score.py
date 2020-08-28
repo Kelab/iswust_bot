@@ -15,9 +15,19 @@ __plugin_usage__ = r"""
 
 @on_command("score", aliases=("查询成绩", "成绩"))
 async def score(session: CommandSession):
-    sender_qq = session.event.get("user_id")
+    sender_qq = session.event["user_id"]
     try:
         await ScoreService.send_score(sender_qq)
+    except Exception as e:
+        logger.exception(e)
+        await session.send("查询出错")
+
+
+@on_command("cet_score", aliases=("四六级成绩", "四六级成绩", "四级", "六级"))
+async def cet_score(session: CommandSession):
+    sender_qq = session.event["user_id"]
+    try:
+        await ScoreService.send_cet_score(sender_qq)
     except Exception as e:
         logger.exception(e)
         await session.send("查询出错")

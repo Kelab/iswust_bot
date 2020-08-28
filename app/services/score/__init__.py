@@ -13,7 +13,14 @@ from app.models.score import PlanScore
 from app.models.user import User
 from app.utils.bot import qq2event
 from .parse import parse_score, ScoreDict
-from .utils import diff_score, send_score, tabulate, save_score
+from .utils import (
+    diff_score,
+    send_score,
+    tabulate,
+    save_score,
+    save_cet_score,
+    send_cet_score,
+)
 
 
 class ScoreService:
@@ -37,6 +44,28 @@ class ScoreService:
         _bot = get_bot()
         await _bot.send(qq2event(qq), "正在抓取成绩，抓取过后我会直接发给你！")
         return "WAIT"
+
+    @classmethod
+    async def send_cet_score(cls, qq: int) -> Optional[str]:
+        # 先查 user 出来，再查 Course 表
+        user = await User.check(qq)
+        if not user:
+            return "NOT_BIND"
+        await add_job(cls._send_cet_score, args=[user])
+        _bot = get_bot()
+        await _bot.send(qq2event(qq), "正在抓取成绩，抓取过后我会直接发给你！")
+        return "WAIT"
+
+    @classmethod
+    async def _send_cet_score(cls, user: User):
+        _bot = get_bot()
+        try:
+            res: ScoreDict = await cls._get_score(user)
+            await save_cet_score(user, res)
+            await send_cet_score(user, res)
+        except Exception as e:
+            logger.exception(e)
+            await _bot.send(qq2event(user.qq), "查询成绩出错，请稍后再试")
 
     @classmethod
     async def _get_score(cls, user: User) -> ScoreDict:

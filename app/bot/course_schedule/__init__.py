@@ -40,7 +40,7 @@ tn = TimeNormalizer()
 
 @on_command("cs", aliases=("查询课表", "课表", "课程表", "课程"))
 async def course_schedule(session: CommandSession):
-    sender_qq = session.event.get("user_id")
+    sender_qq = session.event["user_id"]
 
     # 从更新课表中传过来的值
     if session.state.get("course_schedule"):
@@ -86,16 +86,15 @@ async def course_schedule(session: CommandSession):
             await session.send(i)
 
     if body["errMsg"]:
-        await session.finish(f"错误信息：{body['errMsg']}")
+        session.finish(f"错误信息：{body['errMsg']}")
 
     if body["updateTime"]:
-        await session.finish(f"课表抓取时间：{body['updateTime']}")
-    return
+        session.finish(f"课表抓取时间：{body['updateTime']}")
 
 
 @on_natural_language("课")
 async def process_accu_date(session: NLPSession):
-    msg = session.event.get("raw_message")
+    msg = session.event["raw_message"]
     now = arrow.now("Asia/Shanghai")
 
     week_re = re.search(r"下周", msg)
@@ -134,7 +133,8 @@ async def process_accu_date(session: NLPSession):
 
 @on_command("uc", aliases=("更新课表",))
 async def uc(session: CommandSession):
-    sender_qq = session.event.get("user_id")
+    sender_qq = session.event["user_id"]
+
     await session.send("正在更新课表...")
     try:
         await CourseStudent.update_course(sender_qq)
