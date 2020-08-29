@@ -10,7 +10,7 @@ __plugin_usage__ = r"""输入 托管日历
 
 @on_command("deposit_ics", aliases=("托管日历", "dpics"))
 async def uc(session: CommandSession):
-    sender_qq = session.event.user_id
+    sender_qq = session.event["user_id"]
     logger.info(f"{sender_qq} 请求托管日历。")
     await session.send("托管日历成功！")
     await session.send("日历地址我稍后会发送给你。")

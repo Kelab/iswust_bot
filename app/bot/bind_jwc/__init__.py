@@ -34,20 +34,18 @@ async def bind(session: CommandSession):
 
     await session.send("开始请求绑定~ 请等待")
 
-    sender_qq = session.event.user_id
-
-    if sender_qq:
-        token = to_token(sender_qq)
-        # web 登录界面地址
-        query: str = urlencode({"qq": sender_qq, "token": token})
-        encoded_query = b64encode(query.encode("utf8")).decode("utf8")
-        url_ = f"{Config.WEB_URL}/login/?{encoded_query}"
-        session.finish(f"请点击链接绑定：{url_}")
+    sender_qq = session.event["user_id"]
+    token = to_token(sender_qq)
+    # web 登录界面地址
+    query: str = urlencode({"qq": sender_qq, "token": token})
+    encoded_query = b64encode(query.encode("utf8")).decode("utf8")
+    url_ = f"{Config.WEB_URL}/login/?{encoded_query}"
+    session.finish(f"请点击链接绑定：{url_}")
 
 
 @on_command("unbind", aliases=("解绑", "取消绑定", "取消绑定教务处"))
 async def unbind(session: CommandSession):
-    r = await User.unbind(session.event.user_id)
+    r = await User.unbind(session.event["user_id"])
     if r:
         session.finish("取消绑定成功")
     session.finish("取消绑定失败")
